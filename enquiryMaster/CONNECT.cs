@@ -8,8 +8,12 @@ namespace enquiryMaster
 {
     class CONNECT
     {
-        //public static bool isAdmin;
-        //public static bool bypass;
+        public static bool confirmCorrect;
+        public static bool skipShuffle;
+        public static int staffID;
+        public static int cadAllocationPath;
+        public static int cadAllocationStaffPicked;
+
         //public static bool changeQuantity;
         //public static double newQuantity;
 
@@ -22,7 +26,7 @@ namespace enquiryMaster
 
             "database=EnquiryLog;" +
 
-            "connection timeout=30";
+            "connection timeout=300";
 
         public const string ConnectionStringUser = "user id=sa;" +
 

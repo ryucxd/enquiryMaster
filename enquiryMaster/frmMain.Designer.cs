@@ -28,49 +28,79 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.dgvEnquiryLog = new System.Windows.Forms.DataGridView();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.dteRecievedStart = new System.Windows.Forms.DateTimePicker();
+            this.dteRecievedEnd = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtEmailSubject = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cmbStatus = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.cmbAllocatedTo = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.cmbAllocatedToCad = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.cmbCadStatus = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
+            this.dteStart = new System.Windows.Forms.DateTimePicker();
+            this.dteEnd = new System.Windows.Forms.DateTimePicker();
             this.label9 = new System.Windows.Forms.Label();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtSenderEmail = new System.Windows.Forms.TextBox();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.dgvEstimator = new System.Windows.Forms.DataGridView();
+            this.dgvCAD = new System.Windows.Forms.DataGridView();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.chkOutstanding = new System.Windows.Forms.CheckBox();
+            this.btnReshuffle = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnCAD = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEnquiryLog)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEstimator)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCAD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvEnquiryLog
             // 
             this.dgvEnquiryLog.AllowUserToAddRows = false;
             this.dgvEnquiryLog.AllowUserToDeleteRows = false;
+            this.dgvEnquiryLog.AllowUserToResizeRows = false;
             this.dgvEnquiryLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvEnquiryLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvEnquiryLog.Location = new System.Drawing.Point(12, 217);
+            this.dgvEnquiryLog.Location = new System.Drawing.Point(12, 222);
             this.dgvEnquiryLog.Name = "dgvEnquiryLog";
             this.dgvEnquiryLog.RowHeadersVisible = false;
-            this.dgvEnquiryLog.Size = new System.Drawing.Size(1753, 330);
+            this.dgvEnquiryLog.Size = new System.Drawing.Size(1753, 518);
             this.dgvEnquiryLog.TabIndex = 0;
+            this.dgvEnquiryLog.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvEnquiryLog_CellMouseClick);
             // 
-            // textBox1
+            // txtID
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 170);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 1;
+            this.txtID.Location = new System.Drawing.Point(12, 170);
+            this.txtID.Name = "txtID";
+            this.txtID.Size = new System.Drawing.Size(100, 20);
+            this.txtID.TabIndex = 1;
+            this.txtID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtID_KeyDown);
+            this.txtID.Leave += new System.EventHandler(this.txtID_Leave);
             // 
             // label1
             // 
@@ -81,19 +111,21 @@
             this.label1.Text = "Enquiry ID";
             this.label1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // dateTimePicker1
+            // dteRecievedStart
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(118, 170);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(147, 20);
-            this.dateTimePicker1.TabIndex = 3;
+            this.dteRecievedStart.Location = new System.Drawing.Point(118, 170);
+            this.dteRecievedStart.Name = "dteRecievedStart";
+            this.dteRecievedStart.Size = new System.Drawing.Size(147, 20);
+            this.dteRecievedStart.TabIndex = 3;
+            this.dteRecievedStart.ValueChanged += new System.EventHandler(this.dteRecievedStart_ValueChanged);
             // 
-            // dateTimePicker2
+            // dteRecievedEnd
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(118, 196);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(147, 20);
-            this.dateTimePicker2.TabIndex = 4;
+            this.dteRecievedEnd.Location = new System.Drawing.Point(118, 196);
+            this.dteRecievedEnd.Name = "dteRecievedEnd";
+            this.dteRecievedEnd.Size = new System.Drawing.Size(147, 20);
+            this.dteRecievedEnd.TabIndex = 4;
+            this.dteRecievedEnd.ValueChanged += new System.EventHandler(this.dteRecievedEnd_ValueChanged);
             // 
             // label2
             // 
@@ -104,33 +136,42 @@
             this.label2.Text = "Recieved";
             this.label2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // textBox2
+            // txtEmailSubject
             // 
-            this.textBox2.Location = new System.Drawing.Point(271, 170);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(187, 20);
-            this.textBox2.TabIndex = 6;
+            this.txtEmailSubject.Location = new System.Drawing.Point(464, 170);
+            this.txtEmailSubject.Name = "txtEmailSubject";
+            this.txtEmailSubject.Size = new System.Drawing.Size(187, 20);
+            this.txtEmailSubject.TabIndex = 6;
+            this.txtEmailSubject.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtEmailSubject_KeyDown);
+            this.txtEmailSubject.Leave += new System.EventHandler(this.txtEmailSubject_Leave);
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(271, 144);
+            this.label3.Location = new System.Drawing.Point(464, 144);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(187, 23);
             this.label3.TabIndex = 7;
             this.label3.Text = "Email Subject";
             this.label3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // comboBox1
+            // cmbStatus
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(464, 170);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 8;
+            this.cmbStatus.FormattingEnabled = true;
+            this.cmbStatus.Items.AddRange(new object[] {
+            "Pending",
+            "Checked",
+            "Processing",
+            "Complete",
+            "Cancelled"});
+            this.cmbStatus.Location = new System.Drawing.Point(657, 170);
+            this.cmbStatus.Name = "cmbStatus";
+            this.cmbStatus.Size = new System.Drawing.Size(121, 21);
+            this.cmbStatus.TabIndex = 8;
+            this.cmbStatus.SelectedIndexChanged += new System.EventHandler(this.cmbStatus_SelectedIndexChanged);
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(464, 144);
+            this.label4.Location = new System.Drawing.Point(657, 144);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(121, 23);
             this.label4.TabIndex = 9;
@@ -139,116 +180,363 @@
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(591, 144);
+            this.label5.Location = new System.Drawing.Point(784, 144);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(121, 23);
             this.label5.TabIndex = 11;
             this.label5.Text = "Allocated to";
             this.label5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // comboBox2
+            // cmbAllocatedTo
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(591, 170);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 10;
+            this.cmbAllocatedTo.FormattingEnabled = true;
+            this.cmbAllocatedTo.Location = new System.Drawing.Point(784, 170);
+            this.cmbAllocatedTo.Name = "cmbAllocatedTo";
+            this.cmbAllocatedTo.Size = new System.Drawing.Size(121, 21);
+            this.cmbAllocatedTo.TabIndex = 10;
+            this.cmbAllocatedTo.SelectedIndexChanged += new System.EventHandler(this.cmbAllocatedTo_SelectedIndexChanged);
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(726, 144);
+            this.label6.Location = new System.Drawing.Point(919, 144);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(121, 23);
             this.label6.TabIndex = 13;
             this.label6.Text = "Allocated to CAD";
             this.label6.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // comboBox3
+            // cmbAllocatedToCad
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(726, 170);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(121, 21);
-            this.comboBox3.TabIndex = 12;
+            this.cmbAllocatedToCad.FormattingEnabled = true;
+            this.cmbAllocatedToCad.Location = new System.Drawing.Point(919, 170);
+            this.cmbAllocatedToCad.Name = "cmbAllocatedToCad";
+            this.cmbAllocatedToCad.Size = new System.Drawing.Size(121, 21);
+            this.cmbAllocatedToCad.TabIndex = 12;
+            this.cmbAllocatedToCad.SelectedIndexChanged += new System.EventHandler(this.cmbAllocatedToCad_SelectedIndexChanged);
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(853, 144);
+            this.label7.Location = new System.Drawing.Point(1046, 144);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(121, 23);
             this.label7.TabIndex = 15;
             this.label7.Text = "CAD Status";
             this.label7.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // comboBox4
+            // cmbCadStatus
             // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(853, 170);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(121, 21);
-            this.comboBox4.TabIndex = 14;
+            this.cmbCadStatus.FormattingEnabled = true;
+            this.cmbCadStatus.Items.AddRange(new object[] {
+            "Outstanding",
+            "On Hold",
+            "CAD Complete"});
+            this.cmbCadStatus.Location = new System.Drawing.Point(1046, 170);
+            this.cmbCadStatus.Name = "cmbCadStatus";
+            this.cmbCadStatus.Size = new System.Drawing.Size(121, 21);
+            this.cmbCadStatus.TabIndex = 14;
+            this.cmbCadStatus.SelectedIndexChanged += new System.EventHandler(this.cmbCadStatus_SelectedIndexChanged);
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(1142, 146);
+            this.label8.Location = new System.Drawing.Point(159, 16);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(147, 23);
+            this.label8.Size = new System.Drawing.Size(147, 15);
             this.label8.TabIndex = 18;
             this.label8.Text = "End";
             this.label8.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // dateTimePicker3
+            // dteStart
             // 
-            this.dateTimePicker3.Location = new System.Drawing.Point(989, 170);
-            this.dateTimePicker3.Name = "dateTimePicker3";
-            this.dateTimePicker3.Size = new System.Drawing.Size(147, 20);
-            this.dateTimePicker3.TabIndex = 17;
+            this.dteStart.Location = new System.Drawing.Point(6, 36);
+            this.dteStart.Name = "dteStart";
+            this.dteStart.Size = new System.Drawing.Size(147, 20);
+            this.dteStart.TabIndex = 17;
+            this.dteStart.ValueChanged += new System.EventHandler(this.dteStart_ValueChanged);
             // 
-            // dateTimePicker4
+            // dteEnd
             // 
-            this.dateTimePicker4.Location = new System.Drawing.Point(1142, 170);
-            this.dateTimePicker4.Name = "dateTimePicker4";
-            this.dateTimePicker4.Size = new System.Drawing.Size(147, 20);
-            this.dateTimePicker4.TabIndex = 16;
+            this.dteEnd.Location = new System.Drawing.Point(159, 36);
+            this.dteEnd.Name = "dteEnd";
+            this.dteEnd.Size = new System.Drawing.Size(147, 20);
+            this.dteEnd.TabIndex = 16;
+            this.dteEnd.ValueChanged += new System.EventHandler(this.dteEnd_ValueChanged);
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(989, 142);
+            this.label9.Location = new System.Drawing.Point(6, 16);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(147, 23);
+            this.label9.Size = new System.Drawing.Size(147, 15);
             this.label9.TabIndex = 19;
             this.label9.Text = "Start";
             this.label9.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(1488, 168);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 20;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // label10
+            // 
+            this.label10.Location = new System.Drawing.Point(271, 144);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(187, 23);
+            this.label10.TabIndex = 22;
+            this.label10.Text = "Sender Email";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // txtSenderEmail
+            // 
+            this.txtSenderEmail.Location = new System.Drawing.Point(271, 170);
+            this.txtSenderEmail.Name = "txtSenderEmail";
+            this.txtSenderEmail.Size = new System.Drawing.Size(187, 20);
+            this.txtSenderEmail.TabIndex = 21;
+            this.txtSenderEmail.TextChanged += new System.EventHandler(this.txtSenderEmail_TextChanged);
+            this.txtSenderEmail.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSenderEmail_KeyDown);
+            this.txtSenderEmail.Leave += new System.EventHandler(this.txtSenderEmail_Leave);
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(1650, 168);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 24;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // dgvEstimator
+            // 
+            this.dgvEstimator.AllowUserToAddRows = false;
+            this.dgvEstimator.AllowUserToDeleteRows = false;
+            this.dgvEstimator.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvEstimator.DefaultCellStyle = dataGridViewCellStyle9;
+            this.dgvEstimator.Location = new System.Drawing.Point(322, 3);
+            this.dgvEstimator.Name = "dgvEstimator";
+            this.dgvEstimator.ReadOnly = true;
+            this.dgvEstimator.RowHeadersVisible = false;
+            this.dgvEstimator.Size = new System.Drawing.Size(220, 138);
+            this.dgvEstimator.TabIndex = 25;
+            // 
+            // dgvCAD
+            // 
+            this.dgvCAD.AllowUserToAddRows = false;
+            this.dgvCAD.AllowUserToDeleteRows = false;
+            this.dgvCAD.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvCAD.DefaultCellStyle = dataGridViewCellStyle10;
+            this.dgvCAD.Location = new System.Drawing.Point(548, 3);
+            this.dgvCAD.Name = "dgvCAD";
+            this.dgvCAD.ReadOnly = true;
+            this.dgvCAD.RowHeadersVisible = false;
+            this.dgvCAD.Size = new System.Drawing.Size(220, 138);
+            this.dgvCAD.TabIndex = 26;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.ImageLocation = "";
+            this.pictureBox1.Location = new System.Drawing.Point(10, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(258, 135);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 27;
+            this.pictureBox1.TabStop = false;
+            // 
+            // chkOutstanding
+            // 
+            this.chkOutstanding.AutoSize = true;
+            this.chkOutstanding.Location = new System.Drawing.Point(84, 130);
+            this.chkOutstanding.Name = "chkOutstanding";
+            this.chkOutstanding.Size = new System.Drawing.Size(137, 17);
+            this.chkOutstanding.TabIndex = 28;
+            this.chkOutstanding.Text = "Show Only Outstanding";
+            this.chkOutstanding.UseVisualStyleBackColor = true;
+            this.chkOutstanding.CheckedChanged += new System.EventHandler(this.chkOutstanding_CheckedChanged);
+            // 
+            // btnReshuffle
+            // 
+            this.btnReshuffle.Location = new System.Drawing.Point(1569, 168);
+            this.btnReshuffle.Name = "btnReshuffle";
+            this.btnReshuffle.Size = new System.Drawing.Size(75, 23);
+            this.btnReshuffle.TabIndex = 29;
+            this.btnReshuffle.Text = "Reshuffle";
+            this.btnReshuffle.UseVisualStyleBackColor = true;
+            this.btnReshuffle.Click += new System.EventHandler(this.btnReshuffle_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(809, 19);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(72, 20);
+            this.label12.TabIndex = 30;
+            this.label12.Text = "Checked";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(809, 43);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(87, 20);
+            this.label13.TabIndex = 31;
+            this.label13.Text = "Processing";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(809, 67);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(67, 20);
+            this.label14.TabIndex = 32;
+            this.label14.Text = "On Hold";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(809, 91);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(77, 20);
+            this.label15.TabIndex = 33;
+            this.label15.Text = "Complete";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.BackColor = System.Drawing.Color.MediumAquamarine;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(774, 91);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(29, 20);
+            this.label16.TabIndex = 37;
+            this.label16.Text = "     ";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(774, 67);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(29, 20);
+            this.label17.TabIndex = 36;
+            this.label17.Text = "     ";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.BackColor = System.Drawing.Color.Gold;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(774, 43);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(29, 20);
+            this.label18.TabIndex = 35;
+            this.label18.Text = "     ";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.BackColor = System.Drawing.Color.PaleVioletRed;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(774, 19);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(29, 20);
+            this.label19.TabIndex = 34;
+            this.label19.Text = "     ";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.dteEnd);
+            this.groupBox1.Controls.Add(this.dteStart);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Location = new System.Drawing.Point(1173, 134);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(309, 68);
+            this.groupBox1.TabIndex = 38;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Date Complete";
+            // 
+            // btnCAD
+            // 
+            this.btnCAD.Location = new System.Drawing.Point(922, 19);
+            this.btnCAD.Name = "btnCAD";
+            this.btnCAD.Size = new System.Drawing.Size(75, 23);
+            this.btnCAD.TabIndex = 39;
+            this.btnCAD.Text = "CAD LOG";
+            this.btnCAD.UseVisualStyleBackColor = true;
+            this.btnCAD.Click += new System.EventHandler(this.btnCAD_Click);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1777, 559);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.dateTimePicker3);
-            this.Controls.Add(this.dateTimePicker4);
+            this.ClientSize = new System.Drawing.Size(1777, 752);
+            this.Controls.Add(this.btnCAD);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.btnReshuffle);
+            this.Controls.Add(this.chkOutstanding);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.dgvCAD);
+            this.Controls.Add(this.dgvEstimator);
+            this.Controls.Add(this.btnClear);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.txtSenderEmail);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.comboBox4);
+            this.Controls.Add(this.cmbCadStatus);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.cmbAllocatedToCad);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.cmbAllocatedTo);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cmbStatus);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.txtEmailSubject);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.dateTimePicker2);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.dteRecievedEnd);
+            this.Controls.Add(this.dteRecievedStart);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtID);
             this.Controls.Add(this.dgvEnquiryLog);
             this.Name = "frmMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Enquiry Log";
             this.Shown += new System.EventHandler(this.frmMain_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.dgvEnquiryLog)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEstimator)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCAD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -257,25 +545,44 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvEnquiryLog;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtID;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DateTimePicker dteRecievedStart;
+        private System.Windows.Forms.DateTimePicker dteRecievedEnd;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtEmailSubject;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cmbStatus;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cmbAllocatedTo;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox cmbAllocatedToCad;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.ComboBox cmbCadStatus;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.DateTimePicker dateTimePicker3;
-        private System.Windows.Forms.DateTimePicker dateTimePicker4;
+        private System.Windows.Forms.DateTimePicker dteStart;
+        private System.Windows.Forms.DateTimePicker dteEnd;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtSenderEmail;
+        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.DataGridView dgvEstimator;
+        private System.Windows.Forms.DataGridView dgvCAD;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.CheckBox chkOutstanding;
+        private System.Windows.Forms.Button btnReshuffle;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnCAD;
     }
 }
 

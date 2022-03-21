@@ -12,6 +12,24 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>\\designsvr1\apps\Design and Supply CSharp\MiniApps\enquiryMaster\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Unc</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,7 +50,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>windows_log_off.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>C823100F4C363B8F3C66C3E86451747BFD09BF6A</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>enquiryMaster_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,6 +84,42 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CONNECT.cs" />
+    <Compile Include="frmAllocateCad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAllocateCad.Designer.cs">
+      <DependentUpon>frmAllocateCad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCAD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCAD.Designer.cs">
+      <DependentUpon>frmCAD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCadRequest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCadRequest.Designer.cs">
+      <DependentUpon>frmCadRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCancel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCancel.Designer.cs">
+      <DependentUpon>frmCancel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmConfirmBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConfirmBox.Designer.cs">
+      <DependentUpon>frmConfirmBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEnquiryDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEnquiryDetails.Designer.cs">
+      <DependentUpon>frmEnquiryDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -55,6 +128,24 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmAllocateCad.resx">
+      <DependentUpon>frmAllocateCad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCAD.resx">
+      <DependentUpon>frmCAD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCadRequest.resx">
+      <DependentUpon>frmCadRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCancel.resx">
+      <DependentUpon>frmCancel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConfirmBox.resx">
+      <DependentUpon>frmConfirmBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEnquiryDetails.resx">
+      <DependentUpon>frmEnquiryDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -66,7 +157,9 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="enquiryMaster_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -79,6 +172,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\windows_log_off.ico" />
+    <None Include="Resources\mainIcon.ico" />
+    <Content Include="windows_log_off.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
