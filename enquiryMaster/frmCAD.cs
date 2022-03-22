@@ -453,11 +453,20 @@ namespace enquiryMaster
                 frm.ShowDialog();
                 //CONNECT.cadAllocationPath
                 // 1 = choose allocation
+                if (CONNECT.cadAllocationPath == 1)
+                {
 
+                }
                 //2 = current login 
+                else if (CONNECT.cadAllocationPath == 2)
+                {
 
+                }
                 //3 cancel
+                else
+                        {
 
+                        }
             } //processing button
 
             //if (e.ColumnIndex == cadButtonIndex)

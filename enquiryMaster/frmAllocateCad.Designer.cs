@@ -32,8 +32,8 @@
             this.btnAllocateToMyself = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.cmbStaff = new System.Windows.Forms.ComboBox();
+            this.btnAllocateToStaff = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnChooseAllocation
@@ -76,31 +76,32 @@
             this.label1.Text = "Please choose how to allocate this job";
             this.label1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // comboBox1
+            // cmbStaff
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(76, 89);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(171, 21);
-            this.comboBox1.TabIndex = 4;
+            this.cmbStaff.FormattingEnabled = true;
+            this.cmbStaff.Location = new System.Drawing.Point(76, 89);
+            this.cmbStaff.Name = "cmbStaff";
+            this.cmbStaff.Size = new System.Drawing.Size(171, 21);
+            this.cmbStaff.TabIndex = 4;
             // 
-            // button1
+            // btnAllocateToStaff
             // 
-            this.button1.Location = new System.Drawing.Point(113, 116);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(89, 22);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Allocate to staff";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnAllocateToStaff.Location = new System.Drawing.Point(113, 116);
+            this.btnAllocateToStaff.Name = "btnAllocateToStaff";
+            this.btnAllocateToStaff.Size = new System.Drawing.Size(89, 22);
+            this.btnAllocateToStaff.TabIndex = 5;
+            this.btnAllocateToStaff.Text = "Allocate to staff";
+            this.btnAllocateToStaff.UseVisualStyleBackColor = true;
+            this.btnAllocateToStaff.Click += new System.EventHandler(this.btnAllocateToStaff_Click);
             // 
             // frmAllocateCad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(317, 83);
+            this.ClientSize = new System.Drawing.Size(317, 77);
             this.ControlBox = false;
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.btnAllocateToStaff);
+            this.Controls.Add(this.cmbStaff);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAllocateToMyself);
@@ -119,7 +120,7 @@
         private System.Windows.Forms.Button btnAllocateToMyself;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox cmbStaff;
+        private System.Windows.Forms.Button btnAllocateToStaff;
     }
 }
