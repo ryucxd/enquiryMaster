@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
 using System.Diagnostics;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace enquiryMaster
 {
@@ -493,6 +494,239 @@ namespace enquiryMaster
             }
             sql = "UPDATE dbo.enquiry_log SET allocated_to_cad_id = " + id + "  WHERE id = " + _enquiryID;
             updateDetails(sql);
+        }
+
+        private void btnPrintCad_Click(object sender, EventArgs e)
+        {
+
+            MessageBox.Show("Please wait while the CAD sheet prints!");
+            string email = "";
+            //drawing_qty is on the form
+            //cad due date is on the form
+            string estimator = "";
+            string enquiry_notes = "";
+            string date_stamp = "";
+            string cadDueDate = "";
+            try
+            {
+                //get all the variables for each item on the print out
+
+
+                using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+                {
+                    conn.Open();
+                    //first up is email
+                    string sql = "SELECT sender_email_address FROM dbo.enquiry_log WHERE id = " + txtID.Text;
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        email = (string)cmd.ExecuteScalar();
+                        if (email.Contains("EXCHANGELABS/OU=EXCHANGE"))
+                            email = email.Substring(email.IndexOf("-") + 1);
+                    }
+                    //currently logged in estimator
+                    sql = "select forename + ' ' +surname as fullName from dbo.enquiry_log left join[user_info].dbo.[user] u on u.id = estimator_id where  enquiry_log.id = " + txtID.Text;
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                        estimator = (string)cmd.ExecuteScalar();
+                    //cad_due_date
+                    sql = "select cad_due_date from dbo.enquiry_log where id =  " + txtID.Text;
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        DateTime tempDateTime = Convert.ToDateTime(cmd.ExecuteScalar());
+                        cadDueDate = tempDateTime.ToLongDateString();
+                    }
+                    //date stamp
+                    sql = "select estimator_cad_click_stamp from dbo.enquiry_log where id =   " + txtID.Text;
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        DateTime tempDateTime = Convert.ToDateTime(cmd.ExecuteScalar());
+                        date_stamp = tempDateTime.ToString("dd/MM/yyyy HH:mm:ss");
+                    }
+                    //notes
+                    sql = "SELECT enquiry_notes FROM dbo.enquiry_log WHERE id = " + txtID.Text;
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                        enquiry_notes = (string)cmd.ExecuteScalar().ToString();
+                    conn.Close();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("There was an error printing this request. Please inform IT!", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Store the Excel processes before opening.
+            Process[] processesBefore = Process.GetProcessesByName("excel");
+            // Open the file in Excel.
+            string temp = @"\\designsvr1\apps\Design and Supply CSharp\CAD_Request_template.xlsx";
+            var xlApp = new Excel.Application();
+            var xlWorkbooks = xlApp.Workbooks;
+            var xlWorkbook = xlWorkbooks.Open(temp);
+            var xlWorksheet = xlWorkbook.Sheets[1]; // assume it is the first sheet
+            // Get Excel processes after opening the file.
+            Process[] processesAfter = Process.GetProcessesByName("excel");
+
+
+            xlWorksheet.Cells[2][2].Value2 = txtID.Text;
+            xlWorksheet.Cells[2][3].Value2 = email;
+            xlWorksheet.Cells[2][4].Value2 = txtCadDrawingsRequired.Text;
+            xlWorksheet.Cells[2][5].Value2 = cadDueDate;
+            xlWorksheet.Cells[2][6].Value2 = estimator;
+            xlWorksheet.Cells[2][7].Value2 = date_stamp;
+            xlWorksheet.Cells[1][9].Value2 = enquiry_notes;
+
+
+            //print it
+            xlWorksheet.PrintOut(Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+
+            xlWorkbook.Close(false); //close the excel sheet without saving
+            // xlApp.Quit();
+
+
+            // Manual disposal because of COM
+            xlApp.Quit();
+
+            // Now find the process id that was created, and store it.
+            int processID = 0;
+            foreach (Process process in processesAfter)
+            {
+                if (!processesBefore.Select(p => p.Id).Contains(process.Id))
+                {
+                    processID = process.Id;
+                }
+            }
+
+            // And now kill the process.
+            if (processID != 0)
+            {
+                Process process = Process.GetProcessById(processID);
+                process.Kill();
+            }
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            frmPrintNew frm = new frmPrintNew(Convert.ToInt32(txtID.Text));
+            frm.ShowDialog();
+        }
+
+        private void webBrowser1_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        {
+            try
+            {
+                string currentUrl = e.Url.ToString();
+
+                if (currentUrl.Contains("http"))
+                {
+                    Process.Start(currentUrl);
+                    webBrowser1.DocumentText = htmlstring;
+                }
+            }
+            catch { }
+        }
+
+        private void btnProcessing_Click(object sender, EventArgs e)
+        {
+            //if cad compelte dont allow this
+            //check if the the entry has already been marked as compelte
+            string sql = "";
+            int alreadyComplete = 0;
+            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+            {
+                conn.Open();
+                sql = "SELECT COALESCE(cad_complete,0) FROM dbo.enquiry_log WHERE id = " + _enquiryID;
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    var temp = Convert.ToInt32(cmd.ExecuteScalar());
+                    if (temp != null)
+                        alreadyComplete = temp;
+                }
+                conn.Close();
+            }
+            if (alreadyComplete == -1)
+            {
+                MessageBox.Show("This job is already marked as complete in CAD.", "Action Aborted", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            frmAllocateCad frm = new frmAllocateCad();
+            frm.ShowDialog();
+            //CONNECT.cadAllocationPath
+            // 1 = choose allocation
+            int id = 0;
+            if (CONNECT.cadAllocationPath == 1)
+            {
+                //someone is selected
+                sql = "UPDATE dbo.enquiry_log SET  allocated_to_cad_id = " + CONNECT.cadAllocationStaffPicked + ", processed_cad_by_id = " + CONNECT.staffID + ", processed_cad_date = GETDATE() WHERE id = " + _enquiryID;
+                id = CONNECT.cadAllocationStaffPicked;
+            }
+            //2 = current login 
+            else if (CONNECT.cadAllocationPath == 2)
+            {
+                //its the current user
+                sql = "UPDATE dbo.enquiry_log SET  allocated_to_cad_id = " + CONNECT.staffID + ", processed_cad_by_id = " + CONNECT.staffID + ", processed_cad_date = GETDATE() WHERE id = " + _enquiryID;
+                id = CONNECT.staffID;
+            }
+            //3 cancel
+            else
+            {
+                MessageBox.Show("Process action cancelled.", "Aborted.", MessageBoxButtons.OK);
+                return;
+            }
+            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    cmd.ExecuteNonQuery();
+
+
+                //get the NEW allocated_to_cad_id AND then 
+                sql = "select u.forename + ' ' + u.surname from [EnquiryLog].dbo.[Enquiry_Log] LEFT JOIN[user_info].dbo.[user] u on u.id = allocated_to_cad_id where[EnquiryLog].dbo.[Enquiry_Log].id = " + _enquiryID;
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    cmbAllocatedToCAD.Text = cmd.ExecuteScalar().ToString();
+
+                conn.Close();
+            }
+        }
+
+        private void btnCadComplete_Click(object sender, EventArgs e)
+        {
+            string sql = "";
+
+            DialogResult compResult = MessageBox.Show("Mark this job as 'Complete'?", "Complete / Hold", MessageBoxButtons.YesNo);
+            if (compResult == DialogResult.Yes)
+            {
+                //put it on comp
+                sql = "UPDATE dbo.enquiry_log SET cad_complete = -1, complete_cad_date = GETDATE() WHERE id = " + _enquiryID;
+            }
+            else
+            {
+                DialogResult holdResult = MessageBox.Show("Mark this job as 'On Hold'?", "Complete / Hold", MessageBoxButtons.YesNo);
+                if (holdResult == DialogResult.Yes)
+                {
+                    //put it on hold
+                    frmCadHoldNote frm = new frmCadHoldNote();
+                    frm.ShowDialog();
+                    //get a note from the user
+                    if (CONNECT.cadOnHoldNote == "*cancel clicked*")
+                    {
+                        MessageBox.Show("Action Cancelled.", "Aborted", MessageBoxButtons.OK);
+                        return;
+                    }
+                    sql = "UPDATE dbo.enquiry_log SET on_hold_note = '" + CONNECT.cadOnHoldNote + "', on_hold = -1 WHERE id = " + _enquiryID;
+                }
+                else
+                {
+                    MessageBox.Show("Action Cancelled.", "Aborted", MessageBoxButtons.OK);
+                    return;
+                }
+            }
+            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
         }
     }
 }

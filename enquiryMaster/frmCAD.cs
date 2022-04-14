@@ -37,9 +37,13 @@ namespace enquiryMaster
         public int estimatorIndex { get; set; }
         public int estimatorClickIndex { get; set; }
         public int rowID { get; set; }
+        public int dteRecievedStartChange { get; set; }
+        public int dteRecievedEndChange { get; set; }
         public frmCAD()
         {
             InitializeComponent();
+            this.Icon = Properties.Resources.windows_log_off;
+            this.Text = "Enquiry Log - " + CONNECT.staffFullName;
         }
 
         private void apply_filter()
@@ -47,8 +51,9 @@ namespace enquiryMaster
             dgvEnquiryLog.DataSource = null;
             dgvEnquiryLog.Rows.Clear();
             dgvEnquiryLog.Columns.Clear();
-            string sql = "SELECT top 200 enquiry_log.id,recieved_time,sender_email_address,[subject],priority_job,revision,drawing_qty_required,cad_due_date," +
-                "on_hold,cad_u.forename + ' ' + cad_u.surname as allocated_to_cad_id, processed_cad_by_id,cad_complete,as_built,complete_date,estimator_u.forename + ' ' + estimator_u.surname as estimator,estimator_cad_click_stamp " +
+            string sql = "SELECT top 200 enquiry_log.id,recieved_time,sender_email_address,[subject],CASE WHEN priority_job = -1 and cad_complete = -1 then 0 WHEN priority_job = -1 AND cad_complete = 0 THEN - 1 " +
+                "WHEN priority_job = -1 AND cad_complete is null THEN - 1 ELSE 0 END as priority_job_temp ,revision,drawing_qty_required,cad_due_date," +
+                "on_hold,cad_u.forename + ' ' + cad_u.surname as allocated_to_cad_id, processed_cad_by_id,case when cad_complete is null then 0 when cad_complete = 0 then 0 else -1 end as cad_complete,as_built,complete_cad_date,estimator_u.forename + ' ' + estimator_u.surname as estimator,estimator_cad_click_stamp " +
                 "FROM dbo.Enquiry_Log left join[user_info].dbo.[user] estimator_u on estimator_u.id = estimator_id left join[user_info].dbo.[user] cad_u on cad_u.id = allocated_to_cad_id  WHERE  (slimline_request=0 or slimline_request is null) AND requires_cad = -1     AND ";
             //filter based on user inputs
             if (txtID.TextLength > 0)
@@ -63,8 +68,12 @@ namespace enquiryMaster
                 sql = sql + "  cad_complete is null AND on_hold = -1   AND ";
             if (cmbCadStatus.Text == "CAD Complete")
                 sql = sql + "cad_complete = -1    AND ";
+            if (dteRecievedStartChange == -1)
+                sql = sql + "recieved_time >= '" + dteRecievedStart.Value.ToString("yyyyMMdd") + "'  AND ";
+            if (dteRecievedEndChange == -1)
+                sql = sql + "recieved_time <= '" + dteRecievedEnd.Value.ToString("yyyyMMdd") + "'  AND ";
             sql = sql.Substring(0, sql.Length - 5);
-            sql = sql + " ORDER BY id desc";
+            sql = sql + "  ORDER BY priority_job_temp,cad_due_date desc, cad_complete desc,id desc";
 
 
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
@@ -157,6 +166,7 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns[cadCompleteIndex].Visible = false;
             dgvEnquiryLog.Columns[asBuiltIndex].Visible = false;
             dgvEnquiryLog.Columns[cadProcessedByIndex].Visible = false;
+            dgvEnquiryLog.Columns[revisionCheckboxIndex].Visible = false;
 
             //hide the other data columns (onhold/prio)
             dgvEnquiryLog.Columns[priorityIndex].Visible = false;
@@ -166,8 +176,8 @@ namespace enquiryMaster
             {
                 col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
-            dgvEnquiryLog.Columns[senderEmailIndex].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            dgvEnquiryLog.Columns[senderEmailIndex].Width = 300;
+            dgvEnquiryLog.Columns[senderEmailIndex].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            //dgvEnquiryLog.Columns[senderEmailIndex].Width = 300;
             dgvEnquiryLog.Columns[subjectIndex].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             //dgvEnquiryLog.Columns[subjectIndex].Width = 300;
 
@@ -191,7 +201,7 @@ namespace enquiryMaster
             recievedTimeIndex = dgvEnquiryLog.Columns["recieved_time"].Index;
             senderEmailIndex = dgvEnquiryLog.Columns["sender_email_address"].Index;
             subjectIndex = dgvEnquiryLog.Columns["subject"].Index;
-            priorityIndex = dgvEnquiryLog.Columns["priority_job"].Index;
+            priorityIndex = dgvEnquiryLog.Columns["priority_job_temp"].Index;
             //checkbox for revision
             if (dgvEnquiryLog.Columns.Contains("revision_checkbox") == true)
                 revisionCheckboxIndex = dgvEnquiryLog.Columns["revision_checkbox"].Index;
@@ -201,16 +211,14 @@ namespace enquiryMaster
             cadDueDateIndex = dgvEnquiryLog.Columns["cad_due_date"].Index;
             onHoldIndex = dgvEnquiryLog.Columns["on_hold"].Index;
             allocatedToCadIndex = dgvEnquiryLog.Columns["allocated_to_cad_id"].Index;
-            //buttons
+            
             if (dgvEnquiryLog.Columns.Contains("cad_complete_checkbox") == true)
                 cadCompleteCheckboxIndex = dgvEnquiryLog.Columns["cad_complete_checkbox"].Index;
             if (dgvEnquiryLog.Columns.Contains("Process") == true)
                 processButtonIndex = dgvEnquiryLog.Columns["Process"].Index;
             if (dgvEnquiryLog.Columns.Contains("CAD Comp/Hold") == true)
-                cadCompleteCheckboxIndex = dgvEnquiryLog.Columns["CAD Comp/Hold"].Index;
+                cadCompholdButtonIndex = dgvEnquiryLog.Columns["CAD Comp/Hold"].Index;
             //cad comp checkbox
-            if (dgvEnquiryLog.Columns.Contains("cad_complete_checkbox") == true)
-                cadCompleteCheckboxIndex = dgvEnquiryLog.Columns["cad_complete_checkbox"].Index;
 
             cadProcessedByIndex = dgvEnquiryLog.Columns["processed_cad_by_id"].Index;
             cadCompleteIndex = dgvEnquiryLog.Columns["cad_complete"].Index;
@@ -219,7 +227,7 @@ namespace enquiryMaster
                 asBuiltCheckboxIndex = dgvEnquiryLog.Columns["as_built_checkbox"].Index;
 
             asBuiltIndex = dgvEnquiryLog.Columns["as_built"].Index;
-            completeDateIndex = dgvEnquiryLog.Columns["complete_date"].Index;
+            completeDateIndex = dgvEnquiryLog.Columns["complete_cad_date"].Index;
             estimatorIndex = dgvEnquiryLog.Columns["estimator"].Index;
             estimatorClickIndex = dgvEnquiryLog.Columns["estimator_cad_click_stamp"].Index;
 
@@ -312,6 +320,7 @@ namespace enquiryMaster
             Color redColour = Color.PaleVioletRed;
             Color yellowColour = Color.Gold;
             Color greenColour = Color.MediumAquamarine;
+            Color purpleColour = Color.MediumPurple;
 
             if (CONNECT.staffID == 241) //adjust colours for the blind boy
             {
@@ -342,6 +351,22 @@ namespace enquiryMaster
                     row.Cells[estimatorIndex].Style.BackColor = redColour;
                     row.Cells[estimatorClickIndex].Style.BackColor = redColour;
                 }
+                if (row.Cells[priorityIndex].Value.ToString() == "-1")
+                {
+                    row.Cells[idIndex].Style.BackColor = purpleColour;
+                    row.Cells[recievedTimeIndex].Style.BackColor = purpleColour;
+                    row.Cells[senderEmailIndex].Style.BackColor = purpleColour;
+                    row.Cells[subjectIndex].Style.BackColor = purpleColour;
+                    row.Cells[revisionCheckboxIndex].Style.BackColor = purpleColour;
+                    row.Cells[drawingQuantityIndex].Style.BackColor = purpleColour;
+                    row.Cells[cadDueDateIndex].Style.BackColor = purpleColour;
+                    row.Cells[allocatedToCadIndex].Style.BackColor = purpleColour;
+                    row.Cells[cadCompleteCheckboxIndex].Style.BackColor = purpleColour;
+                    row.Cells[asBuiltCheckboxIndex].Style.BackColor = purpleColour;
+                    row.Cells[completeDateIndex].Style.BackColor = purpleColour;
+                    row.Cells[estimatorIndex].Style.BackColor = purpleColour;
+                    row.Cells[estimatorClickIndex].Style.BackColor = purpleColour;
+                }
                 //on hold
                 if (row.Cells[onHoldIndex].Value.ToString() == "-1")
                 {
@@ -358,6 +383,8 @@ namespace enquiryMaster
                     row.Cells[completeDateIndex].Style.BackColor = Color.LightSkyBlue;
                     row.Cells[estimatorIndex].Style.BackColor = Color.LightSkyBlue;
                     row.Cells[estimatorClickIndex].Style.BackColor = Color.LightSkyBlue;
+
+
 
                 }//cad complete
                 else if (row.Cells[cadCompleteIndex].Value.ToString() == "-1")
@@ -431,8 +458,12 @@ namespace enquiryMaster
         }
         private void frmCAD_Shown(object sender, EventArgs e)
         {
+            //if (CONNECT.openCAD == 0)
+            //    btnEnquiryLog.Visible = false;
+            if (CONNECT.openCAD == 0)
+                menuStrip1.Items[2].Visible = false;
             apply_filter();
-          //  colour_grid();
+            //  colour_grid();
         }
 
         private void dgvEnquiryLog_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -440,49 +471,202 @@ namespace enquiryMaster
             string sql = "";
             if (e.RowIndex < 0)
                 return;
-            if (e.ColumnIndex == idIndex)
+            int enquiry_id = Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[0].Value.ToString());
+            if (e.ColumnIndex == idIndex ||e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex)
             {
-                frmEnquiryDetails frm = new frmEnquiryDetails(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[0].Value.ToString()));
+                frmEnquiryDetails frm = new frmEnquiryDetails(enquiry_id);
                 frm.ShowDialog();
                 rowID = e.RowIndex;
                 apply_filter();
             } //opens enquiry details
             if (e.ColumnIndex == processButtonIndex)
             {
+                //if cad compelte dont allow this
+                if (dgvEnquiryLog.Rows[e.RowIndex].Cells[cadCompleteIndex].Value.ToString() == "-1")
+                {
+                    MessageBox.Show("This job is already marked as complete in CAD.", "Action Aborted", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+                    return;
+                }
                 frmAllocateCad frm = new frmAllocateCad();
                 frm.ShowDialog();
                 //CONNECT.cadAllocationPath
                 // 1 = choose allocation
                 if (CONNECT.cadAllocationPath == 1)
                 {
-
+                    //someone is selected
+                    sql = "UPDATE dbo.enquiry_log SET  allocated_to_cad_id = " + CONNECT.cadAllocationStaffPicked + ", processed_cad_by_id = " + CONNECT.staffID + ", processed_cad_date = GETDATE() WHERE id = " + enquiry_id;
                 }
                 //2 = current login 
                 else if (CONNECT.cadAllocationPath == 2)
                 {
-
+                    //its the current user
+                    sql = "UPDATE dbo.enquiry_log SET  allocated_to_cad_id = " + CONNECT.staffID + ", processed_cad_by_id = " + CONNECT.staffID + ", processed_cad_date = GETDATE() WHERE id = " + enquiry_id;
                 }
                 //3 cancel
                 else
-                        {
-
-                        }
+                {
+                    MessageBox.Show("Process action cancelled.", "Aborted.", MessageBoxButtons.OK);
+                    return;
+                }
+                using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                        cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+                rowID = e.RowIndex;
+                apply_filter();
             } //processing button
+            if (e.ColumnIndex == cadCompholdButtonIndex)
+            {
+                DialogResult compResult = MessageBox.Show("Mark this job as 'Complete'?", "Complete / Hold", MessageBoxButtons.YesNo);
+                if (compResult == DialogResult.Yes)
+                {
+                    //put it on comp
+                    sql = "UPDATE dbo.enquiry_log SET cad_complete = -1, complete_cad_date = GETDATE() WHERE id = " + enquiry_id;
+                }
+                else
+                {
+                    DialogResult holdResult = MessageBox.Show("Mark this job as 'On Hold'?", "Complete / Hold", MessageBoxButtons.YesNo);
+                    if (holdResult == DialogResult.Yes)
+                    {
+                        //put it on hold
+                        frmCadHoldNote frm = new frmCadHoldNote();
+                        frm.ShowDialog();
+                        //get a note from the user
+                        if (CONNECT.cadOnHoldNote == "*cancel clicked*")
+                        {
+                            MessageBox.Show("Action Cancelled.", "Aborted", MessageBoxButtons.OK);
+                            return;
+                        }
+                        sql = "UPDATE dbo.enquiry_log SET on_hold_note = '"+ CONNECT.cadOnHoldNote + "', on_hold = -1 WHERE id = " + enquiry_id;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Action Cancelled.", "Aborted", MessageBoxButtons.OK);
+                        return;
+                    }
+                }
+                using (SqlConnection conn =new SqlConnection(CONNECT.ConnectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                }
+                rowID = e.RowIndex;
+                apply_filter();
+            }//cad complete/hold button
+        }
 
-            //if (e.ColumnIndex == cadButtonIndex)
-            //{
+        private void txtID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                apply_filter();
+            }
+        }
+
+        private void txtID_Leave(object sender, EventArgs e)
+        {
+            apply_filter();
+        }
+
+        private void txtSenderEmail_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                apply_filter();
+            }
+        }
+
+        private void txtSenderEmail_Leave(object sender, EventArgs e)
+        {
+            apply_filter();
+        }
+
+        private void txtEmailSubject_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                apply_filter();
+            }
+        }
+
+        private void txtEmailSubject_Leave(object sender, EventArgs e)
+        {
+            apply_filter();
+        }
+
+        private void dteRecievedStart_ValueChanged(object sender, EventArgs e)
+        {
+            dteRecievedStartChange = -1;
+            apply_filter();
+        }
+
+        private void dteRecievedEnd_ValueChanged(object sender, EventArgs e)
+        {
+            dteRecievedEndChange = -1;
+            apply_filter();
+        }
+
+        private void cmbCadStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            apply_filter();
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtID.Text = "";
+            dteRecievedStartChange = 0;
+            dteRecievedEndChange = 0;
+            txtEmailSubject.Text = "";
+            txtSenderEmail.Text = "";
+            cmbCadStatus.Text = "";
+            apply_filter();
+        }
 
 
 
-            //}//cad button
-            //if (e.ColumnIndex == completeButton)
-            //{
 
-            //} //complete button
-            //if (e.ColumnIndex == cancelButtonIndex)
-            //{
 
-            //}
+
+
+        private void dgvEnquiryLog_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == idIndex || e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex)
+                dgvEnquiryLog.Cursor = Cursors.Hand;
+            else
+                dgvEnquiryLog.Cursor = Cursors.Default;
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            apply_filter();
+        }
+
+        private void reshuffleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand("usp_shuffle_load", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
+            apply_filter();
+        }
+
+        private void eNQUIRYLOGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;
+            frmMain frm = new frmMain();
+            frm.ShowDialog();
+            this.Visible = true;
         }
     }
 }

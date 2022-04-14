@@ -84,10 +84,13 @@ namespace enquiryMaster
                     else
                         enquiry_note = richNote.Text;
                 }
+                int priorityJob = 0;
+                if (chkUrgent.Checked == true)
+                    priorityJob = -1;
                 //update CAD details
                 sql = "UPDATE dbo.enquiry_log SET enquiry_notes =  '" + richNote.Text + "',cad_note = '" + cad_note + "',requires_cad = -1,drawing_qty_required = " + txtDrawingsRequired.Text + "," +
                           "cad_revision = " + cad_revision + ",cad_due_date = '" + dteCad.Value.ToString("yyyy-MM-dd HH:mm:ss") + "',existing_order = " + existing_order + ", estimator_cad_click_stamp = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
-                          "estimator_id = " + _userID + " WHERE id = " + _enquiryID;
+                          "estimator_id = " + _userID + ",priority_job = " + priorityJob + " WHERE id = " + _enquiryID;
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                     cmd.ExecuteNonQuery();
                 conn.Close();
@@ -148,7 +151,7 @@ namespace enquiryMaster
             xlWorksheet.Cells[2][2].Value2 = enquiryID;
             xlWorksheet.Cells[2][3].Value2 = email;
             xlWorksheet.Cells[2][4].Value2 = txtDrawingsRequired.Text;
-            xlWorksheet.Cells[2][5].Value2 = dteCad.Value.ToString("dd/MM/yyyy"); 
+            xlWorksheet.Cells[2][5].Value2 = dteCad.Value.ToLongDateString();
             xlWorksheet.Cells[2][6].Value2 = estimator;
             xlWorksheet.Cells[2][7].Value2 = date_stamp;
             xlWorksheet.Cells[1][9].Value2 = enquiry_notes;
@@ -192,6 +195,14 @@ namespace enquiryMaster
         {
             CONNECT.skipShuffle = true;
             this.Close();
+        }
+
+        private void richNote_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnCAD.PerformClick();
+            }
         }
     }
 }

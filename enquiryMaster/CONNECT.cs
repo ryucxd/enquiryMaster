@@ -11,8 +11,11 @@ namespace enquiryMaster
         public static bool confirmCorrect;
         public static bool skipShuffle;
         public static int staffID;
+        public static string staffFullName;
         public static int cadAllocationPath;
         public static int cadAllocationStaffPicked;
+        public static string cadOnHoldNote;
+        public static int openCAD;
 
         //public static bool changeQuantity;
         //public static double newQuantity;

@@ -44,7 +44,7 @@ namespace enquiryMaster
             //only allow this path is the current logged in user is in drawing for today
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
             {
-                String sql = " Select forename +' ' + surname from[user_info].dbo.[user] where(actual_department = 'drawing' or allocation_dept_2 = 'drawing' or allocation_dept_3 = 'drawing' or allocation_dept_4 = 'drawing' " +
+                string sql = " Select forename +' ' + surname from[user_info].dbo.[user] where(actual_department = 'drawing' or allocation_dept_2 = 'drawing' or allocation_dept_3 = 'drawing' or allocation_dept_4 = 'drawing' " +
                     " or allocation_dept_5 = 'drawing' or allocation_dept_6 = 'drawing') and[current] = 1 and id =  " + CONNECT.staffID;
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {

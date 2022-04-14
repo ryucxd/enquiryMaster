@@ -40,6 +40,8 @@
             this.dteCad = new System.Windows.Forms.DateTimePicker();
             this.btnCAD = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.chkUrgent = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -76,7 +78,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(92, 90);
+            this.label4.Location = new System.Drawing.Point(92, 114);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(95, 16);
             this.label4.TabIndex = 3;
@@ -86,7 +88,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(24, 124);
+            this.label5.Location = new System.Drawing.Point(24, 130);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(40, 16);
             this.label5.TabIndex = 4;
@@ -95,11 +97,12 @@
             // richNote
             // 
             this.richNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richNote.Location = new System.Drawing.Point(27, 143);
+            this.richNote.Location = new System.Drawing.Point(27, 149);
             this.richNote.Name = "richNote";
             this.richNote.Size = new System.Drawing.Size(337, 96);
             this.richNote.TabIndex = 5;
             this.richNote.Text = "";
+            this.richNote.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richNote_KeyDown);
             // 
             // txtDrawingsRequired
             // 
@@ -129,14 +132,14 @@
             // 
             // dteCad
             // 
-            this.dteCad.Location = new System.Drawing.Point(193, 90);
+            this.dteCad.Location = new System.Drawing.Point(193, 114);
             this.dteCad.Name = "dteCad";
             this.dteCad.Size = new System.Drawing.Size(135, 20);
             this.dteCad.TabIndex = 10;
             // 
             // btnCAD
             // 
-            this.btnCAD.Location = new System.Drawing.Point(200, 245);
+            this.btnCAD.Location = new System.Drawing.Point(200, 251);
             this.btnCAD.Name = "btnCAD";
             this.btnCAD.Size = new System.Drawing.Size(93, 23);
             this.btnCAD.TabIndex = 11;
@@ -146,7 +149,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(83, 245);
+            this.btnCancel.Location = new System.Drawing.Point(83, 251);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(93, 23);
             this.btnCancel.TabIndex = 12;
@@ -154,12 +157,33 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // chkUrgent
+            // 
+            this.chkUrgent.AutoSize = true;
+            this.chkUrgent.Location = new System.Drawing.Point(237, 94);
+            this.chkUrgent.Name = "chkUrgent";
+            this.chkUrgent.Size = new System.Drawing.Size(15, 14);
+            this.chkUrgent.TabIndex = 14;
+            this.chkUrgent.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(148, 92);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(74, 16);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Urgent Job";
+            // 
             // frmCadRequest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(388, 277);
             this.ControlBox = false;
+            this.Controls.Add(this.chkUrgent);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnCAD);
             this.Controls.Add(this.dteCad);
@@ -195,5 +219,7 @@
         private System.Windows.Forms.DateTimePicker dteCad;
         private System.Windows.Forms.Button btnCAD;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.CheckBox chkUrgent;
+        private System.Windows.Forms.Label label6;
     }
 }

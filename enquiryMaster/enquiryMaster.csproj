@@ -25,7 +25,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationRevision>32</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -96,6 +96,12 @@
     <Compile Include="frmCAD.Designer.cs">
       <DependentUpon>frmCAD.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCadHoldNote.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCadHoldNote.Designer.cs">
+      <DependentUpon>frmCadHoldNote.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCadRequest.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +132,12 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPrintNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPrintNew.Designer.cs">
+      <DependentUpon>frmPrintNew.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmAllocateCad.resx">
@@ -133,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmCAD.resx">
       <DependentUpon>frmCAD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCadHoldNote.resx">
+      <DependentUpon>frmCadHoldNote.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCadRequest.resx">
       <DependentUpon>frmCadRequest.cs</DependentUpon>
@@ -148,6 +163,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPrintNew.resx">
+      <DependentUpon>frmPrintNew.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

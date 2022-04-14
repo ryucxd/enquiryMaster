@@ -18,7 +18,6 @@ namespace enquiryMaster
     public partial class frmMain : Form
     {
         //session file
-        public int userID { get; set; }
         public int rowID { get; set; }
         //dte prompts
         public int dteRecievedStartChange { get; set; }
@@ -55,80 +54,16 @@ namespace enquiryMaster
         {
             InitializeComponent();
             this.Icon = Properties.Resources.windows_log_off;
-            string username = "", password = "";
-
-            // Store the Excel processes before opening.
-            Process[] processesBefore = Process.GetProcessesByName("excel");
-            // Open the file in Excel.
-            string temp = @"C:\DesignAndSupply_Programs\Session\user_session.csv";
-            var xlApp = new Excel.Application();
-            var xlWorkbooks = xlApp.Workbooks;
-            var xlWorkbook = xlWorkbooks.Open(temp);
-            var xlWorksheet = xlWorkbook.Sheets[1]; // assume it is the first sheet
-
-            // Get Excel processes after opening the file.
-            Process[] processesAfter = Process.GetProcessesByName("excel");
-
-            username = (string)(xlWorksheet.Cells[2, 1] as Microsoft.Office.Interop.Excel.Range).Value; // get the values
-            password = (string)(xlWorksheet.Cells[2, 2] as Microsoft.Office.Interop.Excel.Range).Value;
-            // xlWorkbook.Close(true); //close the excel sheet
-            // xlApp.Quit();
-
-
-            // Manual disposal because of COM
-            xlApp.Quit();
-
-            // Now find the process id that was created, and store it.
-            int processID = 0;
-            foreach (Process process in processesAfter)
-            {
-                if (!processesBefore.Select(p => p.Id).Contains(process.Id))
-                {
-                    processID = process.Id;
-                }
-            }
-
-            // And now kill the process.
-            if (processID != 0)
-            {
-                Process process = Process.GetProcessById(processID);
-                process.Kill();
-            }
-
-
-            //get the user logon
-            string sql = "SELECT id FROM [user_info].dbo.[user] WHERE username = '" + username + "' AND password = '" + password + "'";
-            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionStringUser))
-            {
-                conn.Open();
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
-                {
-                    var data = cmd.ExecuteScalar();
-                    if (data != null)
-                        userID = Convert.ToInt32(data);
-                    else
-                    {
-                        MessageBox.Show("Invalid login... Please start the program loader and enter your logins and try again!", "INVALID LOGIN", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        conn.Close();
-                        System.Environment.Exit(0);
-                    }
-
-                }
-                using (SqlCommand cmd = new SqlCommand("SELECT forename + ' ' + surname FROM [user_info].dbo.[user] WHERE username = '" + username + "' AND password = '" + password + "'", conn))
-                {
-                    this.Text = "Enquiry Log - " + cmd.ExecuteScalar().ToString();
-                }
-                conn.Close();
-            }
-            CONNECT.staffID = userID;
-
-
-
+            this.Text = "Enquiry Log - " + CONNECT.staffFullName;
 
         }
 
         private void frmMain_Shown(object sender, EventArgs e)
         {
+            //if (CONNECT.openCAD == -1)
+            //    btnCAD.Visible = false;
+            if (CONNECT.openCAD == -1)
+                menuStrip1.Items[2].Visible = false;
             apply_filter();
             colour_grid();
             fillAllocatedTo();
@@ -479,7 +414,7 @@ namespace enquiryMaster
             {
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
-            
+
 
         }
         private void colour_grid()
@@ -554,44 +489,52 @@ namespace enquiryMaster
         {
             dteRecievedStartChange = -1;
             apply_filter();
+            dgvEnquiryLog.Focus();
         }
 
         private void dteRecievedEnd_ValueChanged(object sender, EventArgs e)
         {
             dteRecievedEndChange = -1;
             apply_filter();
+            dgvEnquiryLog.Focus();
         }
 
         private void cmbStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             apply_filter();
+            dgvEnquiryLog.Focus();
         }
 
         private void cmbAllocatedTo_SelectedIndexChanged(object sender, EventArgs e)
         {
             apply_filter();
+            dgvEnquiryLog.Focus();
         }
 
         private void cmbAllocatedToCad_SelectedIndexChanged(object sender, EventArgs e)
         {
             apply_filter();
+            dgvEnquiryLog.Focus();
         }
 
         private void cmbCadStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             apply_filter();
+            dgvEnquiryLog.Focus();
         }
 
         private void dteStart_ValueChanged(object sender, EventArgs e)
         {
             dteStartChange = -1;
             apply_filter();
+            dgvEnquiryLog.Focus();
         }
 
         private void dteEnd_ValueChanged(object sender, EventArgs e)
         {
             dteEndChange = -1;
             apply_filter();
+            dgvEnquiryLog.Focus();
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -612,37 +555,21 @@ namespace enquiryMaster
 
         }
 
-        private void txtSenderEmail_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void chkOutstanding_CheckedChanged(object sender, EventArgs e)
         {
             apply_filter();
+            dgvEnquiryLog.Focus();
         }
 
-        private void btnReshuffle_Click(object sender, EventArgs e)
-        {
-            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
-            {
-                conn.Open();
-                using (SqlCommand cmd = new SqlCommand("usp_shuffle_load", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.ExecuteNonQuery();
-                }
-                conn.Close();
-            }
-            apply_filter();
-        }
+
 
         private void dgvEnquiryLog_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             string sql = "";
             if (e.RowIndex < 0)
                 return;
-            if (e.ColumnIndex == idIndex)
+            if (e.ColumnIndex == idIndex || e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex)
             {
                 frmEnquiryDetails frm = new frmEnquiryDetails(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[0].Value.ToString()));
                 frm.ShowDialog();
@@ -667,7 +594,7 @@ namespace enquiryMaster
                         var data = cmd.ExecuteScalar().ToString();
                         if (data != null)
                         {
-                            if (Convert.ToInt32(data) != userID)
+                            if (Convert.ToInt32(data) != CONNECT.staffID)
                             {
                                 //prompt the user to confirm
                                 frmConfirmBox frm = new frmConfirmBox();
@@ -676,7 +603,7 @@ namespace enquiryMaster
                                     return;
                             }
                             //update the entry
-                            sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + userID + ",status_id = 3,processed_by_id = " + userID + ",processed_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
+                            sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + CONNECT.staffID + ",status_id = 3,processed_by_id = " + CONNECT.staffID + ",processed_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
                             using (SqlCommand cmdUpdate = new SqlCommand(sql, conn))
                             {
                                 cmdUpdate.ExecuteNonQuery();
@@ -691,12 +618,12 @@ namespace enquiryMaster
             } //processing button
             if (e.ColumnIndex == cadButtonIndex)
             {
-                frmCadRequest frm = new frmCadRequest(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString()), userID);
+                frmCadRequest frm = new frmCadRequest(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString()), CONNECT.staffID);
                 frm.ShowDialog();
                 if (CONNECT.skipShuffle == false)
                 {
                     rowID = e.RowIndex;
-                    btnReshuffle.PerformClick();
+                    menuStrip1.Items[1].PerformClick();
                     apply_filter();
                 }
                 else
@@ -715,7 +642,7 @@ namespace enquiryMaster
                 //update the columns + then reshuffle
                 //"UPDATE dbo_enquiry_log SET  allocated_to_id = " & TempVars!gl_userid & ", status_id = 4, complete_by_id =" & TempVars!gl_userid & ", complete_date = '" & Now() & "' WHERE id = " & Me.id
 
-                sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + userID.ToString() + ",status_id = 4,complete_by_id = " + userID + ", complete_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
+                sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + CONNECT.staffID.ToString() + ",status_id = 4,complete_by_id = " + CONNECT.staffID + ", complete_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
                 using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
                 {
                     conn.Open();
@@ -723,7 +650,7 @@ namespace enquiryMaster
                     {
                         cmd.ExecuteScalar();
                         rowID = e.RowIndex;
-                        btnReshuffle.PerformClick();
+                        menuStrip1.Items[1].PerformClick();
                         apply_filter();
                     }
                     conn.Close();
@@ -734,7 +661,7 @@ namespace enquiryMaster
                 frmCancel frm = new frmCancel(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value));
                 frm.ShowDialog();
                 rowID = e.RowIndex;
-                btnRefresh.PerformClick();
+                menuStrip1.Items[0].PerformClick();
             } //cancel button
         }
 
@@ -777,15 +704,44 @@ namespace enquiryMaster
             }
         }
 
-        private void btnRefresh_Click(object sender, EventArgs e)
+
+
+
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             apply_filter();
         }
 
-        private void btnCAD_Click(object sender, EventArgs e)
+        private void reshuffleToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand("usp_shuffle_load", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
+            apply_filter();
+        }
+
+        private void cADLOGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;
             frmCAD frm = new frmCAD();
             frm.ShowDialog();
+            this.Visible = true;
+        }
+
+        private void dgvEnquiryLog_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == idIndex || e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex)
+                dgvEnquiryLog.Cursor = Cursors.Hand;
+            else
+                dgvEnquiryLog.Cursor = Cursors.Default;
         }
     }
 }

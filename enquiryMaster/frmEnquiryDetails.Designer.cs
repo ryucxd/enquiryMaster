@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -53,6 +53,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnPrintCad = new System.Windows.Forms.Button();
             this.txtCadDrawingsRequired = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.richOnHoldNote = new System.Windows.Forms.RichTextBox();
@@ -85,8 +86,11 @@
             this.chkPriority = new System.Windows.Forms.CheckBox();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnPrint = new System.Windows.Forms.Button();
             this.dgvAttachments = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnCadComplete = new System.Windows.Forms.Button();
+            this.btnProcessing = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -333,6 +337,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnProcessing);
+            this.groupBox2.Controls.Add(this.btnCadComplete);
+            this.groupBox2.Controls.Add(this.btnPrintCad);
             this.groupBox2.Controls.Add(this.txtCadDrawingsRequired);
             this.groupBox2.Controls.Add(this.label21);
             this.groupBox2.Controls.Add(this.richOnHoldNote);
@@ -355,6 +362,16 @@
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "CAD Details";
+            // 
+            // btnPrintCad
+            // 
+            this.btnPrintCad.Location = new System.Drawing.Point(350, 17);
+            this.btnPrintCad.Name = "btnPrintCad";
+            this.btnPrintCad.Size = new System.Drawing.Size(95, 23);
+            this.btnPrintCad.TabIndex = 22;
+            this.btnPrintCad.Text = "Print CAD Sheet";
+            this.btnPrintCad.UseVisualStyleBackColor = true;
+            this.btnPrintCad.Click += new System.EventHandler(this.btnPrintCad_Click);
             // 
             // txtCadDrawingsRequired
             // 
@@ -666,9 +683,11 @@
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(728, 658);
             this.webBrowser1.TabIndex = 22;
+            this.webBrowser1.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser1_Navigating);
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnPrint);
             this.groupBox4.Controls.Add(this.label2);
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.chkPriority);
@@ -686,6 +705,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Enquiry Details";
             // 
+            // btnPrint
+            // 
+            this.btnPrint.Location = new System.Drawing.Point(333, 17);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(80, 23);
+            this.btnPrint.TabIndex = 26;
+            this.btnPrint.Text = "Print Enquiry";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
             // dgvAttachments
             // 
             this.dgvAttachments.AllowUserToAddRows = false;
@@ -693,14 +722,14 @@
             this.dgvAttachments.AllowUserToResizeColumns = false;
             this.dgvAttachments.AllowUserToResizeRows = false;
             this.dgvAttachments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle29.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle29.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle29.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle29.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvAttachments.Location = new System.Drawing.Point(752, 647);
             this.dgvAttachments.Name = "dgvAttachments";
             this.dgvAttachments.RowHeadersVisible = false;
@@ -717,6 +746,26 @@
             this.label1.Size = new System.Drawing.Size(112, 15);
             this.label1.TabIndex = 25;
             this.label1.Text = "Email Attachments:";
+            // 
+            // btnCadComplete
+            // 
+            this.btnCadComplete.Location = new System.Drawing.Point(350, 154);
+            this.btnCadComplete.Name = "btnCadComplete";
+            this.btnCadComplete.Size = new System.Drawing.Size(95, 23);
+            this.btnCadComplete.TabIndex = 23;
+            this.btnCadComplete.Text = "CAD Complete";
+            this.btnCadComplete.UseVisualStyleBackColor = true;
+            this.btnCadComplete.Click += new System.EventHandler(this.btnCadComplete_Click);
+            // 
+            // btnProcessing
+            // 
+            this.btnProcessing.Location = new System.Drawing.Point(350, 125);
+            this.btnProcessing.Name = "btnProcessing";
+            this.btnProcessing.Size = new System.Drawing.Size(95, 23);
+            this.btnProcessing.TabIndex = 24;
+            this.btnProcessing.Text = "Processing";
+            this.btnProcessing.UseVisualStyleBackColor = true;
+            this.btnProcessing.Click += new System.EventHandler(this.btnProcessing_Click);
             // 
             // frmEnquiryDetails
             // 
@@ -811,5 +860,9 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.DataGridView dgvAttachments;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnPrintCad;
+        private System.Windows.Forms.Button btnPrint;
+        private System.Windows.Forms.Button btnProcessing;
+        private System.Windows.Forms.Button btnCadComplete;
     }
 }
