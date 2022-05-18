@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -53,6 +53,8 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnProcessing = new System.Windows.Forms.Button();
+            this.btnCadComplete = new System.Windows.Forms.Button();
             this.btnPrintCad = new System.Windows.Forms.Button();
             this.txtCadDrawingsRequired = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
@@ -89,8 +91,9 @@
             this.btnPrint = new System.Windows.Forms.Button();
             this.dgvAttachments = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnCadComplete = new System.Windows.Forms.Button();
-            this.btnProcessing = new System.Windows.Forms.Button();
+            this.lblTender = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.dteTenderDueDate = new System.Windows.Forms.DateTimePicker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -196,6 +199,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.dteTenderDueDate);
+            this.groupBox1.Controls.Add(this.label28);
             this.groupBox1.Controls.Add(this.txtQuotesRequired);
             this.groupBox1.Controls.Add(this.chkTechnical);
             this.groupBox1.Controls.Add(this.label13);
@@ -210,7 +215,7 @@
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Location = new System.Drawing.Point(452, 21);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(293, 194);
+            this.groupBox1.Size = new System.Drawing.Size(293, 207);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Extra Details";
@@ -229,7 +234,7 @@
             // chkTechnical
             // 
             this.chkTechnical.AutoSize = true;
-            this.chkTechnical.Location = new System.Drawing.Point(141, 131);
+            this.chkTechnical.Location = new System.Drawing.Point(141, 158);
             this.chkTechnical.Name = "chkTechnical";
             this.chkTechnical.Size = new System.Drawing.Size(15, 14);
             this.chkTechnical.TabIndex = 18;
@@ -240,7 +245,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(19, 133);
+            this.label13.Location = new System.Drawing.Point(19, 160);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(60, 15);
             this.label13.TabIndex = 17;
@@ -249,7 +254,7 @@
             // cmbAllocatedTo
             // 
             this.cmbAllocatedTo.FormattingEnabled = true;
-            this.cmbAllocatedTo.Location = new System.Drawing.Point(97, 159);
+            this.cmbAllocatedTo.Location = new System.Drawing.Point(97, 181);
             this.cmbAllocatedTo.Name = "cmbAllocatedTo";
             this.cmbAllocatedTo.Size = new System.Drawing.Size(188, 21);
             this.cmbAllocatedTo.TabIndex = 16;
@@ -258,7 +263,7 @@
             // chkAluminium
             // 
             this.chkAluminium.AutoSize = true;
-            this.chkAluminium.Location = new System.Drawing.Point(141, 104);
+            this.chkAluminium.Location = new System.Drawing.Point(141, 131);
             this.chkAluminium.Name = "chkAluminium";
             this.chkAluminium.Size = new System.Drawing.Size(15, 14);
             this.chkAluminium.TabIndex = 15;
@@ -268,7 +273,7 @@
             // chkSlimline
             // 
             this.chkSlimline.AutoSize = true;
-            this.chkSlimline.Location = new System.Drawing.Point(141, 77);
+            this.chkSlimline.Location = new System.Drawing.Point(141, 104);
             this.chkSlimline.Name = "chkSlimline";
             this.chkSlimline.Size = new System.Drawing.Size(15, 14);
             this.chkSlimline.TabIndex = 14;
@@ -278,7 +283,7 @@
             // chkRevisionRequest
             // 
             this.chkRevisionRequest.AutoSize = true;
-            this.chkRevisionRequest.Location = new System.Drawing.Point(141, 53);
+            this.chkRevisionRequest.Location = new System.Drawing.Point(141, 80);
             this.chkRevisionRequest.Name = "chkRevisionRequest";
             this.chkRevisionRequest.Size = new System.Drawing.Size(15, 14);
             this.chkRevisionRequest.TabIndex = 13;
@@ -289,7 +294,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(19, 160);
+            this.label8.Location = new System.Drawing.Point(19, 183);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(77, 15);
             this.label8.TabIndex = 11;
@@ -299,7 +304,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(19, 106);
+            this.label9.Location = new System.Drawing.Point(19, 133);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(66, 15);
             this.label9.TabIndex = 10;
@@ -309,7 +314,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(19, 79);
+            this.label10.Location = new System.Drawing.Point(19, 106);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(52, 15);
             this.label10.TabIndex = 9;
@@ -319,7 +324,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(19, 52);
+            this.label11.Location = new System.Drawing.Point(19, 79);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(103, 15);
             this.label11.TabIndex = 8;
@@ -362,6 +367,26 @@
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "CAD Details";
+            // 
+            // btnProcessing
+            // 
+            this.btnProcessing.Location = new System.Drawing.Point(350, 125);
+            this.btnProcessing.Name = "btnProcessing";
+            this.btnProcessing.Size = new System.Drawing.Size(95, 23);
+            this.btnProcessing.TabIndex = 24;
+            this.btnProcessing.Text = "Processing";
+            this.btnProcessing.UseVisualStyleBackColor = true;
+            this.btnProcessing.Click += new System.EventHandler(this.btnProcessing_Click);
+            // 
+            // btnCadComplete
+            // 
+            this.btnCadComplete.Location = new System.Drawing.Point(350, 154);
+            this.btnCadComplete.Name = "btnCadComplete";
+            this.btnCadComplete.Size = new System.Drawing.Size(95, 23);
+            this.btnCadComplete.TabIndex = 23;
+            this.btnCadComplete.Text = "CAD Complete";
+            this.btnCadComplete.UseVisualStyleBackColor = true;
+            this.btnCadComplete.Click += new System.EventHandler(this.btnCadComplete_Click);
             // 
             // btnPrintCad
             // 
@@ -687,6 +712,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.lblTender);
             this.groupBox4.Controls.Add(this.btnPrint);
             this.groupBox4.Controls.Add(this.label2);
             this.groupBox4.Controls.Add(this.label3);
@@ -722,14 +748,14 @@
             this.dgvAttachments.AllowUserToResizeColumns = false;
             this.dgvAttachments.AllowUserToResizeRows = false;
             this.dgvAttachments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvAttachments.Location = new System.Drawing.Point(752, 647);
             this.dgvAttachments.Name = "dgvAttachments";
             this.dgvAttachments.RowHeadersVisible = false;
@@ -747,25 +773,34 @@
             this.label1.TabIndex = 25;
             this.label1.Text = "Email Attachments:";
             // 
-            // btnCadComplete
+            // lblTender
             // 
-            this.btnCadComplete.Location = new System.Drawing.Point(350, 154);
-            this.btnCadComplete.Name = "btnCadComplete";
-            this.btnCadComplete.Size = new System.Drawing.Size(95, 23);
-            this.btnCadComplete.TabIndex = 23;
-            this.btnCadComplete.Text = "CAD Complete";
-            this.btnCadComplete.UseVisualStyleBackColor = true;
-            this.btnCadComplete.Click += new System.EventHandler(this.btnCadComplete_Click);
+            this.lblTender.AutoSize = true;
+            this.lblTender.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTender.Location = new System.Drawing.Point(111, 127);
+            this.lblTender.Name = "lblTender";
+            this.lblTender.Size = new System.Drawing.Size(49, 15);
+            this.lblTender.TabIndex = 27;
+            this.lblTender.Text = "Tender:";
             // 
-            // btnProcessing
+            // label28
             // 
-            this.btnProcessing.Location = new System.Drawing.Point(350, 125);
-            this.btnProcessing.Name = "btnProcessing";
-            this.btnProcessing.Size = new System.Drawing.Size(95, 23);
-            this.btnProcessing.TabIndex = 24;
-            this.btnProcessing.Text = "Processing";
-            this.btnProcessing.UseVisualStyleBackColor = true;
-            this.btnProcessing.Click += new System.EventHandler(this.btnProcessing_Click);
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.Location = new System.Drawing.Point(19, 51);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(97, 15);
+            this.label28.TabIndex = 28;
+            this.label28.Text = "Tender due date";
+            // 
+            // dteTenderDueDate
+            // 
+            this.dteTenderDueDate.Location = new System.Drawing.Point(125, 53);
+            this.dteTenderDueDate.Name = "dteTenderDueDate";
+            this.dteTenderDueDate.Size = new System.Drawing.Size(135, 20);
+            this.dteTenderDueDate.TabIndex = 29;
+            this.dteTenderDueDate.CloseUp += new System.EventHandler(this.dteTenderDueDate_CloseUp);
+            this.dteTenderDueDate.ValueChanged += new System.EventHandler(this.dteTenderDueDate_ValueChanged);
             // 
             // frmEnquiryDetails
             // 
@@ -786,6 +821,7 @@
             this.Name = "frmEnquiryDetails";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmEnquiryDetails";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmEnquiryDetails_FormClosing);
             this.Shown += new System.EventHandler(this.frmEnquiryDetails_Shown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -864,5 +900,8 @@
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.Button btnProcessing;
         private System.Windows.Forms.Button btnCadComplete;
+        private System.Windows.Forms.Label lblTender;
+        private System.Windows.Forms.DateTimePicker dteTenderDueDate;
+        private System.Windows.Forms.Label label28;
     }
 }

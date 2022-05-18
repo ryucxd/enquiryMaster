@@ -83,22 +83,42 @@ namespace enquiryMaster
                     CONNECT.staffFullName = cmd.ExecuteScalar().ToString();
 
                 }
-                sql = " Select forename +' ' + surname from[user_info].dbo.[user] where(actual_department = 'drawing' or allocation_dept_2 = 'drawing' or allocation_dept_3 = 'drawing' or allocation_dept_4 = 'drawing' " +
-                    " or allocation_dept_5 = 'drawing' or allocation_dept_6 = 'drawing') and[current] = 1 and id =  " + CONNECT.staffID;
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                //if this is a slimline login then open frmSlimline else check cad/main like normal
+
+                using (SqlCommand cmd = new SqlCommand("select CAST(id as nvarchar(max)) from [user_info].dbo.[user] where [grouping] = 25 and [current] = 1 AND username = '" + username + "' AND password = '" + password + "'", conn))
                 {
                     var data = (string)cmd.ExecuteScalar();
                     if (data != null)
-                        CONNECT.openCAD = -1;
+                        CONNECT.isSlimline = -1;
                     else
-                        CONNECT.openCAD = 0;
+                        CONNECT.isSlimline = 0;
                 }
-                conn.Close();
+
+                if (CONNECT.isSlimline == -1)
+                {
+                    Application.Run(new frmSlimline());
+                }
+                else
+                {
+                    sql = " Select forename +' ' + surname from[user_info].dbo.[user] where(actual_department = 'drawing' or allocation_dept_2 = 'drawing' or allocation_dept_3 = 'drawing' or allocation_dept_4 = 'drawing' " +
+                        " or allocation_dept_5 = 'drawing' or allocation_dept_6 = 'drawing') and[current] = 1 and id =  " + CONNECT.staffID;
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        var data = (string)cmd.ExecuteScalar();
+                        if (data != null)
+                            CONNECT.openCAD = -1;
+                        else
+                            CONNECT.openCAD = 0;
+
+                    }
+                    conn.Close();
+
+                    if (CONNECT.openCAD == -1)
+                        Application.Run(new frmCAD());
+                    else
+                        Application.Run(new frmMain());
+                }
             }
-            if (CONNECT.openCAD == -1)
-                Application.Run(new frmCAD());
-            else
-                Application.Run(new frmMain());
         }
     }
 }

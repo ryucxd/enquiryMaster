@@ -71,6 +71,7 @@
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reshuffleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cADLOGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.slimlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEnquiryLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEstimator)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCAD)).BeginInit();
@@ -465,7 +466,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.refreshToolStripMenuItem,
             this.reshuffleToolStripMenuItem,
-            this.cADLOGToolStripMenuItem});
+            this.cADLOGToolStripMenuItem,
+            this.slimlineToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1777, 24);
@@ -492,6 +494,13 @@
             this.cADLOGToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.cADLOGToolStripMenuItem.Text = "CAD LOG";
             this.cADLOGToolStripMenuItem.Click += new System.EventHandler(this.cADLOGToolStripMenuItem_Click);
+            // 
+            // slimlineToolStripMenuItem
+            // 
+            this.slimlineToolStripMenuItem.Name = "slimlineToolStripMenuItem";
+            this.slimlineToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.slimlineToolStripMenuItem.Text = "Slimline";
+            this.slimlineToolStripMenuItem.Click += new System.EventHandler(this.slimlineToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -590,6 +599,7 @@
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reshuffleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cADLOGToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem slimlineToolStripMenuItem;
     }
 }
 

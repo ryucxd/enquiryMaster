@@ -15,7 +15,7 @@ using System.Diagnostics;
 
 namespace enquiryMaster
 {
-    public partial class frmMain : Form
+    public partial class frmSlimline : Form
     {
         //session file
         public int rowID { get; set; }
@@ -48,57 +48,13 @@ namespace enquiryMaster
         public int completeDateIndex { get; set; }
         public int completeButton { get; set; }
         public int cancelButtonIndex { get; set; }
-
-
-        public frmMain()
+        public int tenderDueDatIndex { get; set; }
+        public frmSlimline()
         {
             InitializeComponent();
             this.Icon = Properties.Resources.windows_log_off;
-            this.Text = "Enquiry Log - " + CONNECT.staffFullName;
+            this.Text = "Slimline Enquiry Log - " + CONNECT.staffFullName;
 
-        }
-
-        private void frmMain_Shown(object sender, EventArgs e)
-        {
-            //if (CONNECT.openCAD == -1)
-            //    btnCAD.Visible = false;
-            if (CONNECT.openCAD == -1)
-                menuStrip1.Items[2].Visible = false;
-            if (CONNECT.isSlimline == -1)
-                menuStrip1.Items[3].Visible = false;
-
-            apply_filter();
-            colour_grid();
-            fillAllocatedTo();
-
-
-
-            //release all memory - stop EXCEL.exe from hanging around.
-            //if (xlWorkbook != null) { Marshal.ReleaseComObject(xlWorkbook); } //release each workbook like this
-            //if (xlWorkbooks != null) { Marshal.ReleaseComObject(xlWorkbooks); } //release each workbook like this
-            //if (xlWorksheet != null) { Marshal.ReleaseComObject(xlWorksheet); } //release each worksheet like this
-            //if (xlApp != null) { Marshal.ReleaseComObject(xlApp); } //release the Excel application
-            //xlWorkbook = null; //set each memory reference to null.
-            //xlWorkbooks = null;
-            //xlWorksheet = null;
-            //xlApp = null;
-            //GC.Collect();
-        }
-        private void fillAllocatedTo()
-        {
-            //loop through dgv get alll the unique entries for allocated to
-            foreach (DataGridViewRow row in dgvEnquiryLog.Rows)
-            {
-                if (cmbAllocatedTo.Items.Contains(row.Cells[allocatedToIndex].Value.ToString()))
-                { } //nothing
-                else
-                    cmbAllocatedTo.Items.Add(row.Cells[allocatedToIndex].Value.ToString());
-                if (cmbAllocatedToCad.Items.Contains(row.Cells[allocatedToCadIndex].Value.ToString()))
-                { } //nothing
-                else
-                    cmbAllocatedToCad.Items.Add(row.Cells[allocatedToCadIndex].Value.ToString());
-                //
-            }
         }
 
         private void apply_filter()
@@ -109,11 +65,11 @@ namespace enquiryMaster
 
             //get the main datagridview filtered (and apply any colourts etc
             string sql = "SET DATEFORMAT dmy;SELECT TOP 300 enquiry_log.id,recieved_time,sender_email_address,[subject],priority_job,revision,price_qty_required,es.[description] as [status],u_estimator.forename + ' ' + u_estimator.surname as allocated_to," +
-                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date FROM dbo.enquiry_log WITH(NOLOCK) " +
+                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date,tender_due_date FROM dbo.enquiry_log WITH(NOLOCK) " +
                 "LEFT JOIN[user_info].dbo.[user] u_estimator on u_estimator.id = Enquiry_Log.allocated_to_id " +
                 "LEFT JOIN[user_info].dbo.[user] u_cad on u_cad.id = Enquiry_Log.allocated_to_cad_id " +
                 "LEFT JOIN enquiry_status es on es.id = Enquiry_Log.status_id " +
-                "WHERE (slimline_request = 0 or slimline_request is null)   AND ";
+                "WHERE (slimline_request = -1)   AND ";
 
             //filter based on user inputs
             if (txtID.TextLength > 0)
@@ -144,6 +100,10 @@ namespace enquiryMaster
                 sql = sql + "cast(complete_date as date) <= '" + dteEnd.Value.ToString("yyyyMMdd") + "'  AND ";
             if (chkOutstanding.Checked == true)
                 sql = sql + "  (enquiry_log.status_id = 1 or enquiry_log.status_id = 2 or enquiry_log.status_id = 3)   AND ";
+            if (chkPriority.Checked == true)
+                sql = sql + " priority_job = -1   AND  ";
+            if (chkTenders.Checked == true)
+                sql = sql + " tender_due_date is not null   AND  ";
 
 
             sql = sql.Substring(0, sql.Length - 5);
@@ -161,8 +121,8 @@ namespace enquiryMaster
                 }
 
                 //fill the other two datagrids (estimator/cad load)
-                sql = "SELECT u.forename + ' ' + u.surname as Estimator,item_count as [Item Load] FROM[EnquiryLog].[dbo].[view_grouped_item_count] " +
-                    "LEFT JOIN[user_info].dbo.[user] u on [view_grouped_item_count].allocated_to_id = u.id   WHERE allocated_to_id is not null";
+                sql = "SELECT u.forename + ' ' + u.surname as Estimator,item_count as [Item Load] FROM[EnquiryLog].[dbo].[view_grouped_item_count_sl] " +
+                    "LEFT JOIN[user_info].dbo.[user] u on [view_grouped_item_count_sl].allocated_to_id = u.id   WHERE allocated_to_id is not null";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -170,8 +130,8 @@ namespace enquiryMaster
                     da.Fill(dt);
                     dgvEstimator.DataSource = dt;
                 }
-                sql = "SELECT u.forename + ' ' + u.surname as Engineer,item_count as [Item Load] FROM [EnquiryLog].[dbo].[view_grouped_item_count_cad]" +
-                    "  LEFT JOIN[user_info].dbo.[user] u on [view_grouped_item_count_cad].allocated_to_cad_id = u.id   WHERE allocated_to_cad_id is not null";
+                sql = "SELECT u.forename + ' ' + u.surname as Engineer,item_count as [Item Load] FROM [EnquiryLog].[dbo].[view_grouped_item_count_cad_sl]" +
+                    "  LEFT JOIN[user_info].dbo.[user] u on [view_grouped_item_count_cad_sl].allocated_to_cad_id = u.id   WHERE allocated_to_cad_id is not null";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -207,106 +167,7 @@ namespace enquiryMaster
                 dgvEnquiryLog.ClearSelection();
             }
         }
-        private void check_dgv_checkbox()
-        {
-            foreach (DataGridViewRow row in dgvEnquiryLog.Rows)
-            {
-                if (row.Cells[revisionIndex].Value.ToString() == "-1")
-                {
-                    row.Cells[revisionCheckboxIndex].Value = "true";
-                }
-                if (row.Cells[requiresCadIndex].Value.ToString() == "-1")
-                {
-                    row.Cells[requiresCadCheckboxIndex].Value = "true";
-                }
-                if (row.Cells[cadCompleteIndex].Value.ToString() == "-1")
-                {
-                    row.Cells[cadCompleteCheckboxIndex].Value = "true";
-                }
-            }
-        }
-        private void addbuttons()
-        {
-            int columnIndex = 0;
-            if (dgvEnquiryLog.Columns.Contains("Process") == true)
-            {
-                dgvEnquiryLog.Columns.Remove("Process");
-            }
-            if (dgvEnquiryLog.Columns.Contains("CAD") == true)
-            {
-                dgvEnquiryLog.Columns.Remove("CAD");
-            }
-            if (dgvEnquiryLog.Columns.Contains("Complete") == true)
-            {
-                dgvEnquiryLog.Columns.Remove("Complete");
-            }
-            if (dgvEnquiryLog.Columns.Contains("Cancel") == true)
-            {
-                dgvEnquiryLog.Columns.Remove("Cancel");
-            }
 
-            columnIndex = allocatedToIndex + 1;
-            DataGridViewButtonColumn processedButton = new DataGridViewButtonColumn();
-            processedButton.Name = "Process";
-            processedButton.Text = "Process";
-            processedButton.UseColumnTextForButtonValue = true;
-            if (dgvEnquiryLog.Columns["Process_column"] == null)
-            {
-                dgvEnquiryLog.Columns.Insert(columnIndex, processedButton);
-            }
-            columnIndex = allocatedToIndex + 2;
-            DataGridViewButtonColumn cadButton = new DataGridViewButtonColumn();
-            cadButton.Name = "CAD";
-            cadButton.Text = "CAD";
-            cadButton.UseColumnTextForButtonValue = true;
-            if (dgvEnquiryLog.Columns["CAD_column"] == null)
-            {
-                dgvEnquiryLog.Columns.Insert(columnIndex, cadButton);
-            }
-
-            columnIndex = completeDateIndex + 1;
-            DataGridViewButtonColumn completeButton = new DataGridViewButtonColumn();
-            completeButton.Name = "Complete";
-            completeButton.Text = "Complete";
-            completeButton.UseColumnTextForButtonValue = true;
-            if (dgvEnquiryLog.Columns["Complete"] == null)
-            {
-                dgvEnquiryLog.Columns.Insert(columnIndex, completeButton);
-            }
-            columnIndex = completeDateIndex + 2;
-            DataGridViewButtonColumn cancelButton = new DataGridViewButtonColumn();
-            cancelButton.Name = "Cancel";
-            cancelButton.Text = "Cancel";
-            cancelButton.UseColumnTextForButtonValue = true;
-            if (dgvEnquiryLog.Columns["Cancel"] == null)
-            {
-                dgvEnquiryLog.Columns.Insert(columnIndex, cancelButton);
-            }
-            if (dgvEnquiryLog.Columns["Cancel"] == null)
-            {
-                dgvEnquiryLog.Columns.Insert(columnIndex, cancelButton);
-            }
-
-            //add checkboxes for revision/requires cad/complete cad
-            DataGridViewCheckBoxColumn revisionCheckBox = new DataGridViewCheckBoxColumn();
-            revisionCheckBox.HeaderText = "revision_checkbox";
-            revisionCheckBox.Name = "revision_checkbox";
-            dgvEnquiryLog.Columns.Insert(revisionIndex, revisionCheckBox);
-
-            column_index_refresh();
-
-            DataGridViewCheckBoxColumn requiresCadCheckbox = new DataGridViewCheckBoxColumn();
-            requiresCadCheckbox.HeaderText = "requires_cad_checkbox";
-            requiresCadCheckbox.Name = "requires_cad_checkbox";
-            dgvEnquiryLog.Columns.Insert(requiresCadIndex, requiresCadCheckbox);
-
-            column_index_refresh();
-
-            DataGridViewCheckBoxColumn cadCompleteCheckbox = new DataGridViewCheckBoxColumn();
-            cadCompleteCheckbox.HeaderText = "cad_complete_checkbox";
-            cadCompleteCheckbox.Name = "cad_complete_checkbox";
-            dgvEnquiryLog.Columns.Insert(cadCompleteIndex, cadCompleteCheckbox);
-        }
         private void column_index_refresh()
         {
             idIndex = dgvEnquiryLog.Columns["id"].Index;
@@ -342,6 +203,8 @@ namespace enquiryMaster
                 completeButton = dgvEnquiryLog.Columns["Complete"].Index;
             if (dgvEnquiryLog.Columns.Contains("Cancel") == true)
                 cancelButtonIndex = dgvEnquiryLog.Columns["Cancel"].Index;
+
+            tenderDueDatIndex = dgvEnquiryLog.Columns["tender_due_date"].Index;
         }
         private void format()
         {
@@ -373,6 +236,7 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns[allocatedToCadIndex].HeaderText = "Allocated to CAD";
             dgvEnquiryLog.Columns[cadCompleteCheckboxIndex].HeaderText = "CAD Complete";
             dgvEnquiryLog.Columns[completeDateIndex].HeaderText = "Date Complete";
+            dgvEnquiryLog.Columns[tenderDueDatIndex].HeaderText = "Tender Due Date";
 
             try
             {
@@ -483,23 +347,182 @@ namespace enquiryMaster
                 if (row.Cells[onHoldIndex].Value.ToString() == "-1")
                     row.Cells[allocatedToCadIndex].Style.BackColor = Color.LightSkyBlue;
 
+                //final colour for slimline is tender > make the id pink if tender due date is not null
+                if (row.Cells[tenderDueDatIndex].Value.ToString().Length > 0)
+                {
+                    row.Cells[idIndex].Style.BackColor = Color.MediumPurple;
+                    row.Cells[tenderDueDatIndex].Style.BackColor = Color.MediumPurple;
+                }
             }
         }
 
-
-
-        private void dteRecievedStart_ValueChanged(object sender, EventArgs e)
+        private void addbuttons()
         {
-            dteRecievedStartChange = -1;
-            apply_filter();
-            dgvEnquiryLog.Focus();
+            int columnIndex = 0;
+            if (dgvEnquiryLog.Columns.Contains("Process") == true)
+            {
+                dgvEnquiryLog.Columns.Remove("Process");
+            }
+            if (dgvEnquiryLog.Columns.Contains("CAD") == true)
+            {
+                dgvEnquiryLog.Columns.Remove("CAD");
+            }
+            if (dgvEnquiryLog.Columns.Contains("Complete") == true)
+            {
+                dgvEnquiryLog.Columns.Remove("Complete");
+            }
+            if (dgvEnquiryLog.Columns.Contains("Cancel") == true)
+            {
+                dgvEnquiryLog.Columns.Remove("Cancel");
+            }
+
+            columnIndex = allocatedToIndex + 1;
+            DataGridViewButtonColumn processedButton = new DataGridViewButtonColumn();
+            processedButton.Name = "Process";
+            processedButton.Text = "Process";
+            processedButton.UseColumnTextForButtonValue = true;
+            if (dgvEnquiryLog.Columns["Process_column"] == null)
+            {
+                dgvEnquiryLog.Columns.Insert(columnIndex, processedButton);
+            }
+            columnIndex = allocatedToIndex + 2;
+            DataGridViewButtonColumn cadButton = new DataGridViewButtonColumn();
+            cadButton.Name = "CAD";
+            cadButton.Text = "CAD";
+            cadButton.UseColumnTextForButtonValue = true;
+            if (dgvEnquiryLog.Columns["CAD_column"] == null)
+            {
+                dgvEnquiryLog.Columns.Insert(columnIndex, cadButton);
+            }
+
+            columnIndex = completeDateIndex + 2;
+            DataGridViewButtonColumn completeButton = new DataGridViewButtonColumn();
+            completeButton.Name = "Complete";
+            completeButton.Text = "Complete";
+            completeButton.UseColumnTextForButtonValue = true;
+            if (dgvEnquiryLog.Columns["Complete"] == null)
+            {
+                dgvEnquiryLog.Columns.Insert(columnIndex, completeButton);
+            }
+            columnIndex = completeDateIndex + 3;
+            DataGridViewButtonColumn cancelButton = new DataGridViewButtonColumn();
+            cancelButton.Name = "Cancel";
+            cancelButton.Text = "Cancel";
+            cancelButton.UseColumnTextForButtonValue = true;
+            if (dgvEnquiryLog.Columns["Cancel"] == null)
+            {
+                dgvEnquiryLog.Columns.Insert(columnIndex, cancelButton);
+            }
+            if (dgvEnquiryLog.Columns["Cancel"] == null)
+            {
+                dgvEnquiryLog.Columns.Insert(columnIndex, cancelButton);
+            }
+
+            //add checkboxes for revision/requires cad/complete cad
+            DataGridViewCheckBoxColumn revisionCheckBox = new DataGridViewCheckBoxColumn();
+            revisionCheckBox.HeaderText = "revision_checkbox";
+            revisionCheckBox.Name = "revision_checkbox";
+            dgvEnquiryLog.Columns.Insert(revisionIndex, revisionCheckBox);
+
+            column_index_refresh();
+
+            DataGridViewCheckBoxColumn requiresCadCheckbox = new DataGridViewCheckBoxColumn();
+            requiresCadCheckbox.HeaderText = "requires_cad_checkbox";
+            requiresCadCheckbox.Name = "requires_cad_checkbox";
+            dgvEnquiryLog.Columns.Insert(requiresCadIndex, requiresCadCheckbox);
+
+            column_index_refresh();
+
+            DataGridViewCheckBoxColumn cadCompleteCheckbox = new DataGridViewCheckBoxColumn();
+            cadCompleteCheckbox.HeaderText = "cad_complete_checkbox";
+            cadCompleteCheckbox.Name = "cad_complete_checkbox";
+            dgvEnquiryLog.Columns.Insert(cadCompleteIndex, cadCompleteCheckbox);
+        }
+        private void check_dgv_checkbox()
+        {
+            foreach (DataGridViewRow row in dgvEnquiryLog.Rows)
+            {
+                if (row.Cells[revisionIndex].Value.ToString() == "-1")
+                {
+                    row.Cells[revisionCheckboxIndex].Value = "true";
+                }
+                if (row.Cells[requiresCadIndex].Value.ToString() == "-1")
+                {
+                    row.Cells[requiresCadCheckboxIndex].Value = "true";
+                }
+                if (row.Cells[cadCompleteIndex].Value.ToString() == "-1")
+                {
+                    row.Cells[cadCompleteCheckboxIndex].Value = "true";
+                }
+            }
         }
 
-        private void dteRecievedEnd_ValueChanged(object sender, EventArgs e)
+        private void frmSlimline_Shown(object sender, EventArgs e)
         {
-            dteRecievedEndChange = -1;
+            if (CONNECT.openCAD == -1)
+                menuStrip1.Items[2].Visible = false;
+            if (CONNECT.isSlimline == 0)
+                menuStrip1.Items[3].Visible = false;
+
             apply_filter();
-            dgvEnquiryLog.Focus();
+            colour_grid();
+            fillAllocatedTo();
+        }
+
+        private void fillAllocatedTo()
+        {
+            //loop through dgv get alll the unique entries for allocated to
+            foreach (DataGridViewRow row in dgvEnquiryLog.Rows)
+            {
+                if (cmbAllocatedTo.Items.Contains(row.Cells[allocatedToIndex].Value.ToString()))
+                { } //nothing
+                else
+                    cmbAllocatedTo.Items.Add(row.Cells[allocatedToIndex].Value.ToString());
+                if (cmbAllocatedToCad.Items.Contains(row.Cells[allocatedToCadIndex].Value.ToString()))
+                { } //nothing
+                else
+                    cmbAllocatedToCad.Items.Add(row.Cells[allocatedToCadIndex].Value.ToString());
+                //
+            }
+        }
+
+        private void txtID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                apply_filter();
+            }
+        }
+
+        private void txtSenderEmail_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                apply_filter();
+            }
+        }
+
+        private void txtEmailSubject_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                apply_filter();
+            }
+        }
+
+        private void txtID_Leave(object sender, EventArgs e)
+        {
+            apply_filter();
+        }
+
+        private void txtSenderEmail_Leave(object sender, EventArgs e)
+        {
+            apply_filter();
+        }
+
+        private void txtEmailSubject_Leave(object sender, EventArgs e)
+        {
+            apply_filter();
         }
 
         private void cmbStatus_SelectedIndexChanged(object sender, EventArgs e)
@@ -555,19 +578,31 @@ namespace enquiryMaster
             dteEndChange = 0;
             chkOutstanding.Checked = false;
             apply_filter();
-
         }
 
-
-        private void chkOutstanding_CheckedChanged(object sender, EventArgs e)
+        private void dteRecievedStart_ValueChanged(object sender, EventArgs e)
         {
+            dteRecievedStartChange = -1;
             apply_filter();
             dgvEnquiryLog.Focus();
         }
 
+        private void dteRecievedEnd_ValueChanged(object sender, EventArgs e)
+        {
+            dteRecievedEndChange = -1;
+            apply_filter();
+            dgvEnquiryLog.Focus();
+        }
 
+        private void dgvEnquiryLog_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == idIndex || e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex)
+                dgvEnquiryLog.Cursor = Cursors.Hand;
+            else
+                dgvEnquiryLog.Cursor = Cursors.Default;
+        }
 
-        private void dgvEnquiryLog_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvEnquiryLog_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             string sql = "";
             if (e.RowIndex < 0)
@@ -668,48 +703,13 @@ namespace enquiryMaster
             } //cancel button
         }
 
-        private void txtSenderEmail_Leave(object sender, EventArgs e)
+        private void slimlineToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            apply_filter();
+            this.Visible = false;
+            frmMain frm = new frmMain();
+            frm.ShowDialog();
+            this.Visible = true;
         }
-
-        private void txtSenderEmail_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                apply_filter();
-            }
-        }
-
-        private void txtID_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                apply_filter();
-            }
-        }
-
-        private void txtID_Leave(object sender, EventArgs e)
-        {
-            apply_filter();
-        }
-
-        private void txtEmailSubject_Leave(object sender, EventArgs e)
-        {
-            apply_filter();
-        }
-
-        private void txtEmailSubject_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                apply_filter();
-            }
-        }
-
-
-
-
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -731,28 +731,22 @@ namespace enquiryMaster
             apply_filter();
         }
 
-        private void cADLOGToolStripMenuItem_Click(object sender, EventArgs e)
+        private void chkOutstanding_CheckedChanged(object sender, EventArgs e)
         {
-            this.Visible = false;
-            frmCAD frm = new frmCAD();
-            frm.ShowDialog();
-            this.Visible = true;
+            apply_filter();
+            dgvEnquiryLog.Focus();
         }
 
-        private void dgvEnquiryLog_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        private void chkPriority_CheckedChanged(object sender, EventArgs e)
         {
-            if (e.ColumnIndex == idIndex || e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex)
-                dgvEnquiryLog.Cursor = Cursors.Hand;
-            else
-                dgvEnquiryLog.Cursor = Cursors.Default;
+            apply_filter();
+            dgvEnquiryLog.Focus();
         }
 
-        private void slimlineToolStripMenuItem_Click(object sender, EventArgs e)
+        private void chkTenders_CheckedChanged(object sender, EventArgs e)
         {
-            this.Visible = false;
-            frmSlimline frm = new frmSlimline();
-            frm.ShowDialog();
-            this.Visible = true;
+            apply_filter();
+            dgvEnquiryLog.Focus();
         }
     }
 }

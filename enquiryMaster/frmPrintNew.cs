@@ -28,7 +28,7 @@ namespace enquiryMaster
                     int i = 0;
                     while (i < 1)
                     {
-                        System.Threading.Thread.Sleep(500); // optional?
+                        System.Threading.Thread.Sleep(500); // give the form some time to paint
                         printImage();
                         i = 99;
                         this.Invoke((MethodInvoker)delegate
@@ -65,13 +65,9 @@ namespace enquiryMaster
                     txtSubject.Text = dt.Rows[0][3].ToString();
                     webBrowser1.DocumentText = dt.Rows[0][4].ToString();
                     txtID.Text = dt.Rows[0][0].ToString();
-
                 }
-
             }
         }
-
-
 
         private void printImage()
         {
@@ -96,7 +92,7 @@ namespace enquiryMaster
                     bitmap.Save(@"C:\temp\temp.jpg");
                 }
 
-
+                
                 //var frm = Form.ActiveForm;
                 //using (var bmp = new Bitmap(frm.Width, frm.Height))
                 //{
@@ -114,6 +110,8 @@ namespace enquiryMaster
                     if ((double)i.Width / (double)i.Height > (double)m.Width / (double)m.Height) // image is wider
                     {
                         m.Height = (int)((double)i.Height / (double)i.Width * (double)m.Width);
+                        m.Height = 700;
+                        m.Width = 650;
                     }
                     else
                     {
@@ -129,9 +127,7 @@ namespace enquiryMaster
             }
             catch
             { }
-
         }
-
 
 
         private void btnPrint_Click(object sender, EventArgs e)
