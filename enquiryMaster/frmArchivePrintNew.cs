@@ -12,9 +12,9 @@ using System.Drawing.Printing;
 
 namespace enquiryMaster
 {
-    public partial class frmPrintNew : Form
+    public partial class frmArchivePrintNew : Form
     {
-        public frmPrintNew(int enquiry_id)
+        public frmArchivePrintNew(int enquiry_id)
         {
             InitializeComponent();
             fill_data(enquiry_id);
@@ -32,10 +32,10 @@ namespace enquiryMaster
                         printImage();
                         i = 99;
                         this.Invoke((MethodInvoker)delegate
-                       {
-                           //can close the form on this thread now
-                           this.Close();
-                       });
+                        {
+                            //can close the form on this thread now
+                            this.Close();
+                        });
 
                     }
                 });
@@ -43,7 +43,7 @@ namespace enquiryMaster
         }
         private void fill_data(int enquiry_id)
         {
-            string sql = "select enquiry_log.id,recieved_time,sender_email_address,subject,Body from dbo.enquiry_log  where enquiry_log.id = " + enquiry_id;
+            string sql = "select enquiry_log_archive.id,recieved_time,sender_email_address,subject,Body from dbo.enquiry_log_archive  where enquiry_log_archive.id = " + enquiry_id;
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
@@ -92,7 +92,7 @@ namespace enquiryMaster
                     bitmap.Save(@"C:\temp\temp.jpg");
                 }
 
-                
+
                 //var frm = Form.ActiveForm;
                 //using (var bmp = new Bitmap(frm.Width, frm.Height))
                 //{

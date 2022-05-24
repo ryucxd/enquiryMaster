@@ -15,7 +15,7 @@ using System.Diagnostics;
 
 namespace enquiryMaster
 {
-    public partial class frmMain : Form
+    public partial class frmArchive : Form
     {
         //session file
         public int rowID { get; set; }
@@ -50,7 +50,7 @@ namespace enquiryMaster
         public int cancelButtonIndex { get; set; }
 
 
-        public frmMain()
+        public frmArchive()
         {
             InitializeComponent();
             this.Icon = Properties.Resources.windows_log_off;
@@ -58,32 +58,7 @@ namespace enquiryMaster
 
         }
 
-        private void frmMain_Shown(object sender, EventArgs e)
-        {
-            //if (CONNECT.openCAD == -1)
-            //    btnCAD.Visible = false;
-            if (CONNECT.openCAD == -1)
-                menuStrip1.Items[2].Visible = false;
-            if (CONNECT.isSlimline == -1)
-                menuStrip1.Items[3].Visible = false;
 
-            apply_filter();
-            colour_grid();
-            fillAllocatedTo();
-
-
-
-            //release all memory - stop EXCEL.exe from hanging around.
-            //if (xlWorkbook != null) { Marshal.ReleaseComObject(xlWorkbook); } //release each workbook like this
-            //if (xlWorkbooks != null) { Marshal.ReleaseComObject(xlWorkbooks); } //release each workbook like this
-            //if (xlWorksheet != null) { Marshal.ReleaseComObject(xlWorksheet); } //release each worksheet like this
-            //if (xlApp != null) { Marshal.ReleaseComObject(xlApp); } //release the Excel application
-            //xlWorkbook = null; //set each memory reference to null.
-            //xlWorkbooks = null;
-            //xlWorksheet = null;
-            //xlApp = null;
-            //GC.Collect();
-        }
         private void fillAllocatedTo()
         {
             //loop through dgv get alll the unique entries for allocated to
@@ -108,16 +83,16 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns.Clear();
 
             //get the main datagridview filtered (and apply any colourts etc
-            string sql = "SET DATEFORMAT dmy;SELECT TOP 300 enquiry_log.id,recieved_time,sender_email_address,[subject],priority_job,revision,price_qty_required,es.[description] as [status],u_estimator.forename + ' ' + u_estimator.surname as allocated_to," +
-                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date FROM dbo.enquiry_log WITH(NOLOCK) " +
-                "LEFT JOIN[user_info].dbo.[user] u_estimator on u_estimator.id = Enquiry_Log.allocated_to_id " +
-                "LEFT JOIN[user_info].dbo.[user] u_cad on u_cad.id = Enquiry_Log.allocated_to_cad_id " +
-                "LEFT JOIN enquiry_status es on es.id = Enquiry_Log.status_id " +
+            string sql = "SET DATEFORMAT dmy;SELECT TOP 300 enquiry_log_archive.id,recieved_time,sender_email_address,[subject],priority_job,revision,price_qty_required,es.[description] as [status],u_estimator.forename + ' ' + u_estimator.surname as allocated_to," +
+                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date FROM dbo.enquiry_log_archive WITH(NOLOCK) " +
+                "LEFT JOIN[user_info].dbo.[user] u_estimator on u_estimator.id = enquiry_log_archive.allocated_to_id " +
+                "LEFT JOIN[user_info].dbo.[user] u_cad on u_cad.id = enquiry_log_archive.allocated_to_cad_id " +
+                "LEFT JOIN enquiry_status es on es.id = enquiry_log_archive.status_id " +
                 "WHERE (slimline_request = 0 or slimline_request is null)   AND ";
 
             //filter based on user inputs
             if (txtID.TextLength > 0)
-                sql = sql + " enquiry_log.id like '%" + txtID.Text + "%'  AND ";
+                sql = sql + " enquiry_log_archive.id like '%" + txtID.Text + "%'  AND ";
             if (dteRecievedStartChange == -1)
                 sql = sql + "recieved_time >= '" + dteRecievedStart.Value.ToString("yyyyMMdd") + "'  AND ";
             if (dteRecievedEndChange == -1)
@@ -143,7 +118,7 @@ namespace enquiryMaster
             if (dteEndChange == -1)
                 sql = sql + "cast(complete_date as date) <= '" + dteEnd.Value.ToString("yyyyMMdd") + "'  AND ";
             if (chkOutstanding.Checked == true)
-                sql = sql + "  (enquiry_log.status_id = 1 or enquiry_log.status_id = 2 or enquiry_log.status_id = 3)   AND ";
+                sql = sql + "  (enquiry_log_archive.status_id = 1 or enquiry_log_archive.status_id = 2 or enquiry_log_archive.status_id = 3)   AND ";
 
 
             sql = sql.Substring(0, sql.Length - 5);
@@ -574,98 +549,12 @@ namespace enquiryMaster
                 return;
             if (e.ColumnIndex == idIndex || e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex)
             {
-                frmEnquiryDetails frm = new frmEnquiryDetails(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[0].Value.ToString()));
+                frmArchiveDetails frm = new frmArchiveDetails(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[0].Value.ToString()));
                 frm.ShowDialog();
                 rowID = e.RowIndex;
                 apply_filter();
             } //opens enquiry details
-            if (e.ColumnIndex == processedButtonIndex)
-            {
-                //has to be status_id = 2 to continue down this route
-                if (dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() != "Checked")
-                {
-                    MessageBox.Show("This enquiry is currently marked as '" + dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() + "', Processing will only work on enquiries marked as 'Checked'.", "Processing Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                //check if the person whos logged in has this job allocated to them
-                using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
-                {
-                    conn.Open();
-                    sql = "SELECT allocated_to_id FROM dbo.enquiry_log WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
-                    using (SqlCommand cmd = new SqlCommand(sql, conn))
-                    {
-                        var data = cmd.ExecuteScalar().ToString();
-                        if (data != null)
-                        {
-                            if (Convert.ToInt32(data) != CONNECT.staffID)
-                            {
-                                ////prompt the user to confirm
-                                //frmConfirmBox frm = new frmConfirmBox();
-                                //frm.ShowDialog();
-                                //if (CONNECT.confirmCorrect == false)
-                                //    return;
-                            }
-                            //update the entry
-                            sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + CONNECT.staffID + ",status_id = 3,processed_by_id = " + CONNECT.staffID + ",processed_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
-                            using (SqlCommand cmdUpdate = new SqlCommand(sql, conn))
-                            {
-                                cmdUpdate.ExecuteNonQuery();
-                                rowID = e.RowIndex;
-                                apply_filter();
-                            }
 
-                        }
-                    }
-                    conn.Close();
-                }
-            } //processing button
-            if (e.ColumnIndex == cadButtonIndex)
-            {
-                frmCadRequest frm = new frmCadRequest(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString()), CONNECT.staffID);
-                frm.ShowDialog();
-                if (CONNECT.skipShuffle == false)
-                {
-                    rowID = e.RowIndex;
-                    menuStrip1.Items[1].PerformClick();
-                    apply_filter();
-                }
-                else
-                    CONNECT.skipShuffle = false;
-
-            }//cad button
-            if (e.ColumnIndex == completeButton)
-            {
-                //needs to be status id 3 only 
-                if (dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() != "Processing")
-                {
-                    MessageBox.Show("This enquiry is currently marked as '" + dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() + "', Complete will only work on enquiries marked as 'Processing'.", "Compelte Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                //update the columns + then reshuffle
-                //"UPDATE dbo_enquiry_log SET  allocated_to_id = " & TempVars!gl_userid & ", status_id = 4, complete_by_id =" & TempVars!gl_userid & ", complete_date = '" & Now() & "' WHERE id = " & Me.id
-
-                sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + CONNECT.staffID.ToString() + ",status_id = 4,complete_by_id = " + CONNECT.staffID + ", complete_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
-                using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
-                {
-                    conn.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, conn))
-                    {
-                        cmd.ExecuteScalar();
-                        rowID = e.RowIndex;
-                        menuStrip1.Items[1].PerformClick();
-                        apply_filter();
-                    }
-                    conn.Close();
-                }
-            } //complete button
-            if (e.ColumnIndex == cancelButtonIndex)
-            {
-                frmCancel frm = new frmCancel(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value));
-                frm.ShowDialog();
-                rowID = e.RowIndex;
-                menuStrip1.Items[0].PerformClick();
-            } //cancel button
         }
 
         private void txtSenderEmail_Leave(object sender, EventArgs e)
@@ -759,15 +648,23 @@ namespace enquiryMaster
         {
             frmAllocateStaff frm = new frmAllocateStaff();
             frm.ShowDialog();
-            reshuffleToolStripMenuItem.PerformClick();
+            //reshuffleToolStripMenuItem.PerformClick();
         }
 
         private void aRCHIVEToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Visible = false;
             frmArchive frm = new frmArchive();
             frm.ShowDialog();
-            this.Visible = true;
         }
+
+        private void frmArchive_Shown(object sender, EventArgs e)
+        {
+
+            apply_filter();
+            colour_grid();
+            fillAllocatedTo();
+        }
+
+
     }
 }

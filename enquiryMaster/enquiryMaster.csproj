@@ -25,7 +25,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>42</ApplicationRevision>
+    <ApplicationRevision>43</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -96,6 +96,24 @@
     <Compile Include="frmAllocateStaff.Designer.cs">
       <DependentUpon>frmAllocateStaff.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmArchive.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmArchive.Designer.cs">
+      <DependentUpon>frmArchive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmArchiveDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmArchiveDetails.Designer.cs">
+      <DependentUpon>frmArchiveDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmArchivePrintNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmArchivePrintNew.Designer.cs">
+      <DependentUpon>frmArchivePrintNew.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCAD.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -163,6 +181,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAllocateStaff.resx">
       <DependentUpon>frmAllocateStaff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmArchive.resx">
+      <DependentUpon>frmArchive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmArchiveDetails.resx">
+      <DependentUpon>frmArchiveDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmArchivePrintNew.resx">
+      <DependentUpon>frmArchivePrintNew.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCAD.resx">
       <DependentUpon>frmCAD.cs</DependentUpon>

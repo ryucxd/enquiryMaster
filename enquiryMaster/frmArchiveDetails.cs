@@ -14,13 +14,13 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace enquiryMaster
 {
-    public partial class frmEnquiryDetails : Form
+    public partial class frmArchiveDetails : Form
     {
         public string htmlstring { get; set; }
         public int _enquiryID { get; set; }
         public int skipUpdate { get; set; }
         public int oldQty { get; set; }
-        public frmEnquiryDetails(int enquiryID)
+        public frmArchiveDetails(int enquiryID)
         {
             InitializeComponent();
             this.Text = "Enquiry: " + enquiryID.ToString();
@@ -31,18 +31,18 @@ namespace enquiryMaster
 
             //get alll the enquiry data
 
-            string sql = "select enquiry_log.id,recieved_time,sender_email_address,es.[description] as [status], priority_job,price_qty_required as [quotes_required],revision,slimline_request,is_aluminium,is_technical," + //is technical is 9
+            string sql = "select enquiry_log_archive.id,recieved_time,sender_email_address,es.[description] as [status], priority_job,price_qty_required as [quotes_required],revision,slimline_request,is_aluminium,is_technical," + //is technical is 9
                 "u_estimator.forename + ' ' + u_estimator.surname as [allocated_to_estimator],drawing_qty_required,cad_revision,u_cad.forename + ' ' + u_cad.surname as [allocated_to_cad],as_built,from_scratch,on_hold,detailed,on_hold_note," + // on hold note is 18
                 "u_checked.forename + ' ' + u_checked.surname + ' - ' + CAST(checked_date as nvarchar(max)) as checked_by," +//checked 19
                 " u_processed.forename + ' ' + u_processed.surname + ' - ' + CAST(processed_date as nvarchar(max)) as processed_by, " + //processed by 20
                 "u_processed_cad.forename + ' ' + u_processed_cad.surname + ' - ' + CAST(processed_cad_date as nvarchar(max)) as processed_by_cad, " +//processed cad 21
                 "u_complete.forename + ' ' + u_complete.surname + ' - ' + CAST(complete_date as nvarchar(max)) as complete_by," + //complete 22
-                "enquiry_notes,cad_note,Body,tender_due_date from dbo.enquiry_log " +
-                "left join dbo.enquiry_status es on es.id = enquiry_log.status_id left join[user_info].dbo.[user] u_estimator on u_estimator.id = enquiry_log.allocated_to_id " +
-                "left join[user_info].dbo.[user] u_cad on u_cad.id = enquiry_log.allocated_to_cad_id left join[user_info].dbo.[user] u_checked on u_checked.id = enquiry_log.checked_by_id " +
-                "left join[user_info].dbo.[user] u_processed on u_processed.id = enquiry_log.processed_by_id left join[user_info].dbo.[user] u_processed_cad on u_processed_cad.id = enquiry_log.processed_cad_by_id " +
-                "left join[user_info].dbo.[user] u_complete on u_complete.id = enquiry_log.complete_by_id " +
-                "where enquiry_log.id =" + enquiryID;
+                "enquiry_notes,cad_note,Body,tender_due_date from dbo.enquiry_log_archive " +
+                "left join dbo.enquiry_status es on es.id = enquiry_log_archive.status_id left join[user_info].dbo.[user] u_estimator on u_estimator.id = enquiry_log_archive.allocated_to_id " +
+                "left join[user_info].dbo.[user] u_cad on u_cad.id = enquiry_log_archive.allocated_to_cad_id left join[user_info].dbo.[user] u_checked on u_checked.id = enquiry_log_archive.checked_by_id " +
+                "left join[user_info].dbo.[user] u_processed on u_processed.id = enquiry_log_archive.processed_by_id left join[user_info].dbo.[user] u_processed_cad on u_processed_cad.id = enquiry_log_archive.processed_cad_by_id " +
+                "left join[user_info].dbo.[user] u_complete on u_complete.id = enquiry_log_archive.complete_by_id " +
+                "where enquiry_log_archive.id =" + enquiryID;
 
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
             {
@@ -241,7 +241,7 @@ namespace enquiryMaster
                     conn.Close();
                 }
             }
-            sql = "UPDATE dbo.enquiry_log SET status_id = " + new_status.ToString() + " WHERE id = " + _enquiryID.ToString();
+            sql = "UPDATE dbo.enquiry_log_archive SET status_id = " + new_status.ToString() + " WHERE id = " + _enquiryID.ToString();
             updateDetails(sql);
         }
 
@@ -250,7 +250,7 @@ namespace enquiryMaster
             int priority = 0;
             if (chkPriority.Checked == true)
                 priority = -1;
-            string sql = "UPDATE dbo.enquiry_log SET priority_job = " + priority.ToString() + " WHERE id = " + _enquiryID.ToString();
+            string sql = "UPDATE dbo.enquiry_log_archive SET priority_job = " + priority.ToString() + " WHERE id = " + _enquiryID.ToString();
             updateDetails(sql);
         }
 
@@ -276,7 +276,7 @@ namespace enquiryMaster
             }
             else
             {
-                string sql = "UPDATE dbo.enquiry_log SET  price_qty_required = " + txtQuotesRequired.Text + " WHERE id = " + _enquiryID;
+                string sql = "UPDATE dbo.enquiry_log_archive SET  price_qty_required = " + txtQuotesRequired.Text + " WHERE id = " + _enquiryID;
                 updateDetails(sql);
             }
         }
@@ -296,7 +296,7 @@ namespace enquiryMaster
                     txtQuotesRequired.Text = oldQty.ToString();
                     return;
                 }
-                string sql = "UPDATE dbo.enquiry_log SET  price_qty_required = " + txtQuotesRequired.Text + " WHERE id = " + _enquiryID;
+                string sql = "UPDATE dbo.enquiry_log_archive SET  price_qty_required = " + txtQuotesRequired.Text + " WHERE id = " + _enquiryID;
                 updateDetails(sql);
 
             }
@@ -317,7 +317,7 @@ namespace enquiryMaster
                     txtCadDrawingsRequired.Text = oldQty.ToString();
                     return;
                 }
-                string sql = "UPDATE dbo.enquiry_log SET  drawing_qty_required = " + txtCadDrawingsRequired.Text + " WHERE id = " + _enquiryID;
+                string sql = "UPDATE dbo.enquiry_log_archive SET  drawing_qty_required = " + txtCadDrawingsRequired.Text + " WHERE id = " + _enquiryID;
                 updateDetails(sql);
             }
         }
@@ -330,7 +330,7 @@ namespace enquiryMaster
                 txtCadDrawingsRequired.Text = oldQty.ToString();
                 return;
             }
-            string sql = "UPDATE dbo.enquiry_log SET  drawing_qty_required = " + txtCadDrawingsRequired.Text + " WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET  drawing_qty_required = " + txtCadDrawingsRequired.Text + " WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -340,7 +340,7 @@ namespace enquiryMaster
             if (chkRevisionRequest.Checked == true)
                 revision = -1;
 
-            string sql = "UPDATE dbo.enquiry_log SET revision = " + revision.ToString() + " WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET revision = " + revision.ToString() + " WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -350,7 +350,7 @@ namespace enquiryMaster
             if (chkSlimline.Checked == true)
                 slimline = -1;
 
-            string sql = "UPDATE dbo.enquiry_log SET slimline_request = " + slimline.ToString() + " WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET slimline_request = " + slimline.ToString() + " WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -360,7 +360,7 @@ namespace enquiryMaster
             if (chkAluminium.Checked == true)
                 aluminium = -1;
 
-            string sql = "UPDATE dbo.enquiry_log SET is_aluminium = " + aluminium.ToString() + " WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET is_aluminium = " + aluminium.ToString() + " WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -370,7 +370,7 @@ namespace enquiryMaster
             if (chkTechnical.Checked == true)
                 technical = -1;
 
-            string sql = "UPDATE dbo.enquiry_log SET is_technical = " + technical.ToString() + " WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET is_technical = " + technical.ToString() + " WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -380,7 +380,7 @@ namespace enquiryMaster
             if (chkRevisionRequestCad.Checked == true)
                 revision = -1;
 
-            string sql = "UPDATE dbo.enquiry_log SET cad_revision = " + revision.ToString() + " WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET cad_revision = " + revision.ToString() + " WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -390,7 +390,7 @@ namespace enquiryMaster
             if (chkAsBuilt.Checked == true)
                 asBuilt = -1;
 
-            string sql = "UPDATE dbo.enquiry_log SET as_built = " + asBuilt.ToString() + " WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET as_built = " + asBuilt.ToString() + " WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -400,7 +400,7 @@ namespace enquiryMaster
             if (chkFromScratch.Checked == true)
                 fromScratch = -1;
 
-            string sql = "UPDATE dbo.enquiry_log SET from_scratch = " + fromScratch.ToString() + " WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET from_scratch = " + fromScratch.ToString() + " WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -410,7 +410,7 @@ namespace enquiryMaster
             if (chkOnHold.Checked == true)
                 onHold = -1;
 
-            string sql = "UPDATE dbo.enquiry_log SET on_hold = " + onHold.ToString() + " WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET on_hold = " + onHold.ToString() + " WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -420,14 +420,14 @@ namespace enquiryMaster
             if (chkDetailed.Checked == true)
                 detailed = -1;
 
-            string sql = "UPDATE dbo.enquiry_log SET detailed = " + detailed.ToString() + " WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET detailed = " + detailed.ToString() + " WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
         private void richOnHoldNote_Leave(object sender, EventArgs e)
         {
             richOnHoldNote.Text = richOnHoldNote.Text.Replace("'", "");
-            string sql = "UPDATE dbo.enquiry_log SET  on_hold_note = '" + richOnHoldNote.Text + "' WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET  on_hold_note = '" + richOnHoldNote.Text + "' WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -436,7 +436,7 @@ namespace enquiryMaster
             if (e.KeyCode == Keys.Enter)
             {
                 richOnHoldNote.Text = richOnHoldNote.Text.Replace("'", "");
-                string sql = "UPDATE dbo.enquiry_log SET  on_hold_note = '" + richOnHoldNote.Text + "' WHERE id = " + _enquiryID;
+                string sql = "UPDATE dbo.enquiry_log_archive SET  on_hold_note = '" + richOnHoldNote.Text + "' WHERE id = " + _enquiryID;
                 updateDetails(sql);
             }
         }
@@ -444,7 +444,7 @@ namespace enquiryMaster
         private void richEnquiryNotes_Leave(object sender, EventArgs e)
         {
             richEnquiryNotes.Text = richEnquiryNotes.Text.Replace("'", "");
-            string sql = "UPDATE dbo.enquiry_log SET  enquiry_notes = '" + richEnquiryNotes.Text + "' WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET  enquiry_notes = '" + richEnquiryNotes.Text + "' WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -453,7 +453,7 @@ namespace enquiryMaster
             if (e.KeyCode == Keys.Enter)
             {
                 richEnquiryNotes.Text = richEnquiryNotes.Text.Replace("'", "");
-                string sql = "UPDATE dbo.enquiry_log SET  enquiry_notes = '" + richEnquiryNotes.Text + "' WHERE id = " + _enquiryID;
+                string sql = "UPDATE dbo.enquiry_log_archive SET  enquiry_notes = '" + richEnquiryNotes.Text + "' WHERE id = " + _enquiryID;
                 updateDetails(sql);
             }
         }
@@ -463,7 +463,7 @@ namespace enquiryMaster
             if (e.KeyCode == Keys.Enter)
             {
                 richCadNote.Text = richCadNote.Text.Replace("'", "");
-                string sql = "UPDATE dbo.enquiry_log SET  cad_note = '" + richCadNote.Text + "' WHERE id = " + _enquiryID;
+                string sql = "UPDATE dbo.enquiry_log_archive SET  cad_note = '" + richCadNote.Text + "' WHERE id = " + _enquiryID;
                 updateDetails(sql);
             }
         }
@@ -471,7 +471,7 @@ namespace enquiryMaster
         private void richCadNote_Leave(object sender, EventArgs e)
         {
             richCadNote.Text = richCadNote.Text.Replace("'", "");
-            string sql = "UPDATE dbo.enquiry_log SET  cad_note = '" + richCadNote.Text + "' WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET  cad_note = '" + richCadNote.Text + "' WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -487,7 +487,7 @@ namespace enquiryMaster
                     id = Convert.ToInt32(cmd.ExecuteScalar().ToString());
                 conn.Close();
             }
-            sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + id + "  WHERE id = " + _enquiryID;
+            sql = "UPDATE dbo.enquiry_log_archive SET allocated_to_id = " + id + "  WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -503,7 +503,7 @@ namespace enquiryMaster
                     id = Convert.ToInt32(cmd.ExecuteScalar().ToString());
                 conn.Close();
             }
-            sql = "UPDATE dbo.enquiry_log SET allocated_to_cad_id = " + id + "  WHERE id = " + _enquiryID;
+            sql = "UPDATE dbo.enquiry_log_archive SET allocated_to_cad_id = " + id + "  WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
 
@@ -527,7 +527,7 @@ namespace enquiryMaster
                 {
                     conn.Open();
                     //first up is email
-                    string sql = "SELECT sender_email_address FROM dbo.enquiry_log WHERE id = " + txtID.Text;
+                    string sql = "SELECT sender_email_address FROM dbo.enquiry_log_archive WHERE id = " + txtID.Text;
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         email = (string)cmd.ExecuteScalar();
@@ -535,25 +535,25 @@ namespace enquiryMaster
                             email = email.Substring(email.IndexOf("-") + 1);
                     }
                     //currently logged in estimator
-                    sql = "select forename + ' ' +surname as fullName from dbo.enquiry_log left join[user_info].dbo.[user] u on u.id = estimator_id where  enquiry_log.id = " + txtID.Text;
+                    sql = "select forename + ' ' +surname as fullName from dbo.enquiry_log_archive left join[user_info].dbo.[user] u on u.id = estimator_id where  enquiry_log_archive.id = " + txtID.Text;
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                         estimator = (string)cmd.ExecuteScalar();
                     //cad_due_date
-                    sql = "select cad_due_date from dbo.enquiry_log where id =  " + txtID.Text;
+                    sql = "select cad_due_date from dbo.enquiry_log_archive where id =  " + txtID.Text;
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         DateTime tempDateTime = Convert.ToDateTime(cmd.ExecuteScalar());
                         cadDueDate = tempDateTime.ToLongDateString();
                     }
                     //date stamp
-                    sql = "select estimator_cad_click_stamp from dbo.enquiry_log where id =   " + txtID.Text;
+                    sql = "select estimator_cad_click_stamp from dbo.enquiry_log_archive where id =   " + txtID.Text;
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         DateTime tempDateTime = Convert.ToDateTime(cmd.ExecuteScalar());
                         date_stamp = tempDateTime.ToString("dd/MM/yyyy HH:mm:ss");
                     }
                     //notes
-                    sql = "SELECT enquiry_notes FROM dbo.enquiry_log WHERE id = " + txtID.Text;
+                    sql = "SELECT enquiry_notes FROM dbo.enquiry_log_archive WHERE id = " + txtID.Text;
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                         enquiry_notes = (string)cmd.ExecuteScalar().ToString();
                     conn.Close();
@@ -616,7 +616,7 @@ namespace enquiryMaster
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            frmPrintNew frm = new frmPrintNew(Convert.ToInt32(txtID.Text));
+            frmArchivePrintNew frm = new frmArchivePrintNew(Convert.ToInt32(txtID.Text));
             frm.ShowDialog();
         }
 
@@ -644,7 +644,7 @@ namespace enquiryMaster
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
             {
                 conn.Open();
-                sql = "SELECT COALESCE(cad_complete,0) FROM dbo.enquiry_log WHERE id = " + _enquiryID;
+                sql = "SELECT COALESCE(cad_complete,0) FROM dbo.enquiry_log_archive WHERE id = " + _enquiryID;
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     var temp = Convert.ToInt32(cmd.ExecuteScalar());
@@ -666,14 +666,14 @@ namespace enquiryMaster
             if (CONNECT.cadAllocationPath == 1)
             {
                 //someone is selected
-                sql = "UPDATE dbo.enquiry_log SET  allocated_to_cad_id = " + CONNECT.cadAllocationStaffPicked + ", processed_cad_by_id = " + CONNECT.staffID + ", processed_cad_date = GETDATE() WHERE id = " + _enquiryID;
+                sql = "UPDATE dbo.enquiry_log_archive SET  allocated_to_cad_id = " + CONNECT.cadAllocationStaffPicked + ", processed_cad_by_id = " + CONNECT.staffID + ", processed_cad_date = GETDATE() WHERE id = " + _enquiryID;
                 id = CONNECT.cadAllocationStaffPicked;
             }
             //2 = current login 
             else if (CONNECT.cadAllocationPath == 2)
             {
                 //its the current user
-                sql = "UPDATE dbo.enquiry_log SET  allocated_to_cad_id = " + CONNECT.staffID + ", processed_cad_by_id = " + CONNECT.staffID + ", processed_cad_date = GETDATE() WHERE id = " + _enquiryID;
+                sql = "UPDATE dbo.enquiry_log_archive SET  allocated_to_cad_id = " + CONNECT.staffID + ", processed_cad_by_id = " + CONNECT.staffID + ", processed_cad_date = GETDATE() WHERE id = " + _enquiryID;
                 id = CONNECT.staffID;
             }
             //3 cancel
@@ -690,7 +690,7 @@ namespace enquiryMaster
 
 
                 //get the NEW allocated_to_cad_id AND then 
-                sql = "select u.forename + ' ' + u.surname from [EnquiryLog].dbo.[enquiry_log] LEFT JOIN[user_info].dbo.[user] u on u.id = allocated_to_cad_id where[EnquiryLog].dbo.[enquiry_log].id = " + _enquiryID;
+                sql = "select u.forename + ' ' + u.surname from [EnquiryLog].dbo.[enquiry_log_archive] LEFT JOIN[user_info].dbo.[user] u on u.id = allocated_to_cad_id where[EnquiryLog].dbo.[enquiry_log_archive].id = " + _enquiryID;
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                     cmbAllocatedToCAD.Text = cmd.ExecuteScalar().ToString();
 
@@ -706,7 +706,7 @@ namespace enquiryMaster
             if (compResult == DialogResult.Yes)
             {
                 //put it on comp
-                sql = "UPDATE dbo.enquiry_log SET cad_complete = -1, complete_cad_date = GETDATE() WHERE id = " + _enquiryID;
+                sql = "UPDATE dbo.enquiry_log_archive SET cad_complete = -1, complete_cad_date = GETDATE() WHERE id = " + _enquiryID;
             }
             else
             {
@@ -722,7 +722,7 @@ namespace enquiryMaster
                         MessageBox.Show("Action Cancelled.", "Aborted", MessageBoxButtons.OK);
                         return;
                     }
-                    sql = "UPDATE dbo.enquiry_log SET on_hold_note = '" + CONNECT.cadOnHoldNote + "', on_hold = -1 WHERE id = " + _enquiryID;
+                    sql = "UPDATE dbo.enquiry_log_archive SET on_hold_note = '" + CONNECT.cadOnHoldNote + "', on_hold = -1 WHERE id = " + _enquiryID;
                 }
                 else
                 {
@@ -753,9 +753,29 @@ namespace enquiryMaster
         private void dteTenderDueDate_CloseUp(object sender, EventArgs e)
         {
             dteTenderDueDate.Format = DateTimePickerFormat.Short;
-            string sql = "UPDATE dbo.enquiry_log SET  tender_due_date = '" + dteTenderDueDate.Value.ToString("yyyyMMdd")+ "' WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log_archive SET  tender_due_date = '" + dteTenderDueDate.Value.ToString("yyyyMMdd") + "' WHERE id = " + _enquiryID;
             updateDetails(sql);
 
+        }
+
+        private void dgvAttachments_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgvAttachments_CellClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (File.Exists(dgvAttachments.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString()))
+                {
+                    Process.Start("explorer.exe", dgvAttachments.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                }
+                else
+                    MessageBox.Show("The file you are trying to open cannot be located. It is very likely it has been deleted or renamed.", "Unreachable file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch
+            { }
         }
     }
 }
