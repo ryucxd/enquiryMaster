@@ -25,7 +25,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>36</ApplicationRevision>
+    <ApplicationRevision>42</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -150,6 +150,12 @@
     <Compile Include="frmSlimline.Designer.cs">
       <DependentUpon>frmSlimline.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSpecificCustomer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSpecificCustomer.Designer.cs">
+      <DependentUpon>frmSpecificCustomer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmAllocateCad.resx">
@@ -184,6 +190,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSlimline.resx">
       <DependentUpon>frmSlimline.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSpecificCustomer.resx">
+      <DependentUpon>frmSpecificCustomer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

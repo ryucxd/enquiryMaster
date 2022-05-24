@@ -72,6 +72,8 @@
             this.reshuffleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cADLOGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.slimlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allocateUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aRCHIVEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEnquiryLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEstimator)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCAD)).BeginInit();
@@ -467,7 +469,9 @@
             this.refreshToolStripMenuItem,
             this.reshuffleToolStripMenuItem,
             this.cADLOGToolStripMenuItem,
-            this.slimlineToolStripMenuItem});
+            this.slimlineToolStripMenuItem,
+            this.allocateUsersToolStripMenuItem,
+            this.aRCHIVEToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1777, 24);
@@ -501,6 +505,20 @@
             this.slimlineToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.slimlineToolStripMenuItem.Text = "Slimline";
             this.slimlineToolStripMenuItem.Click += new System.EventHandler(this.slimlineToolStripMenuItem_Click);
+            // 
+            // allocateUsersToolStripMenuItem
+            // 
+            this.allocateUsersToolStripMenuItem.Name = "allocateUsersToolStripMenuItem";
+            this.allocateUsersToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.allocateUsersToolStripMenuItem.Text = "Allocate Users";
+            this.allocateUsersToolStripMenuItem.Click += new System.EventHandler(this.allocateUsersToolStripMenuItem_Click);
+            // 
+            // aRCHIVEToolStripMenuItem
+            // 
+            this.aRCHIVEToolStripMenuItem.Name = "aRCHIVEToolStripMenuItem";
+            this.aRCHIVEToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.aRCHIVEToolStripMenuItem.Text = "ARCHIVE";
+            this.aRCHIVEToolStripMenuItem.Click += new System.EventHandler(this.aRCHIVEToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -600,6 +618,8 @@
         private System.Windows.Forms.ToolStripMenuItem reshuffleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cADLOGToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem slimlineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allocateUsersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aRCHIVEToolStripMenuItem;
     }
 }
 

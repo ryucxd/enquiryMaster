@@ -754,5 +754,18 @@ namespace enquiryMaster
             frm.ShowDialog();
             this.Visible = true;
         }
+
+        private void allocateUsersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAllocateStaff frm = new frmAllocateStaff();
+            frm.ShowDialog();
+            reshuffleToolStripMenuItem.PerformClick();
+        }
+
+        private void aRCHIVEToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmArchiveMain frm = new frmArchiveMain();
+            frm.ShowDialog();
+        }
     }
 }

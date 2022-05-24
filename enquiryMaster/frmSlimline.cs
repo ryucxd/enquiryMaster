@@ -350,8 +350,12 @@ namespace enquiryMaster
                 //final colour for slimline is tender > make the id pink if tender due date is not null
                 if (row.Cells[tenderDueDatIndex].Value.ToString().Length > 0)
                 {
+                    row.Cells[idIndex].Style.BackColor = Color.HotPink;
+                    row.Cells[tenderDueDatIndex].Style.BackColor = Color.HotPink;
+                }
+                if (row.Cells[priorityJobIndex].Value.ToString() == "-1")
+                {
                     row.Cells[idIndex].Style.BackColor = Color.MediumPurple;
-                    row.Cells[tenderDueDatIndex].Style.BackColor = Color.MediumPurple;
                 }
             }
         }
@@ -747,6 +751,13 @@ namespace enquiryMaster
         {
             apply_filter();
             dgvEnquiryLog.Focus();
+        }
+
+        private void allocateUsersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAllocateStaff frm = new frmAllocateStaff();
+            frm.ShowDialog();
+            reshuffleToolStripMenuItem.PerformClick();
         }
     }
 }

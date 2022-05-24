@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSlimline));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label9 = new System.Windows.Forms.Label();
             this.cADLOGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -76,6 +76,9 @@
             this.label20 = new System.Windows.Forms.Label();
             this.chkPriority = new System.Windows.Forms.CheckBox();
             this.chkTenders = new System.Windows.Forms.CheckBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.allocateUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCAD)).BeginInit();
@@ -143,7 +146,7 @@
             this.label16.AutoSize = true;
             this.label16.BackColor = System.Drawing.Color.MediumAquamarine;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(774, 106);
+            this.label16.Location = new System.Drawing.Point(774, 104);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(29, 20);
             this.label16.TabIndex = 71;
@@ -154,7 +157,7 @@
             this.label17.AutoSize = true;
             this.label17.BackColor = System.Drawing.Color.LightSkyBlue;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(774, 82);
+            this.label17.Location = new System.Drawing.Point(774, 80);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(29, 20);
             this.label17.TabIndex = 70;
@@ -165,7 +168,7 @@
             this.label18.AutoSize = true;
             this.label18.BackColor = System.Drawing.Color.Gold;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(774, 58);
+            this.label18.Location = new System.Drawing.Point(774, 56);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(29, 20);
             this.label18.TabIndex = 69;
@@ -176,7 +179,7 @@
             this.label19.AutoSize = true;
             this.label19.BackColor = System.Drawing.Color.PaleVioletRed;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(774, 34);
+            this.label19.Location = new System.Drawing.Point(774, 32);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(29, 20);
             this.label19.TabIndex = 68;
@@ -186,7 +189,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(809, 106);
+            this.label15.Location = new System.Drawing.Point(809, 104);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(77, 20);
             this.label15.TabIndex = 67;
@@ -196,7 +199,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(809, 82);
+            this.label14.Location = new System.Drawing.Point(809, 80);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(67, 20);
             this.label14.TabIndex = 66;
@@ -213,7 +216,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(809, 58);
+            this.label13.Location = new System.Drawing.Point(809, 56);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(87, 20);
             this.label13.TabIndex = 65;
@@ -223,7 +226,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(809, 34);
+            this.label12.Location = new System.Drawing.Point(809, 32);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(72, 20);
             this.label12.TabIndex = 64;
@@ -256,14 +259,14 @@
             this.dgvCAD.AllowUserToAddRows = false;
             this.dgvCAD.AllowUserToDeleteRows = false;
             this.dgvCAD.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvCAD.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvCAD.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvCAD.Location = new System.Drawing.Point(548, 34);
             this.dgvCAD.Name = "dgvCAD";
             this.dgvCAD.ReadOnly = true;
@@ -276,14 +279,14 @@
             this.dgvEstimator.AllowUserToAddRows = false;
             this.dgvEstimator.AllowUserToDeleteRows = false;
             this.dgvEstimator.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvEstimator.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvEstimator.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvEstimator.Location = new System.Drawing.Point(322, 34);
             this.dgvEstimator.Name = "dgvEstimator";
             this.dgvEstimator.ReadOnly = true;
@@ -499,7 +502,8 @@
             this.refreshToolStripMenuItem,
             this.reshuffleToolStripMenuItem,
             this.cADLOGToolStripMenuItem,
-            this.slimlineToolStripMenuItem});
+            this.slimlineToolStripMenuItem,
+            this.allocateUsersToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1777, 24);
@@ -509,9 +513,9 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.Color.MediumPurple;
+            this.label11.BackColor = System.Drawing.Color.HotPink;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(774, 132);
+            this.label11.Location = new System.Drawing.Point(774, 128);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(29, 20);
             this.label11.TabIndex = 75;
@@ -521,7 +525,7 @@
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(809, 132);
+            this.label20.Location = new System.Drawing.Point(809, 128);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(59, 20);
             this.label20.TabIndex = 74;
@@ -549,11 +553,41 @@
             this.chkTenders.UseVisualStyleBackColor = true;
             this.chkTenders.CheckedChanged += new System.EventHandler(this.chkTenders_CheckedChanged);
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.BackColor = System.Drawing.Color.MediumPurple;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(774, 152);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(29, 20);
+            this.label21.TabIndex = 79;
+            this.label21.Text = "     ";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(809, 152);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(56, 20);
+            this.label22.TabIndex = 78;
+            this.label22.Text = "Priority";
+            // 
+            // allocateUsersToolStripMenuItem
+            // 
+            this.allocateUsersToolStripMenuItem.Name = "allocateUsersToolStripMenuItem";
+            this.allocateUsersToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.allocateUsersToolStripMenuItem.Text = "Allocate Users";
+            this.allocateUsersToolStripMenuItem.Click += new System.EventHandler(this.allocateUsersToolStripMenuItem_Click);
+            // 
             // frmSlimline
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1777, 752);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.label22);
             this.Controls.Add(this.chkTenders);
             this.Controls.Add(this.chkPriority);
             this.Controls.Add(this.label11);
@@ -654,5 +688,8 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.CheckBox chkPriority;
         private System.Windows.Forms.CheckBox chkTenders;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.ToolStripMenuItem allocateUsersToolStripMenuItem;
     }
 }
