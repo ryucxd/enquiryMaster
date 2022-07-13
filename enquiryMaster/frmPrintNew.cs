@@ -17,6 +17,10 @@ namespace enquiryMaster
         public frmPrintNew(int enquiry_id)
         {
             InitializeComponent();
+
+            //check if temp exists and if not then make it 
+            System.IO.Directory.CreateDirectory(@"C:\temp");
+
             fill_data(enquiry_id);
             //this.MaximumSize = new Size(952, Screen.PrimaryScreen.Bounds.Height);
             Size = new Size(1023, Screen.PrimaryScreen.WorkingArea.Height);
@@ -92,7 +96,7 @@ namespace enquiryMaster
                     bitmap.Save(@"C:\temp\temp.jpg");
                 }
 
-                
+
                 //var frm = Form.ActiveForm;
                 //using (var bmp = new Bitmap(frm.Width, frm.Height))
                 //{
@@ -135,11 +139,8 @@ namespace enquiryMaster
             btnPrint.Visible = false;
             System.Threading.Thread.Sleep(200);
             printImage();
-            this.Close();
+          //  if (CONNECT.isSlimline != -1)
+                this.Close();
         }
-
-
-
-
     }
 }

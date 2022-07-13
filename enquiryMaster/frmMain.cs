@@ -587,7 +587,7 @@ namespace enquiryMaster
                     MessageBox.Show("This enquiry is currently marked as '" + dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() + "', Processing will only work on enquiries marked as 'Checked'.", "Processing Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                //check if the person whos logged in has this job allocated to them
+                //check if the person whos logged in has this job allocated to them  -- this is now turned off though
                 using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
                 {
                     conn.Open();
@@ -603,7 +603,7 @@ namespace enquiryMaster
                                 //frmConfirmBox frm = new frmConfirmBox();
                                 //frm.ShowDialog();
                                 //if (CONNECT.confirmCorrect == false)
-                                //    return;
+                                //return;
                             }
                             //update the entry
                             sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + CONNECT.staffID + ",status_id = 3,processed_by_id = " + CONNECT.staffID + ",processed_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
@@ -612,7 +612,7 @@ namespace enquiryMaster
                                 cmdUpdate.ExecuteNonQuery();
                                 rowID = e.RowIndex;
                                 apply_filter();
-                            }
+                            } //thi
 
                         }
                     }
@@ -707,10 +707,6 @@ namespace enquiryMaster
             }
         }
 
-
-
-
-
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             apply_filter();
@@ -727,7 +723,7 @@ namespace enquiryMaster
                     cmd.ExecuteNonQuery();
                 }
                 conn.Close();
-            }
+            } //this is the 
             apply_filter();
         }
 
@@ -739,7 +735,7 @@ namespace enquiryMaster
             this.Visible = true;
         }
 
-        private void dgvEnquiryLog_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        private void dgvEnquiryLog_CellMouseEnter(object sender, DataGridViewCellEventArgs e) 
         {
             if (e.ColumnIndex == idIndex || e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex)
                 dgvEnquiryLog.Cursor = Cursors.Hand;
@@ -768,6 +764,7 @@ namespace enquiryMaster
             frmArchive frm = new frmArchive();
             frm.ShowDialog();
             this.Visible = true;
+
         }
     }
 }
