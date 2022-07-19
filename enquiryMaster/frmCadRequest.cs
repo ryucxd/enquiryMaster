@@ -17,6 +17,7 @@ namespace enquiryMaster
     {
         public int _enquiryID { get; set; }
         public int _userID { get; set; }
+        public string urgent_note { get; set; }
         public frmCadRequest(int enquiryID, int userID)
         {
             InitializeComponent();
@@ -86,7 +87,12 @@ namespace enquiryMaster
                 }
                 int priorityJob = 0;
                 if (chkUrgent.Checked == true)
+                {
                     priorityJob = -1;
+                    urgent_note = "URGENT JOB";
+                }
+                else
+                    urgent_note = "";
                 //update CAD details
                 sql = "UPDATE dbo.enquiry_log SET enquiry_notes =  '" + richNote.Text + "',cad_note = '" + cad_note + "',requires_cad = -1,drawing_qty_required = " + txtDrawingsRequired.Text + "," +
                           "cad_revision = " + cad_revision + ",cad_due_date = '" + dteCad.Value.ToString("yyyy-MM-dd HH:mm:ss") + "',existing_order = " + existing_order + ", estimator_cad_click_stamp = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
@@ -106,7 +112,7 @@ namespace enquiryMaster
             // Store the Excel processes before opening.
             Process[] processesBefore = Process.GetProcessesByName("excel");
             // Open the file in Excel.
-            string temp = @"\\designsvr1\apps\Design and Supply CSharp\CAD_Request_template.xlsx";
+            string temp = @"\\designsvr1\apps\Design and Supply CSharp\CAD_Request_template - Copy.xlsx";
             var xlApp = new Excel.Application();
             var xlWorkbooks = xlApp.Workbooks;
             var xlWorkbook = xlWorkbooks.Open(temp);
@@ -155,6 +161,7 @@ namespace enquiryMaster
             xlWorksheet.Cells[2][6].Value2 = estimator;
             xlWorksheet.Cells[2][7].Value2 = date_stamp;
             xlWorksheet.Cells[1][9].Value2 = enquiry_notes;
+            xlWorksheet.Cells[1][31].Value2 = urgent_note;
 
 
             //print it
