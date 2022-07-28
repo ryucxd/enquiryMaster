@@ -260,9 +260,7 @@ namespace enquiryMaster
             cadButton.Text = "CAD";
             cadButton.UseColumnTextForButtonValue = true;
             if (dgvEnquiryLog.Columns["CAD_column"] == null)
-            {
-                dgvEnquiryLog.Columns.Insert(columnIndex, cadButton);
-            }
+            { dgvEnquiryLog.Columns.Insert(columnIndex, cadButton); }
 
             columnIndex = completeDateIndex + 1;
             DataGridViewButtonColumn completeButton = new DataGridViewButtonColumn();
@@ -341,7 +339,7 @@ namespace enquiryMaster
             if (dgvEnquiryLog.Columns.Contains("Complete") == true)
                 completeButton = dgvEnquiryLog.Columns["Complete"].Index;
             if (dgvEnquiryLog.Columns.Contains("Cancel") == true)
-                cancelButtonIndex = dgvEnquiryLog.Columns["Cancel"].Index;
+                cancelButtonIndex = dgvEnquiryLog.Columns["Cancel"].Index; 
         }
         private void format()
         {
@@ -735,7 +733,7 @@ namespace enquiryMaster
             this.Visible = true;
         }
 
-        private void dgvEnquiryLog_CellMouseEnter(object sender, DataGridViewCellEventArgs e) 
+        private void dgvEnquiryLog_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == idIndex || e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex)
                 dgvEnquiryLog.Cursor = Cursors.Hand;

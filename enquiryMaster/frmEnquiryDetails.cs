@@ -20,17 +20,22 @@ namespace enquiryMaster
         public int _enquiryID { get; set; }
         public int skipUpdate { get; set; }
         public int oldQty { get; set; }
+        public int skipFirstPrint { get; set; }
         public frmEnquiryDetails(int enquiryID)
         {
             InitializeComponent();
             this.Text = "Enquiry: " + enquiryID.ToString();
             _enquiryID = enquiryID;
             skipUpdate = -1;
+            skipFirstPrint = -1;
+            refreshData();
+            if (skipFirstPrint == -1)
+                skipFirstPrint = 0;
+        }
 
-
-
+        private void refreshData()
+        {
             //get alll the enquiry data
-
             string sql = "select enquiry_log.id,recieved_time,sender_email_address,es.[description] as [status], priority_job,price_qty_required as [quotes_required],revision,slimline_request,is_aluminium,is_technical," + //is technical is 9
                 "u_estimator.forename + ' ' + u_estimator.surname as [allocated_to_estimator],drawing_qty_required,cad_revision,u_cad.forename + ' ' + u_cad.surname as [allocated_to_cad],as_built,from_scratch,on_hold,detailed,on_hold_note," + // on hold note is 18
                 "u_checked.forename + ' ' + u_checked.surname + ' - ' + CAST(checked_date as nvarchar(max)) as checked_by," +//checked 19
@@ -42,7 +47,7 @@ namespace enquiryMaster
                 "left join[user_info].dbo.[user] u_cad on u_cad.id = enquiry_log.allocated_to_cad_id left join[user_info].dbo.[user] u_checked on u_checked.id = enquiry_log.checked_by_id " +
                 "left join[user_info].dbo.[user] u_processed on u_processed.id = enquiry_log.processed_by_id left join[user_info].dbo.[user] u_processed_cad on u_processed_cad.id = enquiry_log.processed_cad_by_id " +
                 "left join[user_info].dbo.[user] u_complete on u_complete.id = enquiry_log.complete_by_id " +
-                "where enquiry_log.id =" + enquiryID;
+                "where enquiry_log.id =" + _enquiryID;
 
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
             {
@@ -149,7 +154,7 @@ namespace enquiryMaster
                         cmbAllocatedToCAD.Items.Add(row[0].ToString());
                 }
                 //load the attachements
-                sql = "SELECT full_file_path  as [File Location] FROM dbo.attachment_log WHERE email_id = " + enquiryID.ToString();
+                sql = "SELECT full_file_path  as [File Location] FROM dbo.attachment_log WHERE email_id = " + _enquiryID.ToString();
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -193,7 +198,7 @@ namespace enquiryMaster
                 attachment_name = attachment_name.Substring(attachment_name.IndexOf(enquiry_and_item_string) + enquiry_and_item_string.Length);
                 //MessageBox.Show(attachment_name);
 
-                //check if attachment_name exists in the html
+                //check if attachment_name exists in the html 
                 if (htmlstring.Contains(attachment_name))
                     dgvAttachments.Rows[i].Visible = false;
 
@@ -209,7 +214,7 @@ namespace enquiryMaster
 
         private void frmEnquiryDetails_Shown(object sender, EventArgs e)
         {
-            filterAttachments();
+            //  filterAttachments();
         }
         private void updateDetails(string sql)
         {
@@ -243,6 +248,80 @@ namespace enquiryMaster
             }
             sql = "UPDATE dbo.enquiry_log SET status_id = " + new_status.ToString() + " WHERE id = " + _enquiryID.ToString();
             updateDetails(sql);
+
+            //print the enquiry
+            if (cmbStatus.Text == "Checked")
+            {
+                if (skipFirstPrint == 0)
+                {
+                    //
+                    using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+                    {
+                        conn.Open();
+                        using (SqlCommand cmd = new SqlCommand("usp_shuffle_load_individual", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@enquiry_id", SqlDbType.Int).Value = Convert.ToInt32(txtID.Text);
+                            cmd.ExecuteNonQuery();
+                            //refresh all of the boxes (even tho the only one updating should be the allocated to combobox
+                            refreshData();
+                        }
+                        conn.Close();
+                    }
+                    print();
+                }
+            }
+        }
+
+        private void print()
+        {
+            MessageBox.Show("Please wait while the Enquiry sheet prints!");
+            // Store the Excel processes before opening.
+            Process[] processesBefore = Process.GetProcessesByName("excel");
+            // Open the file in Excel.
+            string temp = @"\\designsvr1\apps\Design and Supply CSharp\Enquiry_template.xlsx";
+            var xlApp = new Excel.Application();
+            var xlWorkbooks = xlApp.Workbooks;
+            var xlWorkbook = xlWorkbooks.Open(temp);
+            var xlWorksheet = xlWorkbook.Sheets[1]; // assume it is the first sheet
+            // Get Excel processes after opening the file.
+            Process[] processesAfter = Process.GetProcessesByName("excel");
+
+            xlWorksheet.Cells[2][2].Value2 = txtID.Text;
+            xlWorksheet.Cells[2][3].Value2 = txtRecieved.Text; //recieved by
+            xlWorksheet.Cells[2][4].Value2 = txtSentBy.Text; //sent by
+            xlWorksheet.Cells[2][5].Value2 = txtQuotesRequired.Text; //number of items
+            xlWorksheet.Cells[2][6].Value2 = cmbAllocatedTo.Text; //allocated to
+            xlWorksheet.Cells[2][7].Value2 = DateTime.Now.ToString(); //printed on 
+            xlWorksheet.Cells[1][9].Value2 = richEnquiryNotes.Text; // enquiry notes
+
+
+            //print it
+            xlWorksheet.PrintOut(Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+
+            xlWorkbook.Close(false); //close the excel sheet without saving
+            // xlApp.Quit();
+
+
+            // Manual disposal because of COM
+            xlApp.Quit();
+
+            // Now find the process id that was created, and store it.
+            int processID = 0;
+            foreach (Process process in processesAfter)
+            {
+                if (!processesBefore.Select(p => p.Id).Contains(process.Id))
+                {
+                    processID = process.Id;
+                }
+            }
+
+            // And now kill the process.
+            if (processID != 0)
+            {
+                Process process = Process.GetProcessById(processID);
+                process.Kill();
+            }
         }
 
         private void chkPriority_CheckedChanged(object sender, EventArgs e)
@@ -509,7 +588,6 @@ namespace enquiryMaster
 
         private void btnPrintCad_Click(object sender, EventArgs e)
         {
-
             MessageBox.Show("Please wait while the CAD sheet prints!");
             string email = "";
             //drawing_qty is on the form
@@ -521,8 +599,6 @@ namespace enquiryMaster
             try
             {
                 //get all the variables for each item on the print out
-
-
                 using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
                 {
                     conn.Open();
@@ -576,7 +652,6 @@ namespace enquiryMaster
             // Get Excel processes after opening the file.
             Process[] processesAfter = Process.GetProcessesByName("excel");
 
-
             xlWorksheet.Cells[2][2].Value2 = txtID.Text;
             xlWorksheet.Cells[2][3].Value2 = email;
             xlWorksheet.Cells[2][4].Value2 = txtCadDrawingsRequired.Text;
@@ -584,6 +659,12 @@ namespace enquiryMaster
             xlWorksheet.Cells[2][6].Value2 = estimator;
             xlWorksheet.Cells[2][7].Value2 = date_stamp;
             xlWorksheet.Cells[1][9].Value2 = enquiry_notes;
+
+
+            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+            {
+
+            }
 
 
             //print it
@@ -753,7 +834,7 @@ namespace enquiryMaster
         private void dteTenderDueDate_CloseUp(object sender, EventArgs e)
         {
             dteTenderDueDate.Format = DateTimePickerFormat.Short;
-            string sql = "UPDATE dbo.enquiry_log SET  tender_due_date = '" + dteTenderDueDate.Value.ToString("yyyyMMdd")+ "' WHERE id = " + _enquiryID;
+            string sql = "UPDATE dbo.enquiry_log SET  tender_due_date = '" + dteTenderDueDate.Value.ToString("yyyyMMdd") + "' WHERE id = " + _enquiryID;
             updateDetails(sql);
 
         }
