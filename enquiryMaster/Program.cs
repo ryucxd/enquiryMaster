@@ -81,7 +81,6 @@ namespace enquiryMaster
                 using (SqlCommand cmd = new SqlCommand("SELECT forename + ' ' + surname FROM [user_info].dbo.[user] WHERE username = '" + username + "' AND password = '" + password + "'", conn))
                 {
                     CONNECT.staffFullName = cmd.ExecuteScalar().ToString();
-
                 }
                 //if this is a slimline login then open frmSlimline else check cad/main like normal
 

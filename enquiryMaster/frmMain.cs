@@ -177,7 +177,7 @@ namespace enquiryMaster
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
-                    dgvCAD.DataSource = dt;
+                    dgvCAD.DataSource = dt; 
                 }
 
                 column_index_refresh();
@@ -712,17 +712,25 @@ namespace enquiryMaster
 
         private void reshuffleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+
+            //lock this behind a password
+            frmRefreshPassword frm = new frmRefreshPassword();
+            frm.ShowDialog();
+            if (CONNECT.confirmCorrect == true)
             {
-                conn.Open();
-                using (SqlCommand cmd = new SqlCommand("usp_shuffle_load", conn))
+                using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.ExecuteNonQuery();
-                }
-                conn.Close();
-            } //this is the 
-            apply_filter();
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("usp_shuffle_load", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                } //this is the 
+                CONNECT.confirmCorrect = false;
+                apply_filter();
+            }
         }
 
         private void cADLOGToolStripMenuItem_Click(object sender, EventArgs e)
@@ -753,7 +761,7 @@ namespace enquiryMaster
         {
             frmAllocateStaff frm = new frmAllocateStaff();
             frm.ShowDialog();
-            reshuffleToolStripMenuItem.PerformClick();
+         //   reshuffleToolStripMenuItem.PerformClick();
         }
 
         private void aRCHIVEToolStripMenuItem_Click(object sender, EventArgs e)
