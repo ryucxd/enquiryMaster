@@ -624,7 +624,7 @@ namespace enquiryMaster
                 if (CONNECT.skipShuffle == false)
                 {
                     rowID = e.RowIndex;
-                    menuStrip1.Items[1].PerformClick();
+                    //menuStrip1.Items[1].PerformClick();
                     apply_filter();
                 }
                 else
@@ -651,7 +651,7 @@ namespace enquiryMaster
                     {
                         cmd.ExecuteScalar();
                         rowID = e.RowIndex;
-                        menuStrip1.Items[1].PerformClick();
+                      //  menuStrip1.Items[1].PerformClick();
                         apply_filter();
                     }
                     conn.Close();
