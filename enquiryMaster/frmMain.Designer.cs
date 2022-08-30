@@ -74,6 +74,8 @@
             this.slimlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allocateUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aRCHIVEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEnquiryLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEstimator)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCAD)).BeginInit();
@@ -520,11 +522,34 @@
             this.aRCHIVEToolStripMenuItem.Text = "ARCHIVE";
             this.aRCHIVEToolStripMenuItem.Click += new System.EventHandler(this.aRCHIVEToolStripMenuItem_Click);
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.Gainsboro;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(774, 140);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(29, 20);
+            this.label11.TabIndex = 42;
+            this.label11.Text = "     ";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(809, 140);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(59, 20);
+            this.label20.TabIndex = 41;
+            this.label20.Text = "Tender";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1777, 752);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label20);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label17);
@@ -620,6 +645,8 @@
         private System.Windows.Forms.ToolStripMenuItem slimlineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem allocateUsersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aRCHIVEToolStripMenuItem;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label20;
     }
 }
 

@@ -249,28 +249,31 @@ namespace enquiryMaster
             sql = "UPDATE dbo.enquiry_log SET status_id = " + new_status.ToString() + " WHERE id = " + _enquiryID.ToString();
             updateDetails(sql);
 
-            //print the enquiry
-            if (cmbStatus.Text == "Checked")
-            {
-                if (skipFirstPrint == 0)
-                {
-                    //
-                    using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
-                    {
-                        conn.Open();
-                        using (SqlCommand cmd = new SqlCommand("usp_shuffle_load_individual", conn))
-                        {
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.AddWithValue("@enquiry_id", SqlDbType.Int).Value = Convert.ToInt32(txtID.Text);
-                            cmd.ExecuteNonQuery();
-                            //refresh all of the boxes (even tho the only one updating should be the allocated to combobox
-                            refreshData();
-                        }
-                        conn.Close();
-                    }
-                    print();
-                }
-            }
+            //print the enquiry - taken out as request of nick 09/08/2022
+            //if (chkSlimline.Checked == false)
+            //{
+            //    if (cmbStatus.Text == "Checked")
+            //    {
+            //        if (skipFirstPrint == 0)
+            //        {
+            //            //
+            //            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+            //            {
+            //                conn.Open();
+            //                using (SqlCommand cmd = new SqlCommand("usp_shuffle_load_individual", conn))
+            //                {
+            //                    cmd.CommandType = CommandType.StoredProcedure;
+            //                    cmd.Parameters.AddWithValue("@enquiry_id", SqlDbType.Int).Value = Convert.ToInt32(txtID.Text);
+            //                    cmd.ExecuteNonQuery();
+            //                    //refresh all of the boxes (even tho the only one updating should be the allocated to combobox
+            //                    refreshData();
+            //                }
+            //                conn.Close();
+            //            }
+            //            print();
+            //        }
+            //    }
+            //}
         }
 
         private void print()

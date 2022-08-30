@@ -48,6 +48,7 @@ namespace enquiryMaster
         public int completeDateIndex { get; set; }
         public int completeButton { get; set; }
         public int cancelButtonIndex { get; set; }
+        public int tender_index { get; set; }
 
 
         public frmMain()
@@ -109,7 +110,7 @@ namespace enquiryMaster
 
             //get the main datagridview filtered (and apply any colourts etc
             string sql = "SET DATEFORMAT dmy;SELECT TOP 300 enquiry_log.id,recieved_time,sender_email_address,[subject],priority_job,revision,price_qty_required,es.[description] as [status],u_estimator.forename + ' ' + u_estimator.surname as allocated_to," +
-                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date FROM dbo.enquiry_log WITH(NOLOCK) " +
+                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date,tender_due_date FROM dbo.enquiry_log WITH(NOLOCK) " +
                 "LEFT JOIN[user_info].dbo.[user] u_estimator on u_estimator.id = Enquiry_Log.allocated_to_id " +
                 "LEFT JOIN[user_info].dbo.[user] u_cad on u_cad.id = Enquiry_Log.allocated_to_cad_id " +
                 "LEFT JOIN enquiry_status es on es.id = Enquiry_Log.status_id " +
@@ -339,7 +340,8 @@ namespace enquiryMaster
             if (dgvEnquiryLog.Columns.Contains("Complete") == true)
                 completeButton = dgvEnquiryLog.Columns["Complete"].Index;
             if (dgvEnquiryLog.Columns.Contains("Cancel") == true)
-                cancelButtonIndex = dgvEnquiryLog.Columns["Cancel"].Index; 
+                cancelButtonIndex = dgvEnquiryLog.Columns["Cancel"].Index;
+            tender_index = dgvEnquiryLog.Columns["tender_due_date"].Index;
         }
         private void format()
         {
@@ -391,6 +393,7 @@ namespace enquiryMaster
             //hide the other data columns (onhold/prio)
             dgvEnquiryLog.Columns[priorityJobIndex].Visible = false;
             dgvEnquiryLog.Columns[onHoldIndex].Visible = false;
+            dgvEnquiryLog.Columns[tender_index].Visible = false;
 
             foreach (DataGridViewColumn col in dgvEnquiryLog.Columns)
             {
@@ -480,6 +483,18 @@ namespace enquiryMaster
                     row.Cells[allocatedToCadIndex].Style.BackColor = Color.MediumAquamarine;
                 if (row.Cells[onHoldIndex].Value.ToString() == "-1")
                     row.Cells[allocatedToCadIndex].Style.BackColor = Color.LightSkyBlue;
+
+                if (row.Cells[tender_index].Value.ToString().Length > 0)
+                {
+                    row.Cells[idIndex].Style.BackColor = Color.Gainsboro;
+                    row.Cells[recievedTimeIndex].Style.BackColor = Color.Gainsboro;
+                    row.Cells[senderEmailIndex].Style.BackColor = Color.Gainsboro;
+                    row.Cells[subjectIndex].Style.BackColor = Color.Gainsboro;
+                    row.Cells[revisionCheckboxIndex].Style.BackColor = Color.Gainsboro;
+                    row.Cells[priceQtyRequiredIndex].Style.BackColor = Color.Gainsboro;
+                    row.Cells[statusIndex].Style.BackColor = Color.Gainsboro;
+                    row.Cells[allocatedToIndex].Style.BackColor = Color.Gainsboro;
+                }
 
             }
         }
@@ -595,14 +610,14 @@ namespace enquiryMaster
                         var data = cmd.ExecuteScalar().ToString();
                         if (data != null)
                         {
-                            if (Convert.ToInt32(data) != CONNECT.staffID)
-                            {
-                                ////prompt the user to confirm
-                                //frmConfirmBox frm = new frmConfirmBox();
-                                //frm.ShowDialog();
-                                //if (CONNECT.confirmCorrect == false)
-                                //return;
-                            }
+                            //if (Convert.ToInt32(data) != CONNECT.staffID)
+                            //{
+                            //    ////prompt the user to confirm
+                            //    //frmConfirmBox frm = new frmConfirmBox();
+                            //    //frm.ShowDialog();
+                            //    //if (CONNECT.confirmCorrect == false)
+                            //    //return;
+                            //}
                             //update the entry
                             sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + CONNECT.staffID + ",status_id = 3,processed_by_id = " + CONNECT.staffID + ",processed_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
                             using (SqlCommand cmdUpdate = new SqlCommand(sql, conn))
@@ -713,11 +728,11 @@ namespace enquiryMaster
         private void reshuffleToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            //lock this behind a password
-            frmRefreshPassword frm = new frmRefreshPassword();
-            frm.ShowDialog();
-            if (CONNECT.confirmCorrect == true)
-            {
+            ////lock this behind a password
+            //frmRefreshPassword frm = new frmRefreshPassword();
+            //frm.ShowDialog();
+            //if (CONNECT.confirmCorrect == true)
+            //{
                 using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
                 {
                     conn.Open();
@@ -730,7 +745,7 @@ namespace enquiryMaster
                 } //this is the 
                 CONNECT.confirmCorrect = false;
                 apply_filter();
-            }
+            //}
         }
 
         private void cADLOGToolStripMenuItem_Click(object sender, EventArgs e)
@@ -761,7 +776,7 @@ namespace enquiryMaster
         {
             frmAllocateStaff frm = new frmAllocateStaff();
             frm.ShowDialog();
-         //   reshuffleToolStripMenuItem.PerformClick();
+            reshuffleToolStripMenuItem.PerformClick();
         }
 
         private void aRCHIVEToolStripMenuItem_Click(object sender, EventArgs e)

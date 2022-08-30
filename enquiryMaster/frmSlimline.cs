@@ -725,7 +725,7 @@ namespace enquiryMaster
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
             {
                 conn.Open();
-                using (SqlCommand cmd = new SqlCommand("usp_shuffle_load", conn))
+                using (SqlCommand cmd = new SqlCommand("usp_shuffle_load_slimline", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.ExecuteNonQuery();
