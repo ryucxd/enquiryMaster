@@ -49,6 +49,7 @@ namespace enquiryMaster
         public int completeButton { get; set; }
         public int cancelButtonIndex { get; set; }
         public int tender_index { get; set; }
+        public int pending_index { get; set; }
 
 
         public frmMain()
@@ -110,7 +111,7 @@ namespace enquiryMaster
 
             //get the main datagridview filtered (and apply any colourts etc
             string sql = "SET DATEFORMAT dmy;SELECT TOP 300 enquiry_log.id,recieved_time,sender_email_address,[subject],priority_job,revision,price_qty_required,es.[description] as [status],u_estimator.forename + ' ' + u_estimator.surname as allocated_to," +
-                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date,tender_due_date FROM dbo.enquiry_log WITH(NOLOCK) " +
+                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date,tender_due_date,estimator_note_pending FROM dbo.enquiry_log WITH(NOLOCK) " +
                 "LEFT JOIN[user_info].dbo.[user] u_estimator on u_estimator.id = Enquiry_Log.allocated_to_id " +
                 "LEFT JOIN[user_info].dbo.[user] u_cad on u_cad.id = Enquiry_Log.allocated_to_cad_id " +
                 "LEFT JOIN enquiry_status es on es.id = Enquiry_Log.status_id " +
@@ -342,6 +343,8 @@ namespace enquiryMaster
             if (dgvEnquiryLog.Columns.Contains("Cancel") == true)
                 cancelButtonIndex = dgvEnquiryLog.Columns["Cancel"].Index;
             tender_index = dgvEnquiryLog.Columns["tender_due_date"].Index;
+            pending_index = dgvEnquiryLog.Columns["estimator_note_pending"].Index;
+
         }
         private void format()
         {
@@ -492,8 +495,19 @@ namespace enquiryMaster
                     row.Cells[subjectIndex].Style.BackColor = Color.Gainsboro;
                     row.Cells[revisionCheckboxIndex].Style.BackColor = Color.Gainsboro;
                     row.Cells[priceQtyRequiredIndex].Style.BackColor = Color.Gainsboro;
-                    row.Cells[statusIndex].Style.BackColor = Color.Gainsboro;
+                    //row.Cells[statusIndex].Style.BackColor = Color.Gainsboro;
                     row.Cells[allocatedToIndex].Style.BackColor = Color.Gainsboro;
+                }
+                if (row.Cells[pending_index].Value.ToString() == "-1")
+                {
+                    row.Cells[idIndex].Style.BackColor = Color.Salmon;
+                    row.Cells[recievedTimeIndex].Style.BackColor = Color.Salmon;
+                    row.Cells[senderEmailIndex].Style.BackColor = Color.Salmon;
+                    row.Cells[subjectIndex].Style.BackColor = Color.Salmon;
+                    row.Cells[revisionCheckboxIndex].Style.BackColor = Color.Salmon;
+                    row.Cells[priceQtyRequiredIndex].Style.BackColor = Color.Salmon;
+                    row.Cells[statusIndex].Style.BackColor = Color.Salmon;
+                    row.Cells[allocatedToIndex].Style.BackColor = Color.Salmon;
                 }
 
             }
@@ -658,7 +672,7 @@ namespace enquiryMaster
                 //update the columns + then reshuffle
                 //"UPDATE dbo_enquiry_log SET  allocated_to_id = " & TempVars!gl_userid & ", status_id = 4, complete_by_id =" & TempVars!gl_userid & ", complete_date = '" & Now() & "' WHERE id = " & Me.id
 
-                sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + CONNECT.staffID.ToString() + ",status_id = 4,complete_by_id = " + CONNECT.staffID + ", complete_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
+                sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + CONNECT.staffID.ToString() + ",status_id = 4,complete_by_id = " + CONNECT.staffID + ", complete_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',estimator_note_pending = 0 WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
                 using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
                 {
                     conn.Open();
