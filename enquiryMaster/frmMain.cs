@@ -50,6 +50,7 @@ namespace enquiryMaster
         public int cancelButtonIndex { get; set; }
         public int tender_index { get; set; }
         public int pending_index { get; set; }
+        public int estimator_note_index { get; set; }
 
 
         public frmMain()
@@ -397,6 +398,7 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns[priorityJobIndex].Visible = false;
             dgvEnquiryLog.Columns[onHoldIndex].Visible = false;
             dgvEnquiryLog.Columns[tender_index].Visible = false;
+            dgvEnquiryLog.Columns[pending_index].Visible = false;
 
             foreach (DataGridViewColumn col in dgvEnquiryLog.Columns)
             {

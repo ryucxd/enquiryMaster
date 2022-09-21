@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSlimline));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label9 = new System.Windows.Forms.Label();
             this.cADLOGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -72,13 +72,13 @@
             this.txtID = new System.Windows.Forms.TextBox();
             this.dgvEnquiryLog = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.allocateUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label11 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
-            this.chkPriority = new System.Windows.Forms.CheckBox();
             this.chkTenders = new System.Windows.Forms.CheckBox();
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.allocateUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkFilter = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCAD)).BeginInit();
@@ -235,7 +235,7 @@
             // chkOutstanding
             // 
             this.chkOutstanding.AutoSize = true;
-            this.chkOutstanding.Location = new System.Drawing.Point(903, 86);
+            this.chkOutstanding.Location = new System.Drawing.Point(903, 109);
             this.chkOutstanding.Name = "chkOutstanding";
             this.chkOutstanding.Size = new System.Drawing.Size(113, 17);
             this.chkOutstanding.TabIndex = 63;
@@ -259,14 +259,14 @@
             this.dgvCAD.AllowUserToAddRows = false;
             this.dgvCAD.AllowUserToDeleteRows = false;
             this.dgvCAD.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvCAD.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvCAD.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvCAD.Location = new System.Drawing.Point(548, 34);
             this.dgvCAD.Name = "dgvCAD";
             this.dgvCAD.ReadOnly = true;
@@ -279,14 +279,14 @@
             this.dgvEstimator.AllowUserToAddRows = false;
             this.dgvEstimator.AllowUserToDeleteRows = false;
             this.dgvEstimator.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvEstimator.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvEstimator.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvEstimator.Location = new System.Drawing.Point(322, 34);
             this.dgvEstimator.Name = "dgvEstimator";
             this.dgvEstimator.ReadOnly = true;
@@ -296,7 +296,7 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(1488, 198);
+            this.btnClear.Location = new System.Drawing.Point(1488, 199);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 59;
@@ -510,6 +510,13 @@
             this.menuStrip1.TabIndex = 73;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // allocateUsersToolStripMenuItem
+            // 
+            this.allocateUsersToolStripMenuItem.Name = "allocateUsersToolStripMenuItem";
+            this.allocateUsersToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.allocateUsersToolStripMenuItem.Text = "Allocate Users";
+            this.allocateUsersToolStripMenuItem.Click += new System.EventHandler(this.allocateUsersToolStripMenuItem_Click);
+            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -530,17 +537,6 @@
             this.label20.Size = new System.Drawing.Size(59, 20);
             this.label20.TabIndex = 74;
             this.label20.Text = "Tender";
-            // 
-            // chkPriority
-            // 
-            this.chkPriority.AutoSize = true;
-            this.chkPriority.Location = new System.Drawing.Point(903, 109);
-            this.chkPriority.Name = "chkPriority";
-            this.chkPriority.Size = new System.Drawing.Size(87, 17);
-            this.chkPriority.TabIndex = 76;
-            this.chkPriority.Text = "Show Priority";
-            this.chkPriority.UseVisualStyleBackColor = true;
-            this.chkPriority.CheckedChanged += new System.EventHandler(this.chkPriority_CheckedChanged);
             // 
             // chkTenders
             // 
@@ -574,22 +570,26 @@
             this.label22.TabIndex = 78;
             this.label22.Text = "Priority";
             // 
-            // allocateUsersToolStripMenuItem
+            // chkFilter
             // 
-            this.allocateUsersToolStripMenuItem.Name = "allocateUsersToolStripMenuItem";
-            this.allocateUsersToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
-            this.allocateUsersToolStripMenuItem.Text = "Allocate Users";
-            this.allocateUsersToolStripMenuItem.Click += new System.EventHandler(this.allocateUsersToolStripMenuItem_Click);
+            this.chkFilter.AutoSize = true;
+            this.chkFilter.Location = new System.Drawing.Point(903, 86);
+            this.chkFilter.Name = "chkFilter";
+            this.chkFilter.Size = new System.Drawing.Size(82, 17);
+            this.chkFilter.TabIndex = 80;
+            this.chkFilter.Text = "Priority Filter";
+            this.chkFilter.UseVisualStyleBackColor = true;
+            this.chkFilter.CheckedChanged += new System.EventHandler(this.chkFilter_CheckedChanged);
             // 
             // frmSlimline
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1777, 752);
+            this.Controls.Add(this.chkFilter);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.chkTenders);
-            this.Controls.Add(this.chkPriority);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.groupBox1);
@@ -686,10 +686,10 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.CheckBox chkPriority;
         private System.Windows.Forms.CheckBox chkTenders;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.ToolStripMenuItem allocateUsersToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkFilter;
     }
 }

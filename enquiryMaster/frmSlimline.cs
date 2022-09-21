@@ -49,11 +49,15 @@ namespace enquiryMaster
         public int completeButton { get; set; }
         public int cancelButtonIndex { get; set; }
         public int tenderDueDatIndex { get; set; }
+        public int priorityIndex { get; set; }
+
+        public int priorityFilter { get; set; }
         public frmSlimline()
         {
             InitializeComponent();
             this.Icon = Properties.Resources.windows_log_off;
             this.Text = "Slimline Enquiry Log - " + CONNECT.staffFullName;
+            priorityFilter = 0;
 
         }
 
@@ -64,7 +68,7 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns.Clear();
 
             //get the main datagridview filtered (and apply any colourts etc
-            string sql = "SET DATEFORMAT dmy;SELECT TOP 300 enquiry_log.id,recieved_time,sender_email_address,[subject],priority_job,revision,price_qty_required,es.[description] as [status],u_estimator.forename + ' ' + u_estimator.surname as allocated_to," +
+            string sql = "SET DATEFORMAT dmy;SELECT TOP 300 enquiry_log.id,recieved_time,priority,sender_email_address,[subject],priority_job,revision,price_qty_required,es.[description] as [status],u_estimator.forename + ' ' + u_estimator.surname as allocated_to," +
                 "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date,tender_due_date FROM dbo.enquiry_log WITH(NOLOCK) " +
                 "LEFT JOIN[user_info].dbo.[user] u_estimator on u_estimator.id = Enquiry_Log.allocated_to_id " +
                 "LEFT JOIN[user_info].dbo.[user] u_cad on u_cad.id = Enquiry_Log.allocated_to_cad_id " +
@@ -100,15 +104,20 @@ namespace enquiryMaster
                 sql = sql + "cast(complete_date as date) <= '" + dteEnd.Value.ToString("yyyyMMdd") + "'  AND ";
             if (chkOutstanding.Checked == true)
                 sql = sql + "  (enquiry_log.status_id = 1 or enquiry_log.status_id = 2 or enquiry_log.status_id = 3)   AND ";
-            if (chkPriority.Checked == true)
-                sql = sql + " priority_job = -1   AND  ";
+            //if (chkPriority.Checked == true)
+            //    sql = sql + " priority_job = -1   AND  ";
             if (chkTenders.Checked == true)
                 sql = sql + " tender_due_date is not null   AND  ";
-
+            if (priorityFilter == -1)
+                sql = sql + " priority is not null AND (status_id = 2 or status_id = 3)   AND  ";
 
             sql = sql.Substring(0, sql.Length - 5);
-            sql = sql + "ORDER BY id desc";
 
+            if (priorityFilter == -1)
+                sql = sql + "ORDER BY cast(recieved_time as date) asc, priority asc";
+            else
+                sql = sql + "ORDER BY id desc";
+            
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
             {
                 conn.Open();
@@ -205,6 +214,7 @@ namespace enquiryMaster
                 cancelButtonIndex = dgvEnquiryLog.Columns["Cancel"].Index;
 
             tenderDueDatIndex = dgvEnquiryLog.Columns["tender_due_date"].Index;
+            priorityIndex = dgvEnquiryLog.Columns["priority"].Index;
         }
         private void format()
         {
@@ -237,6 +247,7 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns[cadCompleteCheckboxIndex].HeaderText = "CAD Complete";
             dgvEnquiryLog.Columns[completeDateIndex].HeaderText = "Date Complete";
             dgvEnquiryLog.Columns[tenderDueDatIndex].HeaderText = "Tender Due Date";
+            dgvEnquiryLog.Columns[priorityIndex].HeaderText = "Priority";
 
             try
             {
@@ -282,7 +293,7 @@ namespace enquiryMaster
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
-
+            dgvEnquiryLog.Columns[priorityIndex].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
         private void colour_grid()
         {
@@ -292,6 +303,7 @@ namespace enquiryMaster
                 if (row.Cells[statusIndex].Value.ToString() == "Complete")
                 {
                     row.Cells[idIndex].Style.BackColor = Color.MediumAquamarine;
+                    row.Cells[priorityIndex].Style.BackColor = Color.MediumAquamarine;
                     row.Cells[recievedTimeIndex].Style.BackColor = Color.MediumAquamarine;
                     row.Cells[senderEmailIndex].Style.BackColor = Color.MediumAquamarine;
                     row.Cells[subjectIndex].Style.BackColor = Color.MediumAquamarine;
@@ -304,6 +316,7 @@ namespace enquiryMaster
                 if (row.Cells[statusIndex].Value.ToString() == "Checked")
                 {
                     row.Cells[idIndex].Style.BackColor = Color.PaleVioletRed;
+                    row.Cells[priorityIndex].Style.BackColor = Color.PaleVioletRed;
                     row.Cells[recievedTimeIndex].Style.BackColor = Color.PaleVioletRed;
                     row.Cells[senderEmailIndex].Style.BackColor = Color.PaleVioletRed;
                     row.Cells[subjectIndex].Style.BackColor = Color.PaleVioletRed;
@@ -316,6 +329,7 @@ namespace enquiryMaster
                 if (row.Cells[statusIndex].Value.ToString() == "Processing")
                 {
                     row.Cells[idIndex].Style.BackColor = Color.Gold;
+                    row.Cells[priorityIndex].Style.BackColor = Color.Gold;
                     row.Cells[recievedTimeIndex].Style.BackColor = Color.Gold;
                     row.Cells[senderEmailIndex].Style.BackColor = Color.Gold;
                     row.Cells[subjectIndex].Style.BackColor = Color.Gold;
@@ -328,6 +342,7 @@ namespace enquiryMaster
                 if (row.Cells[onHoldIndex].Value.ToString() == "-1")
                 {
                     row.Cells[idIndex].Style.BackColor = Color.LightSkyBlue;
+                    row.Cells[priorityIndex].Style.BackColor = Color.LightSkyBlue;
                     row.Cells[recievedTimeIndex].Style.BackColor = Color.LightSkyBlue;
                     row.Cells[senderEmailIndex].Style.BackColor = Color.LightSkyBlue;
                     row.Cells[subjectIndex].Style.BackColor = Color.LightSkyBlue;
@@ -600,7 +615,7 @@ namespace enquiryMaster
 
         private void dgvEnquiryLog_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == idIndex || e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex)
+            if (e.ColumnIndex == idIndex || e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex || e.ColumnIndex == priorityIndex)
                 dgvEnquiryLog.Cursor = Cursors.Hand;
             else
                 dgvEnquiryLog.Cursor = Cursors.Default;
@@ -611,7 +626,7 @@ namespace enquiryMaster
             string sql = "";
             if (e.RowIndex < 0)
                 return;
-            if (e.ColumnIndex == idIndex || e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex)
+            if (e.ColumnIndex == idIndex || e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex || e.ColumnIndex == priorityIndex)
             {
                 frmEnquiryDetails frm = new frmEnquiryDetails(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[0].Value.ToString()));
                 frm.ShowDialog();
@@ -758,6 +773,15 @@ namespace enquiryMaster
             frmAllocateStaff frm = new frmAllocateStaff();
             frm.ShowDialog();
             reshuffleToolStripMenuItem.PerformClick();
+        }
+
+        private void chkFilter_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkFilter.Checked == true)
+                priorityFilter = -1;
+            else
+                priorityFilter = 0;
+            apply_filter();
         }
     }
 }

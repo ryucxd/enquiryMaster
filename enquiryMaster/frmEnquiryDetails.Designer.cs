@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -59,6 +59,8 @@
             this.btnCadComplete = new System.Windows.Forms.Button();
             this.btnPrintCad = new System.Windows.Forms.Button();
             this.txtCadDrawingsRequired = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.richOnHoldNote = new System.Windows.Forms.RichTextBox();
             this.chkDetailed = new System.Windows.Forms.CheckBox();
             this.label20 = new System.Windows.Forms.Label();
             this.chkOnHold = new System.Windows.Forms.CheckBox();
@@ -92,12 +94,11 @@
             this.dgvAttachments = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.richOnHoldNote = new System.Windows.Forms.RichTextBox();
-            this.label21 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.chkResolved = new System.Windows.Forms.CheckBox();
             this.label29 = new System.Windows.Forms.Label();
             this.txtEstimatorNote = new System.Windows.Forms.RichTextBox();
-            this.chkResolved = new System.Windows.Forms.CheckBox();
-            this.label30 = new System.Windows.Forms.Label();
+            this.cmbABC = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -433,6 +434,26 @@
             this.txtCadDrawingsRequired.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCadDrawingsRequired_KeyPress);
             this.txtCadDrawingsRequired.Leave += new System.EventHandler(this.txtCadDrawingsRequired_Leave);
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(26, 165);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(43, 15);
+            this.label21.TabIndex = 21;
+            this.label21.Text = "NOTE:";
+            // 
+            // richOnHoldNote
+            // 
+            this.richOnHoldNote.Location = new System.Drawing.Point(22, 183);
+            this.richOnHoldNote.Name = "richOnHoldNote";
+            this.richOnHoldNote.Size = new System.Drawing.Size(423, 74);
+            this.richOnHoldNote.TabIndex = 20;
+            this.richOnHoldNote.Text = "";
+            this.richOnHoldNote.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richOnHoldNote_KeyDown);
+            this.richOnHoldNote.Leave += new System.EventHandler(this.richOnHoldNote_Leave);
+            // 
             // chkDetailed
             // 
             this.chkDetailed.AutoSize = true;
@@ -716,6 +737,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.cmbABC);
             this.groupBox4.Controls.Add(this.btnPrint);
             this.groupBox4.Controls.Add(this.label2);
             this.groupBox4.Controls.Add(this.label3);
@@ -751,14 +773,14 @@
             this.dgvAttachments.AllowUserToResizeColumns = false;
             this.dgvAttachments.AllowUserToResizeRows = false;
             this.dgvAttachments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvAttachments.Location = new System.Drawing.Point(753, 776);
             this.dgvAttachments.Name = "dgvAttachments";
             this.dgvAttachments.RowHeadersVisible = false;
@@ -789,25 +811,24 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Estimator Notes";
             // 
-            // richOnHoldNote
+            // label30
             // 
-            this.richOnHoldNote.Location = new System.Drawing.Point(22, 183);
-            this.richOnHoldNote.Name = "richOnHoldNote";
-            this.richOnHoldNote.Size = new System.Drawing.Size(423, 74);
-            this.richOnHoldNote.TabIndex = 20;
-            this.richOnHoldNote.Text = "";
-            this.richOnHoldNote.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richOnHoldNote_KeyDown);
-            this.richOnHoldNote.Leave += new System.EventHandler(this.richOnHoldNote_Leave);
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(403, 42);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(46, 13);
+            this.label30.TabIndex = 25;
+            this.label30.Text = "Pending";
             // 
-            // label21
+            // chkResolved
             // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(26, 165);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(43, 15);
-            this.label21.TabIndex = 21;
-            this.label21.Text = "NOTE:";
+            this.chkResolved.AutoSize = true;
+            this.chkResolved.Location = new System.Drawing.Point(418, 59);
+            this.chkResolved.Name = "chkResolved";
+            this.chkResolved.Size = new System.Drawing.Size(15, 14);
+            this.chkResolved.TabIndex = 24;
+            this.chkResolved.UseVisualStyleBackColor = true;
+            this.chkResolved.CheckedChanged += new System.EventHandler(this.chkResolved_CheckedChanged);
             // 
             // label29
             // 
@@ -829,24 +850,18 @@
             this.txtEstimatorNote.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtEstimatorNote_KeyDown);
             this.txtEstimatorNote.Leave += new System.EventHandler(this.txtEstimatorNote_Leave);
             // 
-            // chkResolved
+            // cmbABC
             // 
-            this.chkResolved.AutoSize = true;
-            this.chkResolved.Location = new System.Drawing.Point(418, 59);
-            this.chkResolved.Name = "chkResolved";
-            this.chkResolved.Size = new System.Drawing.Size(15, 14);
-            this.chkResolved.TabIndex = 24;
-            this.chkResolved.UseVisualStyleBackColor = true;
-            this.chkResolved.CheckedChanged += new System.EventHandler(this.chkResolved_CheckedChanged);
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(403, 42);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(46, 13);
-            this.label30.TabIndex = 25;
-            this.label30.Text = "Pending";
+            this.cmbABC.FormattingEnabled = true;
+            this.cmbABC.Items.AddRange(new object[] {
+            "A",
+            "B",
+            "C"});
+            this.cmbABC.Location = new System.Drawing.Point(79, 126);
+            this.cmbABC.Name = "cmbABC";
+            this.cmbABC.Size = new System.Drawing.Size(49, 21);
+            this.cmbABC.TabIndex = 27;
+            this.cmbABC.SelectedIndexChanged += new System.EventHandler(this.cmbABC_SelectedIndexChanged);
             // 
             // frmEnquiryDetails
             // 
@@ -956,5 +971,6 @@
         private System.Windows.Forms.CheckBox chkResolved;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.RichTextBox txtEstimatorNote;
+        private System.Windows.Forms.ComboBox cmbABC;
     }
 }
