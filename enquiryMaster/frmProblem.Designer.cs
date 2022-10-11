@@ -42,6 +42,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.dteCreated = new System.Windows.Forms.DateTimePicker();
+            this.btnPrint = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtIssue
@@ -50,7 +51,7 @@
             this.txtIssue.Location = new System.Drawing.Point(12, 319);
             this.txtIssue.Name = "txtIssue";
             this.txtIssue.Size = new System.Drawing.Size(761, 167);
-            this.txtIssue.TabIndex = 0;
+            this.txtIssue.TabIndex = 3;
             this.txtIssue.Text = "";
             // 
             // lblTitle
@@ -67,10 +68,10 @@
             // 
             this.btnAttachments.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnAttachments.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.btnAttachments.Location = new System.Drawing.Point(289, 698);
+            this.btnAttachments.Location = new System.Drawing.Point(225, 698);
             this.btnAttachments.Name = "btnAttachments";
             this.btnAttachments.Size = new System.Drawing.Size(103, 25);
-            this.btnAttachments.TabIndex = 2;
+            this.btnAttachments.TabIndex = 200;
             this.btnAttachments.Text = "Attachments";
             this.btnAttachments.UseVisualStyleBackColor = true;
             this.btnAttachments.Click += new System.EventHandler(this.btnAttachments_Click);
@@ -79,10 +80,10 @@
             // 
             this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.btnSave.Location = new System.Drawing.Point(398, 698);
+            this.btnSave.Location = new System.Drawing.Point(443, 698);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(103, 25);
-            this.btnSave.TabIndex = 3;
+            this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save ";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -105,7 +106,7 @@
             this.txtRequestedChange.Location = new System.Drawing.Point(16, 113);
             this.txtRequestedChange.Name = "txtRequestedChange";
             this.txtRequestedChange.Size = new System.Drawing.Size(761, 167);
-            this.txtRequestedChange.TabIndex = 4;
+            this.txtRequestedChange.TabIndex = 2;
             this.txtRequestedChange.Text = "";
             // 
             // label2
@@ -124,7 +125,7 @@
             this.txtProblems.Location = new System.Drawing.Point(12, 525);
             this.txtProblems.Name = "txtProblems";
             this.txtProblems.Size = new System.Drawing.Size(761, 167);
-            this.txtProblems.TabIndex = 6;
+            this.txtProblems.TabIndex = 4;
             this.txtProblems.Text = "";
             // 
             // label3
@@ -146,7 +147,7 @@
             this.txtProject.Location = new System.Drawing.Point(289, 14);
             this.txtProject.Name = "txtProject";
             this.txtProject.Size = new System.Drawing.Size(285, 24);
-            this.txtProject.TabIndex = 10;
+            this.txtProject.TabIndex = 0;
             // 
             // txtQuantity
             // 
@@ -154,7 +155,8 @@
             this.txtQuantity.Location = new System.Drawing.Point(289, 46);
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(80, 24);
-            this.txtQuantity.TabIndex = 12;
+            this.txtQuantity.TabIndex = 1;
+            this.txtQuantity.Text = "0";
             this.txtQuantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtQuantity_KeyPress);
             // 
             // label4
@@ -192,11 +194,24 @@
             this.dteCreated.Size = new System.Drawing.Size(121, 20);
             this.dteCreated.TabIndex = 14;
             // 
+            // btnPrint
+            // 
+            this.btnPrint.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.btnPrint.Location = new System.Drawing.Point(334, 698);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(103, 25);
+            this.btnPrint.TabIndex = 15;
+            this.btnPrint.Text = "Print";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
             // frmProblem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(785, 730);
+            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.dteCreated);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtQuantity);
@@ -235,5 +250,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DateTimePicker dteCreated;
+        private System.Windows.Forms.Button btnPrint;
     }
 }

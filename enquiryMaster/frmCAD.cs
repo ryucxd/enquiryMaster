@@ -213,7 +213,7 @@ namespace enquiryMaster
             cadDueDateIndex = dgvEnquiryLog.Columns["cad_due_date"].Index;
             onHoldIndex = dgvEnquiryLog.Columns["on_hold"].Index;
             allocatedToCadIndex = dgvEnquiryLog.Columns["allocated_to_cad_id"].Index;
-            
+
             if (dgvEnquiryLog.Columns.Contains("cad_complete_checkbox") == true)
                 cadCompleteCheckboxIndex = dgvEnquiryLog.Columns["cad_complete_checkbox"].Index;
             if (dgvEnquiryLog.Columns.Contains("Process") == true)
@@ -309,7 +309,7 @@ namespace enquiryMaster
             problemButton.Name = "problem_button";
             problemButton.UseColumnTextForButtonValue = true;
             problemButton.Text = "Add/View";
-            dgvEnquiryLog.Columns.Insert(estimatorClickIndex + 1,problemButton);
+            dgvEnquiryLog.Columns.Insert(estimatorClickIndex + 1, problemButton);
             column_index_refresh();
 
 
@@ -492,7 +492,7 @@ namespace enquiryMaster
             if (e.RowIndex < 0)
                 return;
             int enquiry_id = Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[0].Value.ToString());
-            if (e.ColumnIndex == idIndex ||e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex)
+            if (e.ColumnIndex == idIndex || e.ColumnIndex == recievedTimeIndex || e.ColumnIndex == senderEmailIndex || e.ColumnIndex == subjectIndex)
             {
                 frmEnquiryDetails frm = new frmEnquiryDetails(enquiry_id);
                 frm.ShowDialog();
@@ -504,7 +504,7 @@ namespace enquiryMaster
                 //if cad compelte dont allow this
                 if (dgvEnquiryLog.Rows[e.RowIndex].Cells[cadCompleteIndex].Value.ToString() == "-1")
                 {
-                    MessageBox.Show("This job is already marked as complete in CAD.", "Action Aborted", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+                    MessageBox.Show("This job is already marked as complete in CAD.", "Action Aborted", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
                 frmAllocateCad frm = new frmAllocateCad();
@@ -560,7 +560,7 @@ namespace enquiryMaster
                             MessageBox.Show("Action Cancelled.", "Aborted", MessageBoxButtons.OK);
                             return;
                         }
-                        sql = "UPDATE dbo.enquiry_log SET on_hold_note = '"+ CONNECT.cadOnHoldNote + "', on_hold = -1 WHERE id = " + enquiry_id;
+                        sql = "UPDATE dbo.enquiry_log SET on_hold_note = '" + CONNECT.cadOnHoldNote + "', on_hold = -1 WHERE id = " + enquiry_id;
                     }
                     else
                     {
@@ -568,12 +568,12 @@ namespace enquiryMaster
                         return;
                     }
                 }
-                using (SqlConnection conn =new SqlConnection(CONNECT.ConnectionString))
+                using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
                 {
                     conn.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                         cmd.ExecuteNonQuery();
-                        conn.Close();
+                    conn.Close();
                 }
                 rowID = e.RowIndex;
                 apply_filter();
@@ -594,15 +594,29 @@ namespace enquiryMaster
                             DialogResult result = MessageBox.Show("Are you sure you want to log " + enquiry_id.ToString() + " as a problem?", "Enquiry Problem", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                             if (result == DialogResult.Yes)
                             {
-                                sql = "INSERT INTO dbo.problem_log (enquiry_id,date_created,logged_by) VALUES (" + enquiry_id.ToString() + ",GETDATE()," + CONNECT.staffID + ")";
+                                //very quickly get the estimator note
+                                string estimator_note = "";
+                                sql = "select cad_note +' - ' + u.forename + ' ' + u.surname from dbo.Enquiry_Log e " +
+                                    "left join[user_info].dbo.[user] u on e.estimator_id = u.id where e.id = " + enquiry_id.ToString();
+                                using (SqlCommand cmdNote = new SqlCommand(sql, conn))
+                                    estimator_note = (string)cmdNote.ExecuteScalar();
+
+                                    sql = "INSERT INTO dbo.problem_log (enquiry_id,date_created,logged_by,requested_change) VALUES (" + enquiry_id.ToString() + ",GETDATE()," + CONNECT.staffID + ",'" + estimator_note + "')";
                                 using (SqlCommand cmdInsert = new SqlCommand(sql, conn))
                                     cmdInsert.ExecuteNonQuery();
                             }
                             else
                                 return;
                         }
+                        else
+                        {
+                            //update activity log
+                            sql = "INSERT INTO dbo.problem_log_activity (problem_log_id,viewed,viewed_by,printed,printed_by,date_of_action) VALUES (" + data + ",-1," + CONNECT.staffID.ToString() + ",NULL,NULL,GETDATE())";
+                            using (SqlCommand cmdActivity = new SqlCommand(sql, conn))
+                                cmdActivity.ExecuteNonQuery();
+                        }
                     }
-                        conn.Close();
+                    conn.Close();
                 }
 
                 frmProblem frm = new frmProblem(enquiry_id);
