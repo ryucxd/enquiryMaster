@@ -62,6 +62,12 @@
             this.eNQUIRYLOGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.chkProblems = new System.Windows.Forms.CheckBox();
+            this.label23 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCAD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEnquiryLog)).BeginInit();
@@ -174,7 +180,7 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(786, 191);
+            this.btnClear.Location = new System.Drawing.Point(833, 188);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 58;
@@ -396,11 +402,82 @@
             this.label6.TabIndex = 78;
             this.label6.Text = "Priority";
             // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.MediumAquamarine;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(1641, 215);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(29, 20);
+            this.label8.TabIndex = 83;
+            this.label8.Text = "     ";
+            // 
+            // label9
+            // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Gold;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(1641, 191);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(29, 20);
+            this.label9.TabIndex = 82;
+            this.label9.Text = "     ";
+            // 
+            // label21
+            // 
+            this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(1676, 215);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(59, 20);
+            this.label21.TabIndex = 81;
+            this.label21.Text = "Printed";
+            // 
+            // label22
+            // 
+            this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(1676, 191);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(88, 20);
+            this.label22.TabIndex = 80;
+            this.label22.Text = "Not Printed";
+            // 
+            // chkProblems
+            // 
+            this.chkProblems.AutoSize = true;
+            this.chkProblems.Location = new System.Drawing.Point(796, 196);
+            this.chkProblems.Name = "chkProblems";
+            this.chkProblems.Size = new System.Drawing.Size(15, 14);
+            this.chkProblems.TabIndex = 84;
+            this.chkProblems.UseVisualStyleBackColor = true;
+            this.chkProblems.CheckedChanged += new System.EventHandler(this.chkProblems_CheckedChanged);
+            // 
+            // label23
+            // 
+            this.label23.Location = new System.Drawing.Point(778, 167);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(55, 23);
+            this.label23.TabIndex = 85;
+            this.label23.Text = "Problems";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
             // frmCAD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1777, 752);
+            this.Controls.Add(this.label23);
+            this.Controls.Add(this.chkProblems);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.label22);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label4);
@@ -478,5 +555,11 @@
         private System.Windows.Forms.ToolStripMenuItem eNQUIRYLOGToolStripMenuItem;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.CheckBox chkProblems;
+        private System.Windows.Forms.Label label23;
     }
 }

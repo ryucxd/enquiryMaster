@@ -40,6 +40,7 @@ namespace enquiryMaster
         public int dteRecievedStartChange { get; set; }
         public int dteRecievedEndChange { get; set; }
         public int problemIndex { get; set; }
+        public int problemIdentifierIndex { get; set; }
         public frmCAD()
         {
             InitializeComponent();
@@ -54,8 +55,9 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns.Clear();
             string sql = "SELECT top 200 enquiry_log.id,recieved_time,sender_email_address,[subject],CASE WHEN priority_job = -1 and cad_complete = -1 then 0 WHEN priority_job = -1 AND cad_complete = 0 THEN - 1 " +
                 "WHEN priority_job = -1 AND cad_complete is null THEN - 1 ELSE 0 END as priority_job_temp ,revision,drawing_qty_required,cad_due_date," +
-                "on_hold,cad_u.forename + ' ' + cad_u.surname as allocated_to_cad_id, processed_cad_by_id,case when cad_complete is null then 0 when cad_complete = 0 then 0 else -1 end as cad_complete,as_built,complete_cad_date,estimator_u.forename + ' ' + estimator_u.surname as estimator,estimator_cad_click_stamp " +
-                "FROM dbo.Enquiry_Log left join[user_info].dbo.[user] estimator_u on estimator_u.id = estimator_id left join[user_info].dbo.[user] cad_u on cad_u.id = allocated_to_cad_id  WHERE  (slimline_request=0 or slimline_request is null) AND requires_cad = -1     AND ";
+                "on_hold,cad_u.forename + ' ' + cad_u.surname as allocated_to_cad_id, processed_cad_by_id,case when cad_complete is null then 0 when cad_complete = 0 then 0 else -1 end as cad_complete,as_built,complete_cad_date,estimator_u.forename + ' ' + estimator_u.surname as estimator,estimator_cad_click_stamp ,problem_identifier " +
+                "FROM dbo.Enquiry_Log left join[user_info].dbo.[user] estimator_u on estimator_u.id = estimator_id left join[user_info].dbo.[user] cad_u on cad_u.id = allocated_to_cad_id  left join view_problem_log p on Enquiry_Log.id = p.enquiry_id " +
+                "WHERE  (slimline_request=0 or slimline_request is null) AND requires_cad = -1     AND ";
             //filter based on user inputs
             if (txtID.TextLength > 0)
                 sql = sql + " enquiry_log.id like '%" + txtID.Text + "%'  AND ";
@@ -73,6 +75,10 @@ namespace enquiryMaster
                 sql = sql + "recieved_time >= '" + dteRecievedStart.Value.ToString("yyyyMMdd") + "'  AND ";
             if (dteRecievedEndChange == -1)
                 sql = sql + "recieved_time <= '" + dteRecievedEnd.Value.ToString("yyyyMMdd") + "'  AND ";
+   
+            if (chkProblems.Checked == true)
+                sql = sql + "problem_identifier LIKE '%P%'   AND ";
+
             sql = sql.Substring(0, sql.Length - 5);
             sql = sql + "  ORDER BY priority_job_temp,cad_due_date desc, cad_complete desc,id desc";
 
@@ -155,6 +161,8 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns[estimatorIndex].HeaderText = "Estimator";
             dgvEnquiryLog.Columns[estimatorClickIndex].HeaderText = "Requested On";
             dgvEnquiryLog.Columns[problemIndex].HeaderText = "Problem";
+            dgvEnquiryLog.Columns[problemIdentifierIndex].HeaderText = " ";
+
 
             try
             {
@@ -194,7 +202,7 @@ namespace enquiryMaster
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
-
+            dgvEnquiryLog.Columns[problemIdentifierIndex].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
         private void column_index_refresh()
@@ -232,6 +240,7 @@ namespace enquiryMaster
             completeDateIndex = dgvEnquiryLog.Columns["complete_cad_date"].Index;
             estimatorIndex = dgvEnquiryLog.Columns["estimator"].Index;
             estimatorClickIndex = dgvEnquiryLog.Columns["estimator_cad_click_stamp"].Index;
+            problemIdentifierIndex = dgvEnquiryLog.Columns["problem_identifier"].Index;
             if (dgvEnquiryLog.Columns.Contains("problem_button") == true)
                 problemIndex = dgvEnquiryLog.Columns["problem_button"].Index;
 
@@ -309,7 +318,7 @@ namespace enquiryMaster
             problemButton.Name = "problem_button";
             problemButton.UseColumnTextForButtonValue = true;
             problemButton.Text = "Add/View";
-            dgvEnquiryLog.Columns.Insert(estimatorClickIndex + 1, problemButton);
+            dgvEnquiryLog.Columns.Insert(problemIdentifierIndex + 1, problemButton);
             column_index_refresh();
 
 
@@ -351,6 +360,11 @@ namespace enquiryMaster
 
             foreach (DataGridViewRow row in dgvEnquiryLog.Rows)
             {
+                if (row.Cells[problemIdentifierIndex].Value.ToString() == "P.")
+                    row.Cells[problemIdentifierIndex].Style.BackColor = greenColour;
+                if (row.Cells[problemIdentifierIndex].Value.ToString() == "P")
+                    row.Cells[problemIdentifierIndex].Style.BackColor = yellowColour;
+
                 //unique cad stuff
                 if (row.Cells[cadProcessedByIndex].Value.ToString() != "")
                 {
@@ -601,7 +615,7 @@ namespace enquiryMaster
                                 using (SqlCommand cmdNote = new SqlCommand(sql, conn))
                                     estimator_note = (string)cmdNote.ExecuteScalar();
 
-                                    sql = "INSERT INTO dbo.problem_log (enquiry_id,date_created,logged_by,requested_change) VALUES (" + enquiry_id.ToString() + ",GETDATE()," + CONNECT.staffID + ",'" + estimator_note + "')";
+                                sql = "INSERT INTO dbo.problem_log (enquiry_id,date_created,logged_by,requested_change) VALUES (" + enquiry_id.ToString() + ",GETDATE()," + CONNECT.staffID + ",'" + estimator_note + "')";
                                 using (SqlCommand cmdInsert = new SqlCommand(sql, conn))
                                     cmdInsert.ExecuteNonQuery();
                             }
@@ -621,6 +635,7 @@ namespace enquiryMaster
 
                 frmProblem frm = new frmProblem(enquiry_id);
                 frm.ShowDialog();
+                apply_filter();
             }
         }
 
@@ -731,6 +746,11 @@ namespace enquiryMaster
             frmMain frm = new frmMain();
             frm.ShowDialog();
             this.Visible = true;
+        }
+
+        private void chkProblems_CheckedChanged(object sender, EventArgs e)
+        {
+            apply_filter();
         }
     }
 }
