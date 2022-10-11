@@ -10,6 +10,10 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.IO;
+using Microsoft.Win32;
+using System.Drawing.Printing;
+
 
 namespace enquiryMaster
 {
@@ -117,7 +121,7 @@ namespace enquiryMaster
                         using (SqlCommand cmdProblem = new SqlCommand(sql, conn))
                             problem_id = Convert.ToInt32(cmdProblem.ExecuteScalar().ToString());
 
-                            sql = "INSERT INTO dbo.problem_log_activity (problem_log_id,viewed,viewed_by,printed,printed_by,date_of_action) VALUES (" + problem_id + ",NULL,NULL,-1," + CONNECT.staffID.ToString() + ",GETDATE())";
+                        sql = "INSERT INTO dbo.problem_log_activity (problem_log_id,viewed,viewed_by,printed,printed_by,date_of_action) VALUES (" + problem_id + ",NULL,NULL,-1," + CONNECT.staffID.ToString() + ",GETDATE())";
                         using (SqlCommand cmdActivity = new SqlCommand(sql, conn))
                             cmdActivity.ExecuteNonQuery();
 
@@ -126,7 +130,11 @@ namespace enquiryMaster
                 }
             }
 
+            DialogResult result = MessageBox.Show("This will print the current form and ALL OF THE DOCUMENTS IN THE ATTACHMENT FOLDER. Are you sure you want to do this?", "Printing warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.No)
+                return;
 
+            System.IO.Directory.CreateDirectory(@"\\designsvr1\public\Enquiry Log Problems\" + enquiry_id.ToString());
             // Store the Excel processes before opening.
             Process[] processesBefore = Process.GetProcessesByName("excel");
             // Open the file in Excel.
@@ -138,13 +146,10 @@ namespace enquiryMaster
             // Get Excel processes after opening the file.
             Process[] processesAfter = Process.GetProcessesByName("excel");
 
-            //get all the variables for each item on the print out
-            string email = "";
-            //drawing_qty is on the form
-            //cad due date is on the form
-            string estimator = "";
-            string enquiry_notes = "";
-            string date_stamp = "";
+            //attchment count
+            int attachmentCount = Directory.GetFiles(@"\\designsvr1\public\Enquiry Log Problems\" + enquiry_id.ToString(), "*", SearchOption.AllDirectories).Length;
+
+
 
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
             {
@@ -157,15 +162,21 @@ namespace enquiryMaster
                     DataTable dt = new DataTable();
                     da.Fill(dt);
 
-                    xlWorksheet.Cells[1][1].Value2 = dt.Rows[0][0].ToString() ;
-                    xlWorksheet.Cells[2][2].Value2 = dt.Rows[0][1].ToString();
-                    xlWorksheet.Cells[2][3].Value2 = dt.Rows[0][2].ToString();
-                    xlWorksheet.Cells[1][5].Value2 = dt.Rows[0][3].ToString();
-                    xlWorksheet.Cells[1][7].Value2 = dt.Rows[0][4].ToString();
-                    xlWorksheet.Cells[1][9].Value2 = dt.Rows[0][5].ToString();
+                    xlWorksheet.Cells[1][1].Value2 = dt.Rows[0][0].ToString();
+                    xlWorksheet.Cells[1][2].Value2 = "Project: " + dt.Rows[0][1].ToString();
+                    xlWorksheet.Cells[1][3].Value2 = "Drawing QTY: " + dt.Rows[0][2].ToString();
+                    xlWorksheet.Cells[1][6].Value2 = dt.Rows[0][3].ToString();
+                    xlWorksheet.Cells[1][8].Value2 = dt.Rows[0][4].ToString();
+                    xlWorksheet.Cells[1][10].Value2 = dt.Rows[0][5].ToString();
+                    xlWorksheet.Cells[1][4].Value2 = "Attachment QTY: " + attachmentCount.ToString();
+
+
+                    // xlWorksheet.Range["A5"].Columns.AutoFit();
+                    // xlWorksheet.Range["A7"].Rows.AutoFit();
+                    //  xlWorksheet.Range["A9"].Rows.AutoFit();
 
                 }
-               
+
                 conn.Close();
             }
 
@@ -197,7 +208,63 @@ namespace enquiryMaster
                 Process process = Process.GetProcessById(processID);
                 process.Kill();
             }
+
+
+            //adobe printer
+
+            PrinterSettings settings = new PrinterSettings();
+            string default_printer = "";
+            foreach (string printer in PrinterSettings.InstalledPrinters)
+            {
+                settings.PrinterName = printer;
+                if (settings.IsDefaultPrinter)
+                    default_printer = printer;
+            }
+
+            DirectoryInfo d = new DirectoryInfo(@"\\designsvr1\public\Enquiry Log Problems\" + enquiry_id.ToString());
+            foreach (var file in d.GetFiles("*.pdf"))
+                printAdobe(file.FullName, default_printer);
+
+            foreach (var file in d.GetFiles("*.JPG"))
+                printImage(file.FullName, default_printer);
+
+            foreach (var file in d.GetFiles("*.PNG"))
+                printImage(file.FullName, default_printer);
+
+
+
             MessageBox.Show("The printout has been sent to your default printer!", "Print successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+      
+
+        public static void printImage(string file, string printer)
+        {
+            PrintDocument pd = new PrintDocument();
+            pd.PrintPage += (sender, args) =>
+            {
+                Image i = Image.FromFile(file);
+                Point p = new Point(100, 100);
+                args.Graphics.DrawImage(i, 10, 10, i.Width, i.Height);
+            };
+            pd.Print();
+        }
+
+
+        public static void printAdobe(string file, string printer)
+        {
+
+            ProcessStartInfo printProcessInfo = new ProcessStartInfo()
+            {
+                Verb = "print",
+                CreateNoWindow = true,
+                FileName = file,
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+
+            Process printProcess = new Process();
+            printProcess.StartInfo = printProcessInfo;
+            printProcess.Start();
+
         }
     }
 }
