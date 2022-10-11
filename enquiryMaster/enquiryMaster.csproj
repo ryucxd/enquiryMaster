@@ -25,7 +25,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>60</ApplicationRevision>
+    <ApplicationRevision>63</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -138,6 +138,12 @@
     <Compile Include="frmCancel.Designer.cs">
       <DependentUpon>frmCancel.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmProblem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProblem.Designer.cs">
+      <DependentUpon>frmProblem.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmRefreshPassword.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -210,6 +216,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmCancel.resx">
       <DependentUpon>frmCancel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProblem.resx">
+      <DependentUpon>frmProblem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRefreshPassword.resx">
       <DependentUpon>frmRefreshPassword.cs</DependentUpon>

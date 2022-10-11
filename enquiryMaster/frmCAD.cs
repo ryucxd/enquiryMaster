@@ -39,6 +39,7 @@ namespace enquiryMaster
         public int rowID { get; set; }
         public int dteRecievedStartChange { get; set; }
         public int dteRecievedEndChange { get; set; }
+        public int problemIndex { get; set; }
         public frmCAD()
         {
             InitializeComponent();
@@ -153,6 +154,7 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns[completeDateIndex].HeaderText = "Complete Date";
             dgvEnquiryLog.Columns[estimatorIndex].HeaderText = "Estimator";
             dgvEnquiryLog.Columns[estimatorClickIndex].HeaderText = "Requested On";
+            dgvEnquiryLog.Columns[problemIndex].HeaderText = "Problem";
 
             try
             {
@@ -230,6 +232,8 @@ namespace enquiryMaster
             completeDateIndex = dgvEnquiryLog.Columns["complete_cad_date"].Index;
             estimatorIndex = dgvEnquiryLog.Columns["estimator"].Index;
             estimatorClickIndex = dgvEnquiryLog.Columns["estimator_cad_click_stamp"].Index;
+            if (dgvEnquiryLog.Columns.Contains("problem_button") == true)
+                problemIndex = dgvEnquiryLog.Columns["problem_button"].Index;
 
 
 
@@ -250,6 +254,10 @@ namespace enquiryMaster
             if (dgvEnquiryLog.Columns.Contains("CAD Comp/Hold") == true)
             {
                 dgvEnquiryLog.Columns.Remove("CAD Comp/Hold");
+            }
+            if (dgvEnquiryLog.Columns.Contains("problem_button") == true)
+            {
+                dgvEnquiryLog.Columns.Remove("problem_button");
             }
 
 
@@ -294,6 +302,18 @@ namespace enquiryMaster
             asBuiltCheckbox.Name = "as_built_checkbox";
             dgvEnquiryLog.Columns.Insert(asBuiltIndex, asBuiltCheckbox);
             column_index_refresh();
+
+
+            DataGridViewButtonColumn problemButton = new DataGridViewButtonColumn();
+            problemButton.HeaderText = "problem_button";
+            problemButton.Name = "problem_button";
+            problemButton.UseColumnTextForButtonValue = true;
+            problemButton.Text = "Add/View";
+            dgvEnquiryLog.Columns.Insert(estimatorClickIndex + 1,problemButton);
+            column_index_refresh();
+
+
+
         }
 
         public void check_checkboxes()
@@ -558,6 +578,36 @@ namespace enquiryMaster
                 rowID = e.RowIndex;
                 apply_filter();
             }//cad complete/hold button
+            if (e.ColumnIndex == problemIndex)
+            {
+                //first up we need to check if this is already a /problem/
+
+                sql = "SELECT cast(id as nvarchar(max)) FROM dbo.problem_log where enquiry_id = " + enquiry_id.ToString();
+                using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        var data = (string)cmd.ExecuteScalar();
+                        if (data == null)
+                        {
+                            DialogResult result = MessageBox.Show("Are you sure you want to log " + enquiry_id.ToString() + " as a problem?", "Enquiry Problem", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                            if (result == DialogResult.Yes)
+                            {
+                                sql = "INSERT INTO dbo.problem_log (enquiry_id,date_created,logged_by) VALUES (" + enquiry_id.ToString() + ",GETDATE()," + CONNECT.staffID + ")";
+                                using (SqlCommand cmdInsert = new SqlCommand(sql, conn))
+                                    cmdInsert.ExecuteNonQuery();
+                            }
+                            else
+                                return;
+                        }
+                    }
+                        conn.Close();
+                }
+
+                frmProblem frm = new frmProblem(enquiry_id);
+                frm.ShowDialog();
+            }
         }
 
         private void txtID_KeyDown(object sender, KeyEventArgs e)

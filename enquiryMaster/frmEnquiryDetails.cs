@@ -620,42 +620,42 @@ namespace enquiryMaster
             string cadDueDate = "";
             //try
             //{
-                //get all the variables for each item on the print out
-                using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+            //get all the variables for each item on the print out
+            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+            {
+                conn.Open();
+                //first up is email
+                string sql = "SELECT sender_email_address FROM dbo.enquiry_log WHERE id = " + txtID.Text;
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    conn.Open();
-                    //first up is email
-                    string sql = "SELECT sender_email_address FROM dbo.enquiry_log WHERE id = " + txtID.Text;
-                    using (SqlCommand cmd = new SqlCommand(sql, conn))
-                    {
-                        email = (string)cmd.ExecuteScalar();
-                        if (email.Contains("EXCHANGELABS/OU=EXCHANGE"))
-                            email = email.Substring(email.IndexOf("-") + 1);
-                    }
-                    //currently logged in estimator
-                    sql = "select forename + ' ' +surname as fullName from dbo.enquiry_log left join[user_info].dbo.[user] u on u.id = estimator_id where  enquiry_log.id = " + txtID.Text;
-                    using (SqlCommand cmd = new SqlCommand(sql, conn))
-                        estimator = (string)cmd.ExecuteScalar();
-                    //cad_due_date
-                    sql = "select cad_due_date from dbo.enquiry_log where id =  " + txtID.Text; //
-                    using (SqlCommand cmd = new SqlCommand(sql, conn))
-                    {
-                        DateTime tempDateTime = Convert.ToDateTime(cmd.ExecuteScalar());
-                        cadDueDate = tempDateTime.ToLongDateString();
-                    }
-                    //date stamp
-                    sql = "select estimator_cad_click_stamp from dbo.enquiry_log where id =   " + txtID.Text;
-                    using (SqlCommand cmd = new SqlCommand(sql, conn))
-                    {
-                        DateTime tempDateTime = Convert.ToDateTime(cmd.ExecuteScalar());
-                        date_stamp = tempDateTime.ToString("dd/MM/yyyy HH:mm:ss");
-                    }
-                    //notes
-                    sql = "SELECT enquiry_notes FROM dbo.enquiry_log WHERE id = " + txtID.Text;
-                    using (SqlCommand cmd = new SqlCommand(sql, conn))
-                        enquiry_notes = (string)cmd.ExecuteScalar().ToString();
-                    conn.Close();
+                    email = (string)cmd.ExecuteScalar();
+                    if (email.Contains("EXCHANGELABS/OU=EXCHANGE"))
+                        email = email.Substring(email.IndexOf("-") + 1);
                 }
+                //currently logged in estimator
+                sql = "select forename + ' ' +surname as fullName from dbo.enquiry_log left join[user_info].dbo.[user] u on u.id = estimator_id where  enquiry_log.id = " + txtID.Text;
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    estimator = (string)cmd.ExecuteScalar();
+                //cad_due_date
+                sql = "select cad_due_date from dbo.enquiry_log where id =  " + txtID.Text; //
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    DateTime tempDateTime = Convert.ToDateTime(cmd.ExecuteScalar());
+                    cadDueDate = tempDateTime.ToLongDateString();
+                }
+                //date stamp
+                sql = "select estimator_cad_click_stamp from dbo.enquiry_log where id =   " + txtID.Text;
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    DateTime tempDateTime = Convert.ToDateTime(cmd.ExecuteScalar());
+                    date_stamp = tempDateTime.ToString("dd/MM/yyyy HH:mm:ss");
+                }
+                //notes
+                sql = "SELECT enquiry_notes FROM dbo.enquiry_log WHERE id = " + txtID.Text;
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    enquiry_notes = (string)cmd.ExecuteScalar().ToString();
+                conn.Close();
+            }
             //}
             //catch
             //{
