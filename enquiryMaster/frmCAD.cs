@@ -655,9 +655,8 @@ namespace enquiryMaster
         private void txtSenderEmail_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-            {
                 apply_filter();
-            }
+            
         }
 
         private void txtSenderEmail_Leave(object sender, EventArgs e)

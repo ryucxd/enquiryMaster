@@ -43,6 +43,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.dteCreated = new System.Windows.Forms.DateTimePicker();
             this.btnPrint = new System.Windows.Forms.Button();
+            this.btnCopy = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtIssue
@@ -206,11 +207,24 @@
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
+            // btnCopy
+            // 
+            this.btnCopy.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.btnCopy.Location = new System.Drawing.Point(20, 698);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(199, 25);
+            this.btnCopy.TabIndex = 201;
+            this.btnCopy.Text = "Copy Enquiry Attachments";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
             // frmProblem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(785, 730);
+            this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.dteCreated);
             this.Controls.Add(this.label5);
@@ -229,6 +243,7 @@
             this.Name = "frmProblem";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmProblem";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmProblem_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -251,5 +266,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DateTimePicker dteCreated;
         private System.Windows.Forms.Button btnPrint;
+        private System.Windows.Forms.Button btnCopy;
     }
 }

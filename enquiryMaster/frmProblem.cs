@@ -21,6 +21,7 @@ namespace enquiryMaster
     {
 
         public int enquiry_id { get; set; }
+        public int close_form { get; set; }
         public frmProblem(int _enquiry_id)
         {
             InitializeComponent();
@@ -30,6 +31,7 @@ namespace enquiryMaster
             fillGrid();
             if (txtQuantity.Text.Length == 0)
                 txtQuantity.Text = "0";
+            close_form = 0;
         }
 
         private void fillGrid()
@@ -77,6 +79,7 @@ namespace enquiryMaster
                     conn.Close();
                 }
             }
+            close_form = -1;
             this.Close();
         }
 
@@ -265,6 +268,29 @@ namespace enquiryMaster
             printProcess.StartInfo = printProcessInfo;
             printProcess.Start();
 
+        }
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            frmProblemCopyAttachments frm = new frmProblemCopyAttachments(enquiry_id);
+            frm.ShowDialog();
+        }
+
+        private void frmProblem_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (close_form == 0)
+            {
+                DialogResult result = MessageBox.Show("Would you like to save before closing?", "Save your work!", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    close_form = -1;
+                    btnSave.PerformClick();
+                   
+                    this.Close();
+                }
+                else
+                    close_form = -1;
+            }
         }
     }
 }
