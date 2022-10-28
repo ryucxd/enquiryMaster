@@ -17,6 +17,7 @@ namespace enquiryMaster
         public static string cadOnHoldNote;
         public static int openCAD;
         public static int isSlimline;
+        public static int cancelRelatedQuote;
 
         //public static bool changeQuantity;
         //public static double newQuantity;

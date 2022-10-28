@@ -25,7 +25,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>70</ApplicationRevision>
+    <ApplicationRevision>73</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -186,6 +186,12 @@
     <Compile Include="frmPrintNew.Designer.cs">
       <DependentUpon>frmPrintNew.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmRelatedQuote.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRelatedQuote.Designer.cs">
+      <DependentUpon>frmRelatedQuote.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSlimline.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -249,6 +255,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPrintNew.resx">
       <DependentUpon>frmPrintNew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRelatedQuote.resx">
+      <DependentUpon>frmRelatedQuote.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSlimline.resx">
       <DependentUpon>frmSlimline.cs</DependentUpon>

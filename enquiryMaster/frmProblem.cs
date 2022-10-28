@@ -92,8 +92,8 @@ namespace enquiryMaster
         private void txtQuantity_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-                e.Handled = true;
-
+                e.Handled = true; 
+            
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
@@ -179,7 +179,6 @@ namespace enquiryMaster
                     //  xlWorksheet.Range["A9"].Rows.AutoFit();
 
                 }
-
                 conn.Close();
             }
 
@@ -235,7 +234,7 @@ namespace enquiryMaster
                 printImage(file.FullName, default_printer);
 
 
-
+            //
             MessageBox.Show("The printout has been sent to your default printer!", "Print successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
       
@@ -246,7 +245,7 @@ namespace enquiryMaster
             pd.PrintPage += (sender, args) =>
             {
                 Image i = Image.FromFile(file);
-                Point p = new Point(100, 100);
+                Point p = new Point(100, 1000);
                 args.Graphics.DrawImage(i, 10, 10, i.Width, i.Height);
             };
             pd.Print();

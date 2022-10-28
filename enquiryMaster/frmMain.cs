@@ -180,7 +180,7 @@ namespace enquiryMaster
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
-                    dgvCAD.DataSource = dt; 
+                    dgvCAD.DataSource = dt;
                 }
 
                 column_index_refresh();
@@ -671,18 +671,42 @@ namespace enquiryMaster
                     return;
                 }
 
-                //update the columns + then reshuffle
-                //"UPDATE dbo_enquiry_log SET  allocated_to_id = " & TempVars!gl_userid & ", status_id = 4, complete_by_id =" & TempVars!gl_userid & ", complete_date = '" & Now() & "' WHERE id = " & Me.id
-
-                sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + CONNECT.staffID.ToString() + ",status_id = 4,complete_by_id = " + CONNECT.staffID + ", complete_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',estimator_note_pending = 0 WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
                 using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
                 {
                     conn.Open();
+
+                    //check if there is a quote (and rev num) assigned to this 
+
+                    sql = "SELECT related_quote FROM dbo.enquiry_log WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        string data = (string)cmd.ExecuteScalar().ToString();
+                        if (String.IsNullOrEmpty(data))
+                        {
+                            //prompt user for the related quote 
+                            frmRelatedQuote frm = new frmRelatedQuote(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString()));
+                            frm.ShowDialog();
+
+                            if (CONNECT.cancelRelatedQuote == -1)
+                            {
+                                MessageBox.Show("The related quote was not assigned to this enquiry so it has not been marked as complete.", "Complete Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                return;
+                            }
+
+                        }
+                    }
+
+
+                        //update the columns + then reshuffle
+                        //"UPDATE dbo_enquiry_log SET  allocated_to_id = " & TempVars!gl_userid & ", status_id = 4, complete_by_id =" & TempVars!gl_userid & ", complete_date = '" & Now() & "' WHERE id = " & Me.id
+
+                        sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + CONNECT.staffID.ToString() + ",status_id = 4,complete_by_id = " + CONNECT.staffID + ", complete_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',estimator_note_pending = 0 WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
+
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.ExecuteScalar();
                         rowID = e.RowIndex;
-                      //  menuStrip1.Items[1].PerformClick();
+                        //  menuStrip1.Items[1].PerformClick();
                         apply_filter();
                     }
                     conn.Close();
@@ -749,18 +773,18 @@ namespace enquiryMaster
             //frm.ShowDialog();
             //if (CONNECT.confirmCorrect == true)
             //{
-                using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand("usp_shuffle_load", conn))
                 {
-                    conn.Open();
-                    using (SqlCommand cmd = new SqlCommand("usp_shuffle_load", conn))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.ExecuteNonQuery();
-                    }
-                    conn.Close();
-                } //this is the 
-                CONNECT.confirmCorrect = false;
-                apply_filter();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
+            } //this is the 
+            CONNECT.confirmCorrect = false;
+            apply_filter();
             //}
         }
 
