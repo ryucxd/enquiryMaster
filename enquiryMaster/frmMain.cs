@@ -616,6 +616,38 @@ namespace enquiryMaster
                     MessageBox.Show("This enquiry is currently marked as '" + dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() + "', Processing will only work on enquiries marked as 'Checked'.", "Processing Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+
+                string email = "", subject = "";
+                using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+                {
+                    conn.Open();
+                    sql = "select  sender_email_address,[subject] from dbo.Enquiry_Log where id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        email = dt.Rows[0][0].ToString();
+                        subject = dt.Rows[0][1].ToString();
+                    }
+                    sql = "select  cast(id as nvarchar(max)) from dbo.Enquiry_Log where  sender_email_address = '" + email + "' and [subject] = '" + subject + "' and id >" + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        if (dt.Rows.Count == 1)
+                        {
+
+                            frmMessagebox frm = new frmMessagebox(Convert.ToInt32(dt.Rows[0][0].ToString()));
+                            frm.ShowDialog();
+
+                        }
+                    }
+                    conn.Close();
+                }
+
+
                 //check if the person whos logged in has this job allocated to them  -- this is now turned off though
                 using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
                 {

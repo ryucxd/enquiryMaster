@@ -234,6 +234,37 @@ namespace enquiryMaster
         private void frmEnquiryDetails_Shown(object sender, EventArgs e)
         {
             //  filterAttachments();
+            //see if there is aanother enquiry that matches this sender + reference   (and > this id)
+            string email = "", subject = "";
+            using (SqlConnection conn =  new SqlConnection(CONNECT.ConnectionString))
+            {
+                conn.Open();
+                string sql = "select  sender_email_address,[subject] from dbo.Enquiry_Log where id = " + txtID.Text;
+                using (SqlCommand cmd = new SqlCommand(sql,conn))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    email = dt.Rows[0][0].ToString();
+                    subject = dt.Rows[0][1].ToString();
+                }
+                sql = "select  cast(id as nvarchar(max)) from dbo.Enquiry_Log where  sender_email_address = '" + email + "' and [subject] = '" + subject + "' and id >" + txtID.Text;
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    if (dt.Rows.Count == 1)
+                    {
+                        lblEnquiry.Visible = true;
+                        lblEnquiry.Text = "NEW RELATED ENQUIRY: " + dt.Rows[0][0];
+                    }
+                    else
+                        lblEnquiry.Visible = false;
+                }
+                    conn.Close();
+            }
+
         }
         private void updateDetails(string sql)
         {

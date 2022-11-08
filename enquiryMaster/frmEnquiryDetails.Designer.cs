@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -90,6 +90,7 @@
             this.chkPriority = new System.Windows.Forms.CheckBox();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.cmbABC = new System.Windows.Forms.ComboBox();
             this.btnPrint = new System.Windows.Forms.Button();
             this.dgvAttachments = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
@@ -98,7 +99,7 @@
             this.chkResolved = new System.Windows.Forms.CheckBox();
             this.label29 = new System.Windows.Forms.Label();
             this.txtEstimatorNote = new System.Windows.Forms.RichTextBox();
-            this.cmbABC = new System.Windows.Forms.ComboBox();
+            this.lblEnquiry = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -756,6 +757,19 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Enquiry Details";
             // 
+            // cmbABC
+            // 
+            this.cmbABC.FormattingEnabled = true;
+            this.cmbABC.Items.AddRange(new object[] {
+            "A",
+            "B",
+            "C"});
+            this.cmbABC.Location = new System.Drawing.Point(79, 126);
+            this.cmbABC.Name = "cmbABC";
+            this.cmbABC.Size = new System.Drawing.Size(49, 21);
+            this.cmbABC.TabIndex = 27;
+            this.cmbABC.SelectedIndexChanged += new System.EventHandler(this.cmbABC_SelectedIndexChanged);
+            // 
             // btnPrint
             // 
             this.btnPrint.Location = new System.Drawing.Point(333, 17);
@@ -773,14 +787,14 @@
             this.dgvAttachments.AllowUserToResizeColumns = false;
             this.dgvAttachments.AllowUserToResizeRows = false;
             this.dgvAttachments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvAttachments.Location = new System.Drawing.Point(753, 776);
             this.dgvAttachments.Name = "dgvAttachments";
             this.dgvAttachments.RowHeadersVisible = false;
@@ -850,24 +864,24 @@
             this.txtEstimatorNote.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtEstimatorNote_KeyDown);
             this.txtEstimatorNote.Leave += new System.EventHandler(this.txtEstimatorNote_Leave);
             // 
-            // cmbABC
+            // lblEnquiry
             // 
-            this.cmbABC.FormattingEnabled = true;
-            this.cmbABC.Items.AddRange(new object[] {
-            "A",
-            "B",
-            "C"});
-            this.cmbABC.Location = new System.Drawing.Point(79, 126);
-            this.cmbABC.Name = "cmbABC";
-            this.cmbABC.Size = new System.Drawing.Size(49, 21);
-            this.cmbABC.TabIndex = 27;
-            this.cmbABC.SelectedIndexChanged += new System.EventHandler(this.cmbABC_SelectedIndexChanged);
+            this.lblEnquiry.Font = new System.Drawing.Font("Microsoft Sans Serif", 18.25F);
+            this.lblEnquiry.ForeColor = System.Drawing.Color.Red;
+            this.lblEnquiry.Location = new System.Drawing.Point(14, 183);
+            this.lblEnquiry.Name = "lblEnquiry";
+            this.lblEnquiry.Size = new System.Drawing.Size(419, 33);
+            this.lblEnquiry.TabIndex = 27;
+            this.lblEnquiry.Text = "NEW RELATED ENQUIRY: ";
+            this.lblEnquiry.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblEnquiry.Visible = false;
             // 
             // frmEnquiryDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1215, 987);
+            this.Controls.Add(this.lblEnquiry);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvAttachments);
@@ -972,5 +986,6 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.RichTextBox txtEstimatorNote;
         private System.Windows.Forms.ComboBox cmbABC;
+        private System.Windows.Forms.Label lblEnquiry;
     }
 }
