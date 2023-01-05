@@ -112,7 +112,7 @@ namespace enquiryMaster
             // Store the Excel processes before opening.
             Process[] processesBefore = Process.GetProcessesByName("excel");
             // Open the file in Excel.
-            string temp = @"\\designsvr1\apps\Design and Supply CSharp\CAD_Request_template - Copy.xlsx";
+            string temp = @"\\designsvr1\apps\Design and Supply CSharp\CAD_Request_template.xlsx";
             var xlApp = new Excel.Application();
             var xlWorkbooks = xlApp.Workbooks;
             var xlWorkbook = xlWorkbooks.Open(temp);
@@ -126,6 +126,7 @@ namespace enquiryMaster
             //cad due date is on the form
             string estimator = "";
             string enquiry_notes = "";
+            string email_subject = "";
             string date_stamp = "";
 
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
@@ -149,19 +150,25 @@ namespace enquiryMaster
                 sql = "SELECT enquiry_notes FROM dbo.enquiry_log WHERE id = " + enquiryID.ToString();
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                     enquiry_notes = (string)cmd.ExecuteScalar().ToString();
-                    conn.Close();
+                //email subject
+                sql = "SELECT [subject] FROM dbo.enquiry_log WHERE id = " + enquiryID.ToString();
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    email_subject = (string)cmd.ExecuteScalar().ToString();
+                conn.Close();
             }
-
+            
 
 
             xlWorksheet.Cells[2][2].Value2 = enquiryID;
-            xlWorksheet.Cells[2][3].Value2 = email;
+            xlWorksheet.Cells[2][3].Value2 = estimator;
             xlWorksheet.Cells[2][4].Value2 = txtDrawingsRequired.Text;
             xlWorksheet.Cells[2][5].Value2 = dteCad.Value.ToLongDateString();
-            xlWorksheet.Cells[2][6].Value2 = estimator;
-            xlWorksheet.Cells[2][7].Value2 = date_stamp;
-            xlWorksheet.Cells[1][9].Value2 = enquiry_notes;
-            xlWorksheet.Cells[1][31].Value2 = urgent_note;
+            xlWorksheet.Cells[2][6].Value2 = date_stamp;
+            xlWorksheet.Cells[2][7].Value2 = email;
+            xlWorksheet.Cells[2][8].Value2 = email_subject;
+            xlWorksheet.Cells[1][10].Value2 = enquiry_notes;
+            xlWorksheet.Cells[1][32].Value2 = urgent_note;
+
 
 
             //print it
