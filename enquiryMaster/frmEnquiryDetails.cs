@@ -248,7 +248,7 @@ namespace enquiryMaster
                     email = dt.Rows[0][0].ToString();
                     subject = dt.Rows[0][1].ToString();
                 }
-                sql = "select  cast(id as nvarchar(max)) from dbo.Enquiry_Log where  sender_email_address = '" + email + "' and [subject] = '" + subject + "' and id >" + txtID.Text;
+                sql = "select  cast(id as nvarchar(max)) from dbo.Enquiry_Log where  sender_email_address = '" + email + "' and [subject] = '" + subject.Replace("'","") + "' and id >" + txtID.Text;
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
