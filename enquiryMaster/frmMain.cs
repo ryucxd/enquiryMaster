@@ -682,7 +682,28 @@ namespace enquiryMaster
             } //processing button
             if (e.ColumnIndex == cadButtonIndex)
             {
-                frmCadRequest frm = new frmCadRequest(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString()), CONNECT.staffID);
+
+                //if there is cad already then we cancel this
+
+                sql = "select id from dbo.Enquiry_Log where estimator_cad_click_stamp is not null AND id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[0].Value.ToString();
+
+                using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        var getData = Convert.ToString(cmd.ExecuteScalar());
+                        if (string.IsNullOrEmpty(getData) == false)
+                        {
+                            MessageBox.Show("You have already requested CAD once for this enquiry. Please see IT if this is an error.","CAD Request",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                            return;
+
+                        }
+                    }
+                        conn.Close();
+                }
+
+                    frmCadRequest frm = new frmCadRequest(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString()), CONNECT.staffID);
                 frm.ShowDialog();
                 if (CONNECT.skipShuffle == false)
                 {
@@ -858,6 +879,12 @@ namespace enquiryMaster
             frm.ShowDialog();
             this.Visible = true;
 
+        }
+
+        private void workLoadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmEnquiryWorkload frm = new frmEnquiryWorkload();
+            frm.ShowDialog();
         }
     }
 }

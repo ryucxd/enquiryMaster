@@ -78,6 +78,7 @@
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
+            this.workLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEnquiryLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEstimator)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCAD)).BeginInit();
@@ -475,7 +476,8 @@
             this.cADLOGToolStripMenuItem,
             this.slimlineToolStripMenuItem,
             this.allocateUsersToolStripMenuItem,
-            this.aRCHIVEToolStripMenuItem});
+            this.aRCHIVEToolStripMenuItem,
+            this.workLoadToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1777, 24);
@@ -565,6 +567,13 @@
             this.label22.Size = new System.Drawing.Size(177, 20);
             this.label22.TabIndex = 43;
             this.label22.Text = "Estimator Note Pending";
+            // 
+            // workLoadToolStripMenuItem
+            // 
+            this.workLoadToolStripMenuItem.Name = "workLoadToolStripMenuItem";
+            this.workLoadToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
+            this.workLoadToolStripMenuItem.Text = "Work Load";
+            this.workLoadToolStripMenuItem.Click += new System.EventHandler(this.workLoadToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -674,6 +683,7 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.ToolStripMenuItem workLoadToolStripMenuItem;
     }
 }
 
