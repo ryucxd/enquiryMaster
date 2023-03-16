@@ -56,7 +56,7 @@
             this.dgvEnquiryLog.Location = new System.Drawing.Point(12, 52);
             this.dgvEnquiryLog.Name = "dgvEnquiryLog";
             this.dgvEnquiryLog.RowHeadersVisible = false;
-            this.dgvEnquiryLog.Size = new System.Drawing.Size(1141, 643);
+            this.dgvEnquiryLog.Size = new System.Drawing.Size(1215, 643);
             this.dgvEnquiryLog.TabIndex = 1;
             // 
             // lblItem
@@ -64,7 +64,7 @@
             this.lblItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.25F);
             this.lblItem.Location = new System.Drawing.Point(245, 20);
             this.lblItem.Name = "lblItem";
-            this.lblItem.Size = new System.Drawing.Size(319, 21);
+            this.lblItem.Size = new System.Drawing.Size(319, 24);
             this.lblItem.TabIndex = 2;
             this.lblItem.Text = "Total Items available: 0";
             this.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -74,7 +74,7 @@
             this.lblRotec.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.25F);
             this.lblRotec.Location = new System.Drawing.Point(570, 20);
             this.lblRotec.Name = "lblRotec";
-            this.lblRotec.Size = new System.Drawing.Size(388, 21);
+            this.lblRotec.Size = new System.Drawing.Size(411, 24);
             this.lblRotec.TabIndex = 3;
             this.lblRotec.Text = "Total Rotec Items available: 0";
             this.lblRotec.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -83,7 +83,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1165, 707);
+            this.ClientSize = new System.Drawing.Size(1239, 707);
             this.Controls.Add(this.lblRotec);
             this.Controls.Add(this.lblItem);
             this.Controls.Add(this.dgvEnquiryLog);

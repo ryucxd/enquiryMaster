@@ -51,7 +51,7 @@ namespace enquiryMaster
                 "left join [user_info].dbo.[user] u_cad on e.allocated_to_cad_id = u_cad.id " +
                 "where  cast(recieved_time as date) = '" + dteWorkDay.Value.ToString("yyyyMMdd") + "' and " +
                 "(cast(complete_date as date) > '" + dteWorkDay.Value.ToString("yyyyMMdd") + "' or complete_date is null) " +
-                "and status_id < 5";
+                "and status_id < 5 and (slimline_request = 0 or slimline_request is null)";
 
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
             {
