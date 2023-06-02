@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSlimline));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label9 = new System.Windows.Forms.Label();
             this.cADLOGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -79,6 +79,9 @@
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.chkFilter = new System.Windows.Forms.CheckBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.chkTwoWorkingDays = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCAD)).BeginInit();
@@ -259,14 +262,14 @@
             this.dgvCAD.AllowUserToAddRows = false;
             this.dgvCAD.AllowUserToDeleteRows = false;
             this.dgvCAD.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvCAD.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvCAD.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvCAD.Location = new System.Drawing.Point(548, 34);
             this.dgvCAD.Name = "dgvCAD";
             this.dgvCAD.ReadOnly = true;
@@ -279,14 +282,14 @@
             this.dgvEstimator.AllowUserToAddRows = false;
             this.dgvEstimator.AllowUserToDeleteRows = false;
             this.dgvEstimator.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvEstimator.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvEstimator.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvEstimator.Location = new System.Drawing.Point(322, 34);
             this.dgvEstimator.Name = "dgvEstimator";
             this.dgvEstimator.ReadOnly = true;
@@ -314,7 +317,7 @@
             // slimlineToolStripMenuItem
             // 
             this.slimlineToolStripMenuItem.Name = "slimlineToolStripMenuItem";
-            this.slimlineToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
+            this.slimlineToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
             this.slimlineToolStripMenuItem.Text = "Traditional";
             this.slimlineToolStripMenuItem.Click += new System.EventHandler(this.slimlineToolStripMenuItem_Click);
             // 
@@ -581,11 +584,46 @@
             this.chkFilter.UseVisualStyleBackColor = true;
             this.chkFilter.CheckedChanged += new System.EventHandler(this.chkFilter_CheckedChanged);
             // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.BackColor = System.Drawing.Color.AliceBlue;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(899, 32);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(29, 20);
+            this.label23.TabIndex = 82;
+            this.label23.Text = "     ";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(934, 32);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(210, 20);
+            this.label24.TabIndex = 81;
+            this.label24.Text = "2 Working days old (or more)";
+            // 
+            // chkTwoWorkingDays
+            // 
+            this.chkTwoWorkingDays.AutoSize = true;
+            this.chkTwoWorkingDays.Location = new System.Drawing.Point(903, 63);
+            this.chkTwoWorkingDays.Name = "chkTwoWorkingDays";
+            this.chkTwoWorkingDays.Size = new System.Drawing.Size(102, 17);
+            this.chkTwoWorkingDays.TabIndex = 83;
+            this.chkTwoWorkingDays.Text = "2 Working Days";
+            this.chkTwoWorkingDays.UseVisualStyleBackColor = true;
+            this.chkTwoWorkingDays.CheckedChanged += new System.EventHandler(this.chkTwoWorkingDays_CheckedChanged);
+            // 
             // frmSlimline
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1777, 752);
+            this.Controls.Add(this.chkTwoWorkingDays);
+            this.Controls.Add(this.label23);
+            this.Controls.Add(this.label24);
             this.Controls.Add(this.chkFilter);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.label22);
@@ -691,5 +729,8 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.ToolStripMenuItem allocateUsersToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkFilter;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.CheckBox chkTwoWorkingDays;
     }
 }

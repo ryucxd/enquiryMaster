@@ -484,6 +484,26 @@ namespace enquiryMaster
 
             string sql = "UPDATE dbo.enquiry_log SET slimline_request = " + slimline.ToString() + " WHERE id = " + _enquiryID;
             updateDetails(sql);
+
+            //if the logged in user is jason then fire an email
+            if (chkSlimline.Checked == true)
+            {
+                if (CONNECT.staffID == 58)
+                {
+                    using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+                    {
+                        conn.Open();
+                        using (SqlCommand cmd = new SqlCommand("usp_job_marked_as_slimline_by_jason", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@enquiry_id", SqlDbType.Int).Value = Convert.ToInt32(txtID.Text);
+                            cmd.ExecuteNonQuery();
+                        }
+                        conn.Close();
+                    }
+                }
+            }
+
         }
 
         private void chkAluminium_CheckedChanged(object sender, EventArgs e)

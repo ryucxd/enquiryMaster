@@ -52,6 +52,7 @@ namespace enquiryMaster
         public int priorityIndex { get; set; }
 
         public int priorityFilter { get; set; }
+        public int twoWorkingDaysIndex { get; set; }
         public frmSlimline()
         {
             InitializeComponent();
@@ -69,7 +70,8 @@ namespace enquiryMaster
 
             //get the main datagridview filtered (and apply any colourts etc
             string sql = "SET DATEFORMAT dmy;SELECT TOP 300 enquiry_log.id,recieved_time,priority,sender_email_address,[subject],priority_job,revision,price_qty_required,es.[description] as [status],u_estimator.forename + ' ' + u_estimator.surname as allocated_to," +
-                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date,tender_due_date FROM dbo.enquiry_log WITH(NOLOCK) " +
+                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date,tender_due_date,case when CAST(recieved_time as date) < CAST(GETDATE() as date) AND (status_id = 2 or status_id = 3) then -1 else 0 end as two_working_days " +
+                "FROM dbo.enquiry_log WITH(NOLOCK) " +
                 "LEFT JOIN[user_info].dbo.[user] u_estimator on u_estimator.id = Enquiry_Log.allocated_to_id " +
                 "LEFT JOIN[user_info].dbo.[user] u_cad on u_cad.id = Enquiry_Log.allocated_to_cad_id " +
                 "LEFT JOIN enquiry_status es on es.id = Enquiry_Log.status_id " +
@@ -110,6 +112,8 @@ namespace enquiryMaster
                 sql = sql + " tender_due_date is not null   AND  ";
             if (priorityFilter == -1)
                 sql = sql + " priority is not null AND (status_id = 2 or status_id = 3)   AND  ";
+            if (chkTwoWorkingDays.Checked == true)
+                sql = sql + " case when CAST(recieved_time as date) < CAST(GETDATE() as date) AND (status_id = 2 or status_id = 3) then -1 else 0 end = -1   AND  ";
 
             sql = sql.Substring(0, sql.Length - 5);
 
@@ -215,6 +219,10 @@ namespace enquiryMaster
 
             tenderDueDatIndex = dgvEnquiryLog.Columns["tender_due_date"].Index;
             priorityIndex = dgvEnquiryLog.Columns["priority"].Index;
+
+            twoWorkingDaysIndex = dgvEnquiryLog.Columns["two_working_days"].Index;
+
+            //twoWorkingDaysIndex
         }
         private void format()
         {
@@ -249,6 +257,9 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns[tenderDueDatIndex].HeaderText = "Tender Due Date";
             dgvEnquiryLog.Columns[priorityIndex].HeaderText = "Priority";
 
+
+            //
+
             try
             {
                 //estimator
@@ -268,6 +279,7 @@ namespace enquiryMaster
             //hide the other data columns (onhold/prio)
             dgvEnquiryLog.Columns[priorityJobIndex].Visible = false;
             dgvEnquiryLog.Columns[onHoldIndex].Visible = false;
+            dgvEnquiryLog.Columns[twoWorkingDaysIndex].Visible = false;
 
             foreach (DataGridViewColumn col in dgvEnquiryLog.Columns)
             {
@@ -350,6 +362,20 @@ namespace enquiryMaster
                     row.Cells[priceQtyRequiredIndex].Style.BackColor = Color.LightSkyBlue;
                     row.Cells[statusIndex].Style.BackColor = Color.LightSkyBlue;
                     row.Cells[allocatedToIndex].Style.BackColor = Color.LightSkyBlue;
+
+                }
+                //older than two days 
+                if (row.Cells[twoWorkingDaysIndex].Value.ToString() == "-1")
+                {
+                    row.Cells[idIndex].Style.BackColor = Color.AliceBlue;
+                    row.Cells[priorityIndex].Style.BackColor = Color.AliceBlue;
+                    row.Cells[recievedTimeIndex].Style.BackColor = Color.AliceBlue;
+                    row.Cells[senderEmailIndex].Style.BackColor = Color.AliceBlue;
+                    row.Cells[subjectIndex].Style.BackColor = Color.AliceBlue;
+                    row.Cells[revisionCheckboxIndex].Style.BackColor = Color.AliceBlue;
+                    row.Cells[priceQtyRequiredIndex].Style.BackColor = Color.AliceBlue;
+                    row.Cells[statusIndex].Style.BackColor = Color.AliceBlue;
+                    row.Cells[allocatedToIndex].Style.BackColor = Color.AliceBlue;
 
                 }
                 //CAD COLOURS 
@@ -596,6 +622,10 @@ namespace enquiryMaster
             dteStartChange = 0;
             dteEndChange = 0;
             chkOutstanding.Checked = false;
+            chkTwoWorkingDays.Checked = false;
+            chkTenders.Checked = false;
+            chkFilter.Checked = false;
+            priorityFilter = 0;
             apply_filter();
         }
 
@@ -781,6 +811,11 @@ namespace enquiryMaster
                 priorityFilter = -1;
             else
                 priorityFilter = 0;
+            apply_filter();
+        }
+
+        private void chkTwoWorkingDays_CheckedChanged(object sender, EventArgs e)
+        {
             apply_filter();
         }
     }
