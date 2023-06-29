@@ -94,6 +94,8 @@ namespace enquiryMaster
             {
                 if (cmbAllocatedTo.Items.Contains(row.Cells[allocatedToIndex].Value.ToString()))
                 { } //nothing
+                else if (row.Cells[statusIndex].Value.ToString() == "Cancelled")
+                { }
                 else
                     cmbAllocatedTo.Items.Add(row.Cells[allocatedToIndex].Value.ToString());
                 if (cmbAllocatedToCad.Items.Contains(row.Cells[allocatedToCadIndex].Value.ToString()))
@@ -111,7 +113,7 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns.Clear();
 
             //get the main datagridview filtered (and apply any colourts etc
-            string sql = "SET DATEFORMAT dmy;SELECT TOP 300 enquiry_log.id,recieved_time,sender_email_address,[subject],priority_job,revision,price_qty_required,es.[description] as [status],u_estimator.forename + ' ' + u_estimator.surname as allocated_to," +
+            string sql = "SET DATEFORMAT dmy;SELECT TOP 250 enquiry_log.id,recieved_time,sender_email_address,[subject],priority_job,revision,price_qty_required,es.[description] as [status],u_estimator.forename + ' ' + u_estimator.surname as allocated_to," +
                 "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date,tender_due_date,estimator_note_pending FROM dbo.enquiry_log WITH(NOLOCK) " +
                 "LEFT JOIN[user_info].dbo.[user] u_estimator on u_estimator.id = Enquiry_Log.allocated_to_id " +
                 "LEFT JOIN[user_info].dbo.[user] u_cad on u_cad.id = Enquiry_Log.allocated_to_cad_id " +
