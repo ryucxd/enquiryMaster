@@ -626,7 +626,10 @@ namespace enquiryMaster
             if (e.ColumnIndex == processedButtonIndex)
             {
                 //has to be status_id = 2 to continue down this route
-                if (dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() != "Checked")
+                if (dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() == "Checked" || dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() == "On Hold")
+                {
+                }
+                else
                 {
                     MessageBox.Show("This enquiry is currently marked as '" + dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() + "', Processing will only work on enquiries marked as 'Checked'.", "Processing Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -645,7 +648,7 @@ namespace enquiryMaster
                         email = dt.Rows[0][0].ToString();
                         subject = dt.Rows[0][1].ToString();
                     }
-                    sql = "select  cast(id as nvarchar(max)) from dbo.Enquiry_Log where  sender_email_address = '" + email + "' and [subject] = '" + subject.Replace("'","") + "' and id >" + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
+                    sql = "select  cast(id as nvarchar(max)) from dbo.Enquiry_Log where  sender_email_address = '" + email + "' and [subject] = '" + subject.Replace("'", "") + "' and id >" + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -710,15 +713,15 @@ namespace enquiryMaster
                         var getData = Convert.ToString(cmd.ExecuteScalar());
                         if (string.IsNullOrEmpty(getData) == false)
                         {
-                            MessageBox.Show("You have already requested CAD once for this enquiry. Please see IT if this is an error.","CAD Request",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                            MessageBox.Show("You have already requested CAD once for this enquiry. Please see IT if this is an error.", "CAD Request", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
 
                         }
                     }
-                        conn.Close();
+                    conn.Close();
                 }
 
-                    frmCadRequest frm = new frmCadRequest(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString()), CONNECT.staffID);
+                frmCadRequest frm = new frmCadRequest(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString()), CONNECT.staffID);
                 frm.ShowDialog();
                 if (CONNECT.skipShuffle == false)
                 {
@@ -733,7 +736,10 @@ namespace enquiryMaster
             if (e.ColumnIndex == completeButton)
             {
                 //needs to be status id 3 only 
-                if (dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() != "Processing")
+                if (dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() == "Processing" || dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() == "On Hold")
+                {
+                }
+                else
                 {
                     MessageBox.Show("This enquiry is currently marked as '" + dgvEnquiryLog.Rows[e.RowIndex].Cells[statusIndex].Value.ToString() + "', Complete will only work on enquiries marked as 'Processing'.", "Compelte Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -765,10 +771,10 @@ namespace enquiryMaster
                     }
 
 
-                        //update the columns + then reshuffle
-                        //"UPDATE dbo_enquiry_log SET  allocated_to_id = " & TempVars!gl_userid & ", status_id = 4, complete_by_id =" & TempVars!gl_userid & ", complete_date = '" & Now() & "' WHERE id = " & Me.id
+                    //update the columns + then reshuffle
+                    //"UPDATE dbo_enquiry_log SET  allocated_to_id = " & TempVars!gl_userid & ", status_id = 4, complete_by_id =" & TempVars!gl_userid & ", complete_date = '" & Now() & "' WHERE id = " & Me.id
 
-                        sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + CONNECT.staffID.ToString() + ",status_id = 4,complete_by_id = " + CONNECT.staffID + ", complete_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',estimator_note_pending = 0 WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
+                    sql = "UPDATE dbo.enquiry_log SET allocated_to_id = " + CONNECT.staffID.ToString() + ",status_id = 4,complete_by_id = " + CONNECT.staffID + ", complete_date = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',estimator_note_pending = 0 WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
 
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
