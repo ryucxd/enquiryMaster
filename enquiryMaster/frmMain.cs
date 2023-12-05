@@ -468,6 +468,18 @@ namespace enquiryMaster
                     row.Cells[statusIndex].Style.BackColor = Color.Gold;
                     row.Cells[allocatedToIndex].Style.BackColor = Color.Gold;
                 }
+                //status on hold
+                if (row.Cells[statusIndex].Value.ToString() == "On Hold")
+                {
+                    row.Cells[idIndex].Style.BackColor = Color.LightSkyBlue;
+                    row.Cells[recievedTimeIndex].Style.BackColor = Color.LightSkyBlue;
+                    row.Cells[senderEmailIndex].Style.BackColor = Color.LightSkyBlue;
+                    row.Cells[subjectIndex].Style.BackColor = Color.LightSkyBlue;
+                    row.Cells[revisionCheckboxIndex].Style.BackColor = Color.LightSkyBlue;
+                    row.Cells[priceQtyRequiredIndex].Style.BackColor = Color.LightSkyBlue;
+                    row.Cells[statusIndex].Style.BackColor = Color.LightSkyBlue;
+                    row.Cells[allocatedToIndex].Style.BackColor = Color.LightSkyBlue;
+                }
                 //on hold
                 if (row.Cells[onHoldIndex].Value.ToString() == "-1")
                 {
@@ -481,6 +493,7 @@ namespace enquiryMaster
                     row.Cells[allocatedToIndex].Style.BackColor = Color.LightSkyBlue;
 
                 }
+
                 //CAD COLOURS 
                 if (row.Cells[allocatedToCadIndex].Value.ToString().Length > 0) //red by default (if theres a job assigned)
                     row.Cells[allocatedToCadIndex].Style.BackColor = Color.PaleVioletRed;

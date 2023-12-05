@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -40,6 +40,7 @@
             this.cmbStatus = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnDeleteTender = new System.Windows.Forms.Button();
             this.dteTenderDueDate = new System.Windows.Forms.DateTimePicker();
             this.label28 = new System.Windows.Forms.Label();
             this.txtQuotesRequired = new System.Windows.Forms.TextBox();
@@ -187,7 +188,8 @@
             this.cmbStatus.FormattingEnabled = true;
             this.cmbStatus.Items.AddRange(new object[] {
             "Pending",
-            "Checked"});
+            "Checked",
+            "On Hold"});
             this.cmbStatus.Location = new System.Drawing.Point(79, 100);
             this.cmbStatus.Name = "cmbStatus";
             this.cmbStatus.Size = new System.Drawing.Size(121, 21);
@@ -206,6 +208,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnDeleteTender);
             this.groupBox1.Controls.Add(this.dteTenderDueDate);
             this.groupBox1.Controls.Add(this.label28);
             this.groupBox1.Controls.Add(this.txtQuotesRequired);
@@ -226,6 +229,16 @@
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Extra Details";
+            // 
+            // btnDeleteTender
+            // 
+            this.btnDeleteTender.Location = new System.Drawing.Point(162, 76);
+            this.btnDeleteTender.Name = "btnDeleteTender";
+            this.btnDeleteTender.Size = new System.Drawing.Size(98, 23);
+            this.btnDeleteTender.TabIndex = 30;
+            this.btnDeleteTender.Text = "Delete Tender";
+            this.btnDeleteTender.UseVisualStyleBackColor = true;
+            this.btnDeleteTender.Click += new System.EventHandler(this.btnDeleteTender_Click);
             // 
             // dteTenderDueDate
             // 
@@ -787,14 +800,14 @@
             this.dgvAttachments.AllowUserToResizeColumns = false;
             this.dgvAttachments.AllowUserToResizeRows = false;
             this.dgvAttachments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvAttachments.Location = new System.Drawing.Point(753, 776);
             this.dgvAttachments.Name = "dgvAttachments";
             this.dgvAttachments.RowHeadersVisible = false;
@@ -987,5 +1000,6 @@
         private System.Windows.Forms.RichTextBox txtEstimatorNote;
         private System.Windows.Forms.ComboBox cmbABC;
         private System.Windows.Forms.Label lblEnquiry;
+        private System.Windows.Forms.Button btnDeleteTender;
     }
 }

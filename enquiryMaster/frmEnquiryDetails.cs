@@ -942,5 +942,12 @@ namespace enquiryMaster
             string sql = "UPDATE dbo.enquiry_log SET priority = '" + cmbABC.Text.ToString() + "' WHERE id = " + _enquiryID.ToString();
             updateDetails(sql);
         }
+
+        private void btnDeleteTender_Click(object sender, EventArgs e)
+        {
+            string sql = "UPDATE dbo.enquiry_log SET tender_due_date = NULL WHERE id = " + _enquiryID.ToString();
+            updateDetails(sql);
+            refreshData();
+        }
     }
 }

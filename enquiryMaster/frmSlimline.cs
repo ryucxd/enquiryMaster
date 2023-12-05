@@ -145,7 +145,7 @@ namespace enquiryMaster
                     dgvEstimator.DataSource = dt;
                 }
                 sql = "SELECT u.forename + ' ' + u.surname as Engineer,item_count as [Item Load] FROM [EnquiryLog].[dbo].[view_grouped_item_count_cad_sl]" +
-                    "  LEFT JOIN[user_info].dbo.[user] u on [view_grouped_item_count_cad_sl].a  d_to_cad_id = u.id   WHERE allocated_to_cad_id is not null";
+                    "  LEFT JOIN[user_info].dbo.[user] u on [view_grouped_item_count_cad_sl].allocated_to_cad_id = u.id   WHERE allocated_to_cad_id is not null";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
