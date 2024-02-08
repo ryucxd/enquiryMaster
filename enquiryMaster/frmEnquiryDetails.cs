@@ -161,6 +161,11 @@ namespace enquiryMaster
                     da.Fill(dt);
                     foreach (DataRow row in dt.Rows)
                         cmbAllocatedTo.Items.Add(row[0].ToString());
+
+                    if (chkSlimline.Checked == false)
+                    {
+                        cmbAllocatedTo.Items.Add("Brandon Evans");
+                    }
                 }
                 sql = "select forename + ' ' + surname from [user_info].dbo.[user] where(actual_department = 'drawing' or allocation_dept_2 = 'drawing' or allocation_dept_3 = 'drawing' or allocation_dept_4 = 'drawing' " +
                     "or allocation_dept_5 = 'drawing' or allocation_dept_6 = 'drawing') and[current] = 1 order by forename asc";

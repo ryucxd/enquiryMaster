@@ -120,9 +120,11 @@ namespace enquiryMaster
 
             if (priorityFilter == -1)
                 sql = sql + "ORDER BY cast(recieved_time as date) asc, priority asc";
+            else if (chkTenders.Checked == true)
+                sql = sql + "ORDER BY tender_due_date asc";
             else
                 sql = sql + "ORDER BY id desc";
-            
+
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
             {
                 conn.Open();
