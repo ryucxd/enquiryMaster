@@ -163,7 +163,7 @@ namespace enquiryMaster
             xlWorksheet.Cells[2][3].Value2 = estimator;
             xlWorksheet.Cells[2][4].Value2 = txtDrawingsRequired.Text;
             xlWorksheet.Cells[2][5].Value2 = dteCad.Value.ToLongDateString();
-            xlWorksheet.Cells[2][6].Value2 = date_stamp;
+            xlWorksheet.Cells[2][6].Value2 = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToShortTimeString();
             xlWorksheet.Cells[2][7].Value2 = email;
             xlWorksheet.Cells[2][8].Value2 = email_subject;
             xlWorksheet.Cells[1][10].Value2 = enquiry_notes;

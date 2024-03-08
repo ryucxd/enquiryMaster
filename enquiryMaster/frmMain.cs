@@ -51,6 +51,7 @@ namespace enquiryMaster
         public int tender_index { get; set; }
         public int pending_index { get; set; }
         public int estimator_note_index { get; set; }
+        public int tender_due_date_index { get; set; }
 
 
         public frmMain()
@@ -114,7 +115,7 @@ namespace enquiryMaster
 
             //get the main datagridview filtered (and apply any colourts etc
             string sql = "SET DATEFORMAT dmy;SELECT TOP 250 enquiry_log.id,recieved_time,sender_email_address,[subject],priority_job,revision,price_qty_required,es.[description] as [status],u_estimator.forename + ' ' + u_estimator.surname as allocated_to," +
-                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date,tender_due_date,estimator_note_pending FROM dbo.enquiry_log WITH(NOLOCK) " +
+                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date,tender_due_date as [Tender Due Date],estimator_note_pending FROM dbo.enquiry_log WITH(NOLOCK) " +
                 "LEFT JOIN[user_info].dbo.[user] u_estimator on u_estimator.id = Enquiry_Log.allocated_to_id " +
                 "LEFT JOIN[user_info].dbo.[user] u_cad on u_cad.id = Enquiry_Log.allocated_to_cad_id " +
                 "LEFT JOIN enquiry_status es on es.id = Enquiry_Log.status_id " +
@@ -345,7 +346,7 @@ namespace enquiryMaster
                 completeButton = dgvEnquiryLog.Columns["Complete"].Index;
             if (dgvEnquiryLog.Columns.Contains("Cancel") == true)
                 cancelButtonIndex = dgvEnquiryLog.Columns["Cancel"].Index;
-            tender_index = dgvEnquiryLog.Columns["tender_due_date"].Index;
+            tender_index = dgvEnquiryLog.Columns["Tender Due Date"].Index;
             pending_index = dgvEnquiryLog.Columns["estimator_note_pending"].Index;
 
         }
@@ -374,7 +375,11 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns[priceQtyRequiredIndex].HeaderText = "Item QTY";
             dgvEnquiryLog.Columns[statusIndex].HeaderText = "Enquiry Status";
             dgvEnquiryLog.Columns[allocatedToIndex].HeaderText = "Allocated to";
+
+            //dgvEnquiryLog.Columns[tender_due_date_index].HeaderText = "Allocated to";
+
             dgvEnquiryLog.Columns[onHoldIndex].HeaderText = "on Hold";
+            
             dgvEnquiryLog.Columns[requiresCadCheckboxIndex].HeaderText = "Requires CAD";
             dgvEnquiryLog.Columns[allocatedToCadIndex].HeaderText = "Allocated to CAD";
             dgvEnquiryLog.Columns[cadCompleteCheckboxIndex].HeaderText = "CAD Complete";
@@ -399,7 +404,7 @@ namespace enquiryMaster
             //hide the other data columns (onhold/prio)
             dgvEnquiryLog.Columns[priorityJobIndex].Visible = false;
             dgvEnquiryLog.Columns[onHoldIndex].Visible = false;
-            dgvEnquiryLog.Columns[tender_index].Visible = false;
+            dgvEnquiryLog.Columns[tender_index].Visible = true;
             dgvEnquiryLog.Columns[pending_index].Visible = false;
 
             foreach (DataGridViewColumn col in dgvEnquiryLog.Columns)
@@ -514,6 +519,7 @@ namespace enquiryMaster
                     row.Cells[priceQtyRequiredIndex].Style.BackColor = Color.Gainsboro;
                     //row.Cells[statusIndex].Style.BackColor = Color.Gainsboro;
                     row.Cells[allocatedToIndex].Style.BackColor = Color.Gainsboro;
+                    row.Cells[tender_index].Style.BackColor = Color.Gainsboro;
                 }
                 if (row.Cells[pending_index].Value.ToString() == "-1")
                 {
