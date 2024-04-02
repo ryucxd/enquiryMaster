@@ -34,15 +34,25 @@ namespace enquiryMaster
             {
                 string cancel_reason = richCancel.Text.Replace("'", "");
                 // "UPDATE dbo_enquiry_log SET status_id = 5,enquiry_notes = enquiry_notes &  '" & vbCrLf & vbCrLf & "Cancellation Note:" & Me.txt_note & "' WHERE id = " & TempVars!cancellation_enquiry_id & ";"
-                string sql = "UPDATE dbo.enquiry_log SET status_id = 5,enquiry_notes = enquiry_notes + '" + Environment.NewLine + Environment.NewLine + cancel_reason + "',allocated_to_id = null WHERE id = " + _enquiryID;
+
+
                 using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
                 {
+                    conn.Open();
+                    string sql = "SELECT enquiry_notes FROM dbo.enquiry_log  WHERE id = " + _enquiryID;
+                    string enquiry_notes = "";
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
+                        enquiry_notes = cmd.ExecuteScalar().ToString();
                     }
+
+                    sql = "UPDATE dbo.enquiry_log SET status_id = 5,enquiry_notes = '" + enquiry_notes + Environment.NewLine + " Cancel Reason: " + cancel_reason + "',allocated_to_id = null WHERE id = " + _enquiryID;
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    conn.Close();
                 }
                 this.Close();
             }

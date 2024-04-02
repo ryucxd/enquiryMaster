@@ -449,7 +449,7 @@ namespace enquiryMaster
                 }
 
 
-                //if CAD COMPLETE DATE  < today
+                //if CAD COMPLETE DATE < today
 
                 string temp = row.Cells[cadDueDateIndex].Value.ToString();
                 if (temp == "")
@@ -467,7 +467,7 @@ namespace enquiryMaster
 
                 if (row.Cells[cadCompleteIndex].Value.ToString() == "-1")
                 {
-                    //unique path for cad compelte
+                    //unique path for cad complete
                     try
                     {
                         if (cadDueDate < cadCompleteDate)
