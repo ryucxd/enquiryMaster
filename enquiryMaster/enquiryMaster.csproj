@@ -25,7 +25,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>94</ApplicationRevision>
+    <ApplicationRevision>96</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -120,6 +120,12 @@
     </Compile>
     <Compile Include="frmArchivePrintNew.Designer.cs">
       <DependentUpon>frmArchivePrintNew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCADSlimline.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCADSlimline.Designer.cs">
+      <DependentUpon>frmCADSlimline.cs</DependentUpon>
     </Compile>
     <Compile Include="frmCAD.cs">
       <SubType>Form</SubType>
@@ -235,6 +241,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmArchivePrintNew.resx">
       <DependentUpon>frmArchivePrintNew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCADSlimline.resx">
+      <DependentUpon>frmCADSlimline.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCAD.resx">
       <DependentUpon>frmCAD.cs</DependentUpon>

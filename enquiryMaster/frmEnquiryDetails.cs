@@ -241,11 +241,11 @@ namespace enquiryMaster
             //  filterAttachments();
             //see if there is aanother enquiry that matches this sender + reference   (and > this id)
             string email = "", subject = "";
-            using (SqlConnection conn =  new SqlConnection(CONNECT.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
             {
                 conn.Open();
                 string sql = "select  sender_email_address,[subject] from dbo.Enquiry_Log where id = " + txtID.Text;
-                using (SqlCommand cmd = new SqlCommand(sql,conn))
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
@@ -253,7 +253,7 @@ namespace enquiryMaster
                     email = dt.Rows[0][0].ToString();
                     subject = dt.Rows[0][1].ToString();
                 }
-                sql = "select  cast(id as nvarchar(max)) from dbo.Enquiry_Log where  sender_email_address = '" + email + "' and [subject] = '" + subject.Replace("'","") + "' and id >" + txtID.Text;
+                sql = "select  cast(id as nvarchar(max)) from dbo.Enquiry_Log where  sender_email_address = '" + email + "' and [subject] = '" + subject.Replace("'", "") + "' and id >" + txtID.Text;
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -267,7 +267,7 @@ namespace enquiryMaster
                     else
                         lblEnquiry.Visible = false;
                 }
-                    conn.Close();
+                conn.Close();
             }
 
         }
@@ -817,29 +817,38 @@ namespace enquiryMaster
                 MessageBox.Show("This job is already marked as complete in CAD.", "Action Aborted", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            frmAllocateCad frm = new frmAllocateCad();
-            frm.ShowDialog();
-            //CONNECT.cadAllocationPath
-            // 1 = choose allocation
-            int id = 0;
-            if (CONNECT.cadAllocationPath == 1)
-            {
-                //someone is selected
-                sql = "UPDATE dbo.enquiry_log SET  allocated_to_cad_id = " + CONNECT.cadAllocationStaffPicked + ", processed_cad_by_id = " + CONNECT.staffID + ", processed_cad_date = GETDATE() WHERE id = " + _enquiryID;
-                id = CONNECT.cadAllocationStaffPicked;
-            }
-            //2 = current login 
-            else if (CONNECT.cadAllocationPath == 2)
+            if (CONNECT.isSlimline == -1)
             {
                 //its the current user
                 sql = "UPDATE dbo.enquiry_log SET  allocated_to_cad_id = " + CONNECT.staffID + ", processed_cad_by_id = " + CONNECT.staffID + ", processed_cad_date = GETDATE() WHERE id = " + _enquiryID;
-                id = CONNECT.staffID;
             }
-            //3 cancel
             else
             {
-                MessageBox.Show("Process action cancelled.", "Aborted.", MessageBoxButtons.OK);
-                return;
+                frmAllocateCad frm = new frmAllocateCad();
+                frm.ShowDialog();
+                //CONNECT.cadAllocationPath
+                // 1 = choose allocation
+                int id = 0;
+                if (CONNECT.cadAllocationPath == 1)
+                {
+                    //someone is selected
+                    sql = "UPDATE dbo.enquiry_log SET  allocated_to_cad_id = " + CONNECT.cadAllocationStaffPicked + ", processed_cad_by_id = " + CONNECT.staffID + ", processed_cad_date = GETDATE() WHERE id = " + _enquiryID;
+                    id = CONNECT.cadAllocationStaffPicked;
+                }
+                //2 = current login 
+                else if (CONNECT.cadAllocationPath == 2)
+                {
+                    //its the current user
+                    sql = "UPDATE dbo.enquiry_log SET  allocated_to_cad_id = " + CONNECT.staffID + ", processed_cad_by_id = " + CONNECT.staffID + ", processed_cad_date = GETDATE() WHERE id = " + _enquiryID;
+                    id = CONNECT.staffID;
+                }
+                //3 cancel
+                else
+                {
+                    MessageBox.Show("Process action cancelled.", "Aborted.", MessageBoxButtons.OK);
+                    return;
+                }
+
             }
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
             {

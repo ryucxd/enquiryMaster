@@ -708,17 +708,26 @@ namespace enquiryMaster
             } //processing button
             if (e.ColumnIndex == cadButtonIndex)
             {
-                frmCadRequest frm = new frmCadRequest(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString()), CONNECT.staffID);
-                frm.ShowDialog();
-                if (CONNECT.skipShuffle == false)
-                {
-                    rowID = e.RowIndex;
-                    menuStrip1.Items[1].PerformClick();
-                    apply_filter();
-                }
-                else
-                    CONNECT.skipShuffle = false;
+                //frmCadRequest frm = new frmCadRequest(Convert.ToInt32(dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString()), CONNECT.staffID);
+                //frm.ShowDialog();
+                //if (CONNECT.skipShuffle == false)
+                //{
+                //    rowID = e.RowIndex;
+                //    menuStrip1.Items[1].PerformClick();
+                //    apply_filter();
+                //}
+                //else
+                //    CONNECT.skipShuffle = false;
+                //update CAD details
 
+                sql = "UPDATE dbo.enquiry_log SET requires_cad = -1 WHERE id = " + dgvEnquiryLog.Rows[e.RowIndex].Cells[idIndex].Value.ToString();
+                using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                        cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
             }//cad button
             if (e.ColumnIndex == completeButton)
             {
@@ -820,6 +829,14 @@ namespace enquiryMaster
         private void chkTwoWorkingDays_CheckedChanged(object sender, EventArgs e)
         {
             apply_filter();
+        }
+
+        private void sLIMLINECADLOGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;            
+            frmCADSlimline frm = new frmCADSlimline();
+            frm.ShowDialog();
+            this.Visible = true;
         }
     }
 }

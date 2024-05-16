@@ -82,6 +82,7 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.chkTwoWorkingDays = new System.Windows.Forms.CheckBox();
+            this.sLIMLINECADLOGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCAD)).BeginInit();
@@ -506,7 +507,8 @@
             this.reshuffleToolStripMenuItem,
             this.cADLOGToolStripMenuItem,
             this.slimlineToolStripMenuItem,
-            this.allocateUsersToolStripMenuItem});
+            this.allocateUsersToolStripMenuItem,
+            this.sLIMLINECADLOGToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1777, 24);
@@ -615,6 +617,13 @@
             this.chkTwoWorkingDays.Text = "2 Working Days";
             this.chkTwoWorkingDays.UseVisualStyleBackColor = true;
             this.chkTwoWorkingDays.CheckedChanged += new System.EventHandler(this.chkTwoWorkingDays_CheckedChanged);
+            // 
+            // sLIMLINECADLOGToolStripMenuItem
+            // 
+            this.sLIMLINECADLOGToolStripMenuItem.Name = "sLIMLINECADLOGToolStripMenuItem";
+            this.sLIMLINECADLOGToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
+            this.sLIMLINECADLOGToolStripMenuItem.Text = "SLIMLINE CAD LOG";
+            this.sLIMLINECADLOGToolStripMenuItem.Click += new System.EventHandler(this.sLIMLINECADLOGToolStripMenuItem_Click);
             // 
             // frmSlimline
             // 
@@ -732,5 +741,6 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.CheckBox chkTwoWorkingDays;
+        private System.Windows.Forms.ToolStripMenuItem sLIMLINECADLOGToolStripMenuItem;
     }
 }
