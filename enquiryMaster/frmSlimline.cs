@@ -76,7 +76,7 @@ namespace enquiryMaster
                 "LEFT JOIN[user_info].dbo.[user] u_estimator on u_estimator.id = Enquiry_Log.allocated_to_id " +
                 "LEFT JOIN[user_info].dbo.[user] u_cad on u_cad.id = Enquiry_Log.allocated_to_cad_id " +
                 "LEFT JOIN enquiry_status es on es.id = Enquiry_Log.status_id " +
-                "WHERE (slimline_request = -1)   AND ";
+                "WHERE (slimline_request = -1) and (requires_cad = 0 or requires_cad is null)  AND ";
 
             //filter based on user inputs
             if (txtID.TextLength > 0)

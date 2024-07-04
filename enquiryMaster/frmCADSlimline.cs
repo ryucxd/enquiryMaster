@@ -80,7 +80,7 @@ namespace enquiryMaster
                 sql = sql + "problem_identifier LIKE '%P%'   AND ";
 
             sql = sql.Substring(0, sql.Length - 5);
-            sql = sql + "  ORDER BY priority_job_temp,cad_due_date desc, cad_complete desc,id desc";
+            sql = sql + "  ORDER BY cad_complete desc,recieved_time desc,id desc";
 
 
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))

@@ -99,6 +99,7 @@ namespace enquiryMaster
                 { }
                 else
                     cmbAllocatedTo.Items.Add(row.Cells[allocatedToIndex].Value.ToString());
+
                 if (cmbAllocatedToCad.Items.Contains(row.Cells[allocatedToCadIndex].Value.ToString()))
                 { } //nothing
                 else
@@ -186,6 +187,21 @@ namespace enquiryMaster
                     dgvCAD.DataSource = dt;
                 }
 
+                //fill processing dgv
+                sql = "SELECT u.forename + ' ' + u.surname as Estimator,item_count as [Item Load] " +
+                    "FROM [EnquiryLog].[dbo].view_grouped_item_count_processing " +
+                    "LEFT JOIN [user_info].dbo.[user] u on [view_grouped_item_count_processing].allocated_to_id = u.id  " +
+                    "WHERE allocated_to_id is not null";
+
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    dgvProcessing.DataSource = dt;
+                }
+
+
                 column_index_refresh();
                 //add buttons
                 addbuttons();
@@ -210,6 +226,7 @@ namespace enquiryMaster
                 }
                 dgvCAD.ClearSelection();
                 dgvEstimator.ClearSelection();
+                dgvProcessing.ClearSelection();
                 dgvEnquiryLog.ClearSelection();
             }
         }
@@ -390,6 +407,9 @@ namespace enquiryMaster
                 //estimator
                 dgvEstimator.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 dgvEstimator.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                //Processing
+                dgvProcessing.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                dgvProcessing.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 //cad
                 dgvCAD.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 dgvCAD.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -427,6 +447,10 @@ namespace enquiryMaster
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
             foreach (DataGridViewColumn col in dgvEstimator.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+            foreach (DataGridViewColumn col in dgvProcessing.Columns)
             {
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
             }

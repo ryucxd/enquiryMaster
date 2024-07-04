@@ -736,7 +736,7 @@ namespace enquiryMaster
             xlWorksheet.Cells[2][5].Value2 = cadDueDate;
             xlWorksheet.Cells[2][6].Value2 = estimator;
             xlWorksheet.Cells[2][7].Value2 = date_stamp;
-            xlWorksheet.Cells[1][9].Value2 = enquiry_notes;
+            xlWorksheet.Cells[1][10].Value2 = enquiry_notes;
 
 
             using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
