@@ -31,7 +31,7 @@ namespace enquiryMaster
 
             "database=EnquiryLog;" +
 
-            "connection timeout=300";
+            "connection timeout=30";
 
         public const string ConnectionStringUser = "user id=sa;" +
 

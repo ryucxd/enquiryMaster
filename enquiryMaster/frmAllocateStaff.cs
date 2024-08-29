@@ -51,7 +51,7 @@ namespace enquiryMaster
                     da.Fill(dt);
                     dgvCAD.DataSource = dt;
                 }
-                sql = "select id as [ID],forename + ' ' + surname as [FullName] from [user_info].dbo.[user] where ([grouping] = 5 or [user].id = 27)  and [current] = 1 and (non_user = 0 or non_user is null) order by FullName";
+                sql = "select id as [ID],forename + ' ' + surname as [FullName] from [user_info].dbo.[user] where ([grouping] = 5 or [user].id = 27 or [user].id = 13)  and [current] = 1 and (non_user = 0 or non_user is null) order by FullName";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     SqlDataAdapter da = new SqlDataAdapter(cmd);

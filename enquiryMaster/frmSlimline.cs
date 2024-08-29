@@ -50,6 +50,7 @@ namespace enquiryMaster
         public int cancelButtonIndex { get; set; }
         public int tenderDueDatIndex { get; set; }
         public int priorityIndex { get; set; }
+        public int forsterIndex { get; set; }
 
         public int priorityFilter { get; set; }
         public int twoWorkingDaysIndex { get; set; }
@@ -70,8 +71,10 @@ namespace enquiryMaster
 
             //get the main datagridview filtered (and apply any colourts etc
             string sql = "SET DATEFORMAT dmy;SELECT TOP 300 enquiry_log.id,recieved_time,priority,sender_email_address,[subject],priority_job,revision,price_qty_required,es.[description] as [status],u_estimator.forename + ' ' + u_estimator.surname as allocated_to," +
-                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete,complete_date,tender_due_date, " +
-                "case when CAST(recieved_time as date) < [order_database].dbo.[func_work_days](CAST(GETDATE() AS DATE),1) AND (status_id = 2) AND tender_due_date is null then -1 else 0 end as two_working_days  " +
+                "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete, " +
+                "CASE WHEN is_forster = 0 THEN CAST(0 AS BIT) WHEN is_forster IS NULL THEN CAST(0 AS BIT) ELSE CAST(1 AS BIT) END AS is_forster, complete_date,tender_due_date, " +
+                "case when CAST(recieved_time as date) < [order_database].dbo.[func_work_days](CAST(GETDATE() AS DATE),1) AND (status_id = 2) AND tender_due_date is null then -1 else 0 end as two_working_days " +
+                " " +
                 "FROM dbo.enquiry_log WITH(NOLOCK) " +
                 "LEFT JOIN[user_info].dbo.[user] u_estimator on u_estimator.id = Enquiry_Log.allocated_to_id " +
                 "LEFT JOIN[user_info].dbo.[user] u_cad on u_cad.id = Enquiry_Log.allocated_to_cad_id " +
@@ -112,7 +115,8 @@ namespace enquiryMaster
             if (chkTenders.Checked == true)
                 sql = sql + " tender_due_date is not null   AND  ";
             if (priorityFilter == -1)
-                sql = sql + " priority is not null AND (status_id = 2 or status_id = 3)   AND  ";
+                sql = sql + " is_forster = -1 AND (status_id = 2 or status_id = 3)   AND  ";
+            //sql = sql + " priority is not null AND (status_id = 2 or status_id = 3)   AND  ";
             if (chkTwoWorkingDays.Checked == true)
                 sql = sql + " case when CAST(recieved_time as date) < [order_database].dbo.[func_work_days](CAST(GETDATE() AS DATE),1)  AND (status_id = 2) AND tender_due_date is null then -1 else 0 end = -1   AND  ";
 
@@ -225,6 +229,8 @@ namespace enquiryMaster
 
             twoWorkingDaysIndex = dgvEnquiryLog.Columns["two_working_days"].Index;
 
+            forsterIndex = dgvEnquiryLog.Columns["is_forster"].Index;
+
             //twoWorkingDaysIndex
         }
         private void format()
@@ -259,6 +265,7 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns[completeDateIndex].HeaderText = "Date Complete";
             dgvEnquiryLog.Columns[tenderDueDatIndex].HeaderText = "Tender Due Date";
             dgvEnquiryLog.Columns[priorityIndex].HeaderText = "Priority";
+            dgvEnquiryLog.Columns[forsterIndex].HeaderText = "Forster";
 
 
             //
@@ -397,7 +404,7 @@ namespace enquiryMaster
                     row.Cells[idIndex].Style.BackColor = Color.HotPink;
                     row.Cells[tenderDueDatIndex].Style.BackColor = Color.HotPink;
                 }
-                if (row.Cells[priorityJobIndex].Value.ToString() == "-1")
+                if (Convert.ToBoolean(row.Cells[forsterIndex].Value.ToString()) == true)
                 {
                     row.Cells[idIndex].Style.BackColor = Color.MediumPurple;
                 }

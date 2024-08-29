@@ -101,6 +101,8 @@
             this.label29 = new System.Windows.Forms.Label();
             this.txtEstimatorNote = new System.Windows.Forms.RichTextBox();
             this.lblEnquiry = new System.Windows.Forms.Label();
+            this.chkForster = new System.Windows.Forms.CheckBox();
+            this.label31 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -208,6 +210,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkForster);
+            this.groupBox1.Controls.Add(this.label31);
             this.groupBox1.Controls.Add(this.btnDeleteTender);
             this.groupBox1.Controls.Add(this.dteTenderDueDate);
             this.groupBox1.Controls.Add(this.label28);
@@ -889,6 +893,26 @@
             this.lblEnquiry.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblEnquiry.Visible = false;
             // 
+            // chkForster
+            // 
+            this.chkForster.AutoSize = true;
+            this.chkForster.Location = new System.Drawing.Point(229, 107);
+            this.chkForster.Name = "chkForster";
+            this.chkForster.Size = new System.Drawing.Size(15, 14);
+            this.chkForster.TabIndex = 32;
+            this.chkForster.UseVisualStyleBackColor = true;
+            this.chkForster.CheckedChanged += new System.EventHandler(this.chkForster_CheckedChanged);
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.Location = new System.Drawing.Point(171, 106);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(45, 15);
+            this.label31.TabIndex = 31;
+            this.label31.Text = "Forster";
+            // 
             // frmEnquiryDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1001,5 +1025,7 @@
         private System.Windows.Forms.ComboBox cmbABC;
         private System.Windows.Forms.Label lblEnquiry;
         private System.Windows.Forms.Button btnDeleteTender;
+        private System.Windows.Forms.CheckBox chkForster;
+        private System.Windows.Forms.Label label31;
     }
 }

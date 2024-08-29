@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSlimline));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label9 = new System.Windows.Forms.Label();
             this.cADLOGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -73,6 +73,7 @@
             this.dgvEnquiryLog = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.allocateUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sLIMLINECADLOGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label11 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.chkTenders = new System.Windows.Forms.CheckBox();
@@ -82,7 +83,6 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.chkTwoWorkingDays = new System.Windows.Forms.CheckBox();
-            this.sLIMLINECADLOGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCAD)).BeginInit();
@@ -263,14 +263,14 @@
             this.dgvCAD.AllowUserToAddRows = false;
             this.dgvCAD.AllowUserToDeleteRows = false;
             this.dgvCAD.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvCAD.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvCAD.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvCAD.Location = new System.Drawing.Point(548, 34);
             this.dgvCAD.Name = "dgvCAD";
             this.dgvCAD.ReadOnly = true;
@@ -283,14 +283,14 @@
             this.dgvEstimator.AllowUserToAddRows = false;
             this.dgvEstimator.AllowUserToDeleteRows = false;
             this.dgvEstimator.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvEstimator.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvEstimator.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvEstimator.Location = new System.Drawing.Point(322, 34);
             this.dgvEstimator.Name = "dgvEstimator";
             this.dgvEstimator.ReadOnly = true;
@@ -522,6 +522,13 @@
             this.allocateUsersToolStripMenuItem.Text = "Allocate Users";
             this.allocateUsersToolStripMenuItem.Click += new System.EventHandler(this.allocateUsersToolStripMenuItem_Click);
             // 
+            // sLIMLINECADLOGToolStripMenuItem
+            // 
+            this.sLIMLINECADLOGToolStripMenuItem.Name = "sLIMLINECADLOGToolStripMenuItem";
+            this.sLIMLINECADLOGToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
+            this.sLIMLINECADLOGToolStripMenuItem.Text = "SLIMLINE CAD LOG";
+            this.sLIMLINECADLOGToolStripMenuItem.Click += new System.EventHandler(this.sLIMLINECADLOGToolStripMenuItem_Click);
+            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -571,18 +578,18 @@
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label22.Location = new System.Drawing.Point(809, 152);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(56, 20);
+            this.label22.Size = new System.Drawing.Size(60, 20);
             this.label22.TabIndex = 78;
-            this.label22.Text = "Priority";
+            this.label22.Text = "Forster";
             // 
             // chkFilter
             // 
             this.chkFilter.AutoSize = true;
             this.chkFilter.Location = new System.Drawing.Point(903, 86);
             this.chkFilter.Name = "chkFilter";
-            this.chkFilter.Size = new System.Drawing.Size(82, 17);
+            this.chkFilter.Size = new System.Drawing.Size(83, 17);
             this.chkFilter.TabIndex = 80;
-            this.chkFilter.Text = "Priority Filter";
+            this.chkFilter.Text = "Forster Filter";
             this.chkFilter.UseVisualStyleBackColor = true;
             this.chkFilter.CheckedChanged += new System.EventHandler(this.chkFilter_CheckedChanged);
             // 
@@ -617,13 +624,6 @@
             this.chkTwoWorkingDays.Text = "2 Working Days";
             this.chkTwoWorkingDays.UseVisualStyleBackColor = true;
             this.chkTwoWorkingDays.CheckedChanged += new System.EventHandler(this.chkTwoWorkingDays_CheckedChanged);
-            // 
-            // sLIMLINECADLOGToolStripMenuItem
-            // 
-            this.sLIMLINECADLOGToolStripMenuItem.Name = "sLIMLINECADLOGToolStripMenuItem";
-            this.sLIMLINECADLOGToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
-            this.sLIMLINECADLOGToolStripMenuItem.Text = "SLIMLINE CAD LOG";
-            this.sLIMLINECADLOGToolStripMenuItem.Click += new System.EventHandler(this.sLIMLINECADLOGToolStripMenuItem_Click);
             // 
             // frmSlimline
             // 

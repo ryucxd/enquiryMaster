@@ -963,5 +963,15 @@ namespace enquiryMaster
             updateDetails(sql);
             refreshData();
         }
+
+        private void chkForster_CheckedChanged(object sender, EventArgs e)
+        {
+            int forster = 0;
+            if (chkForster.Checked == true)
+                forster = -1;
+
+            string sql = "UPDATE dbo.enquiry_log SET is_forster = " + forster.ToString() + " WHERE id = " + _enquiryID;
+            updateDetails(sql);
+        }
     }
 }
