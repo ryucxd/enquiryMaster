@@ -165,6 +165,8 @@ namespace enquiryMaster
                     if (chkSlimline.Checked == false)
                     {
                         cmbAllocatedTo.Items.Add("Brandon Evans");
+                        cmbAllocatedTo.Items.Add("Geraint Lee");
+                        cmbAllocatedTo.Items.Add("Rhys Davies");
                     }
                 }
                 sql = "select forename + ' ' + surname from [user_info].dbo.[user] where(actual_department = 'drawing' or allocation_dept_2 = 'drawing' or allocation_dept_3 = 'drawing' or allocation_dept_4 = 'drawing' " +
