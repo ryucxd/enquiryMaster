@@ -51,8 +51,11 @@ namespace enquiryMaster
         public int tenderDueDatIndex { get; set; }
         public int priorityIndex { get; set; }
         public int forsterIndex { get; set; }
+        public int schuecoIndex { get; set; }
 
         public int priorityFilter { get; set; }
+
+        public int schuecoFilter { get; set; }
         public int twoWorkingDaysIndex { get; set; }
         public frmSlimline()
         {
@@ -60,6 +63,7 @@ namespace enquiryMaster
             this.Icon = Properties.Resources.windows_log_off;
             this.Text = "Slimline Enquiry Log - " + CONNECT.staffFullName;
             priorityFilter = 0;
+            schuecoFilter = 0;
 
         }
 
@@ -72,7 +76,8 @@ namespace enquiryMaster
             //get the main datagridview filtered (and apply any colourts etc
             string sql = "SET DATEFORMAT dmy;SELECT TOP 300 enquiry_log.id,recieved_time,priority,sender_email_address,[subject],priority_job,revision,price_qty_required,es.[description] as [status],u_estimator.forename + ' ' + u_estimator.surname as allocated_to," +
                 "'' as Process,'' as CAD,on_hold,requires_cad,u_cad.forename + ' ' + u_cad.surname as allocate_to_CAD,processed_cad_by_id,cad_complete, " +
-                "CASE WHEN is_forster = 0 THEN CAST(0 AS BIT) WHEN is_forster IS NULL THEN CAST(0 AS BIT) ELSE CAST(1 AS BIT) END AS is_forster, complete_date,tender_due_date, " +
+                "CASE WHEN is_forster = 0 THEN CAST(0 AS BIT) WHEN is_forster IS NULL THEN CAST(0 AS BIT) ELSE CAST(1 AS BIT) END AS is_forster," +
+                "CASE WHEN is_shueco = 0 THEN CAST(0 AS BIT) WHEN is_shueco IS NULL THEN CAST(0 AS BIT) ELSE CAST(1 AS BIT) END AS is_shueco, complete_date,tender_due_date, " +
                 "case when CAST(recieved_time as date) < [order_database].dbo.[func_work_days](CAST(GETDATE() AS DATE),1) AND (status_id = 2) AND tender_due_date is null then -1 else 0 end as two_working_days " +
                 " " +
                 "FROM dbo.enquiry_log WITH(NOLOCK) " +
@@ -116,6 +121,8 @@ namespace enquiryMaster
                 sql = sql + " tender_due_date is not null   AND  ";
             if (priorityFilter == -1)
                 sql = sql + " is_forster = -1 AND (status_id = 2 or status_id = 3)   AND  ";
+            if (schuecoFilter == -1)
+                sql = sql + " is_shueco = -1    AND  ";
             //sql = sql + " priority is not null AND (status_id = 2 or status_id = 3)   AND  ";
             if (chkTwoWorkingDays.Checked == true)
                 sql = sql + " case when CAST(recieved_time as date) < [order_database].dbo.[func_work_days](CAST(GETDATE() AS DATE),1)  AND (status_id = 2) AND tender_due_date is null then -1 else 0 end = -1   AND  ";
@@ -231,6 +238,8 @@ namespace enquiryMaster
 
             forsterIndex = dgvEnquiryLog.Columns["is_forster"].Index;
 
+            schuecoIndex = dgvEnquiryLog.Columns["is_shueco"].Index;
+
             //twoWorkingDaysIndex
         }
         private void format()
@@ -266,6 +275,7 @@ namespace enquiryMaster
             dgvEnquiryLog.Columns[tenderDueDatIndex].HeaderText = "Tender Due Date";
             dgvEnquiryLog.Columns[priorityIndex].HeaderText = "Priority";
             dgvEnquiryLog.Columns[forsterIndex].HeaderText = "Forster";
+            dgvEnquiryLog.Columns[schuecoIndex].HeaderText = "Schueco";
 
 
             //
@@ -361,17 +371,17 @@ namespace enquiryMaster
                     row.Cells[allocatedToIndex].Style.BackColor = Color.Gold;
                 }
                 //on hold
-                if (row.Cells[onHoldIndex].Value.ToString() == "-1")
+                if (Convert.ToBoolean(row.Cells[schuecoIndex].Value.ToString()) == true) //if (row.Cells[onHoldIndex].Value.ToString() == "-1")
                 {
                     row.Cells[idIndex].Style.BackColor = Color.LightSkyBlue;
-                    row.Cells[priorityIndex].Style.BackColor = Color.LightSkyBlue;
-                    row.Cells[recievedTimeIndex].Style.BackColor = Color.LightSkyBlue;
-                    row.Cells[senderEmailIndex].Style.BackColor = Color.LightSkyBlue;
-                    row.Cells[subjectIndex].Style.BackColor = Color.LightSkyBlue;
-                    row.Cells[revisionCheckboxIndex].Style.BackColor = Color.LightSkyBlue;
-                    row.Cells[priceQtyRequiredIndex].Style.BackColor = Color.LightSkyBlue;
-                    row.Cells[statusIndex].Style.BackColor = Color.LightSkyBlue;
-                    row.Cells[allocatedToIndex].Style.BackColor = Color.LightSkyBlue;
+                    //row.Cells[priorityIndex].Style.BackColor = Color.LightSkyBlue;
+                    //row.Cells[recievedTimeIndex].Style.BackColor = Color.LightSkyBlue;
+                    //row.Cells[senderEmailIndex].Style.BackColor = Color.LightSkyBlue;
+                    //row.Cells[subjectIndex].Style.BackColor = Color.LightSkyBlue;
+                    //row.Cells[revisionCheckboxIndex].Style.BackColor = Color.LightSkyBlue;
+                    //row.Cells[priceQtyRequiredIndex].Style.BackColor = Color.LightSkyBlue;
+                    //row.Cells[statusIndex].Style.BackColor = Color.LightSkyBlue;
+                    //row.Cells[allocatedToIndex].Style.BackColor = Color.LightSkyBlue;
 
                 }
                 //older than two days 
@@ -844,6 +854,15 @@ namespace enquiryMaster
             frmCADSlimline frm = new frmCADSlimline();
             frm.ShowDialog();
             this.Visible = true;
+        }
+
+        private void chkSchueco_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkSchueco.Checked == true)
+                schuecoFilter = -1;
+            else
+                schuecoFilter = 0;
+            apply_filter();
         }
     }
 }

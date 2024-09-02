@@ -83,6 +83,7 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.chkTwoWorkingDays = new System.Windows.Forms.CheckBox();
+            this.chkSchueco = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCAD)).BeginInit();
@@ -205,9 +206,9 @@
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.Location = new System.Drawing.Point(809, 80);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(67, 20);
+            this.label14.Size = new System.Drawing.Size(72, 20);
             this.label14.TabIndex = 66;
-            this.label14.Text = "On Hold";
+            this.label14.Text = "Schueco";
             // 
             // reshuffleToolStripMenuItem
             // 
@@ -239,7 +240,7 @@
             // chkOutstanding
             // 
             this.chkOutstanding.AutoSize = true;
-            this.chkOutstanding.Location = new System.Drawing.Point(903, 109);
+            this.chkOutstanding.Location = new System.Drawing.Point(903, 128);
             this.chkOutstanding.Name = "chkOutstanding";
             this.chkOutstanding.Size = new System.Drawing.Size(113, 17);
             this.chkOutstanding.TabIndex = 63;
@@ -553,7 +554,7 @@
             // chkTenders
             // 
             this.chkTenders.AutoSize = true;
-            this.chkTenders.Location = new System.Drawing.Point(903, 132);
+            this.chkTenders.Location = new System.Drawing.Point(903, 151);
             this.chkTenders.Name = "chkTenders";
             this.chkTenders.Size = new System.Drawing.Size(95, 17);
             this.chkTenders.TabIndex = 77;
@@ -625,11 +626,23 @@
             this.chkTwoWorkingDays.UseVisualStyleBackColor = true;
             this.chkTwoWorkingDays.CheckedChanged += new System.EventHandler(this.chkTwoWorkingDays_CheckedChanged);
             // 
+            // chkSchueco
+            // 
+            this.chkSchueco.AutoSize = true;
+            this.chkSchueco.Location = new System.Drawing.Point(903, 108);
+            this.chkSchueco.Name = "chkSchueco";
+            this.chkSchueco.Size = new System.Drawing.Size(94, 17);
+            this.chkSchueco.TabIndex = 84;
+            this.chkSchueco.Text = "Schueco Filter";
+            this.chkSchueco.UseVisualStyleBackColor = true;
+            this.chkSchueco.CheckedChanged += new System.EventHandler(this.chkSchueco_CheckedChanged);
+            // 
             // frmSlimline
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1777, 752);
+            this.Controls.Add(this.chkSchueco);
             this.Controls.Add(this.chkTwoWorkingDays);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.label24);
@@ -742,5 +755,6 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.CheckBox chkTwoWorkingDays;
         private System.Windows.Forms.ToolStripMenuItem sLIMLINECADLOGToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkSchueco;
     }
 }

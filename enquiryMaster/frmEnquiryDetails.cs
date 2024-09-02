@@ -55,7 +55,8 @@ namespace enquiryMaster
                 " u_processed.forename + ' ' + u_processed.surname + ' - ' + CAST(processed_date as nvarchar(max)) as processed_by, " + //processed by 20
                 "u_processed_cad.forename + ' ' + u_processed_cad.surname + ' - ' + CAST(processed_cad_date as nvarchar(max)) as processed_by_cad, " +//processed cad 21
                 "u_complete.forename + ' ' + u_complete.surname + ' - ' + CAST(complete_date as nvarchar(max)) as complete_by," + //complete 22
-                "enquiry_notes,cad_note,Body,tender_due_date,estimator_note,estimator_note_pending,priority from dbo.enquiry_log " +
+                "enquiry_notes,cad_note,Body,tender_due_date,estimator_note,estimator_note_pending,priority," +
+                "is_forster,is_shueco from dbo.enquiry_log " +
                 "left join dbo.enquiry_status es on es.id = enquiry_log.status_id left join[user_info].dbo.[user] u_estimator on u_estimator.id = enquiry_log.allocated_to_id " +
                 "left join[user_info].dbo.[user] u_cad on u_cad.id = enquiry_log.allocated_to_cad_id left join[user_info].dbo.[user] u_checked on u_checked.id = enquiry_log.checked_by_id " +
                 "left join[user_info].dbo.[user] u_processed on u_processed.id = enquiry_log.processed_by_id left join[user_info].dbo.[user] u_processed_cad on u_processed_cad.id = enquiry_log.processed_cad_by_id " +
@@ -151,6 +152,16 @@ namespace enquiryMaster
                     else
                         chkResolved.Checked = false;
                     cmbABC.Text = dt.Rows[0][29].ToString();
+
+                    if (dt.Rows[0][29].ToString() == "-1")
+                        chkForster.Checked = true;
+                    else
+                        chkForster.Checked = false;
+
+                    if (dt.Rows[0][30].ToString() == "-1")
+                        chkSchueco.Checked = true;
+                    else
+                        chkSchueco.Checked = false;
                 }
                 //load the allocated to comboboxes
                 sql = "select forename + ' ' + surname from [user_info].dbo.[user] where [grouping] = 5 and [current] = 1 and (non_user = 0 or non_user is null) order by forename asc";
@@ -973,6 +984,16 @@ namespace enquiryMaster
                 forster = -1;
 
             string sql = "UPDATE dbo.enquiry_log SET is_forster = " + forster.ToString() + " WHERE id = " + _enquiryID;
+            updateDetails(sql);
+        }
+
+        private void chkSchueco_CheckedChanged(object sender, EventArgs e)
+        {
+            int schueco = 0;
+            if (chkSchueco.Checked == true)
+                schueco = -1;
+
+            string sql = "UPDATE dbo.enquiry_log SET is_shueco = " + schueco.ToString() + " WHERE id = " + _enquiryID;
             updateDetails(sql);
         }
     }
