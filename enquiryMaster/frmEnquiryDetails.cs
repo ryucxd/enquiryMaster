@@ -317,31 +317,47 @@ namespace enquiryMaster
             sql = "UPDATE dbo.enquiry_log SET status_id = " + new_status.ToString() + " WHERE id = " + _enquiryID.ToString();
             updateDetails(sql);
 
-            //print the enquiry - taken out as request of nick 09/08/2022
-            //if (chkSlimline.Checked == false)
+
+            //if (cmbStatus.Text == "Checked")
             //{
-            //    if (cmbStatus.Text == "Checked")
+            //    using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
             //    {
-            //        if (skipFirstPrint == 0)
+            //        conn.Open();
+            //        using (SqlCommand cmd = new SqlCommand("usp_enquiry_response", conn))
             //        {
-            //            //
-            //            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
-            //            {
-            //                conn.Open();
-            //                using (SqlCommand cmd = new SqlCommand("usp_shuffle_load_individual", conn))
-            //                {
-            //                    cmd.CommandType = CommandType.StoredProcedure;
-            //                    cmd.Parameters.AddWithValue("@enquiry_id", SqlDbType.Int).Value = Convert.ToInt32(txtID.Text);
-            //                    cmd.ExecuteNonQuery();
-            //                    //refresh all of the boxes (even tho the only one updating should be the allocated to combobox
-            //                    refreshData();
-            //                }
-            //                conn.Close();
-            //            }
-            //            print();
+            //            cmd.CommandType = CommandType.StoredProcedure;
+            //            cmd.Parameters.AddWithValue("@enquiry_id", SqlDbType.Int).Value = Convert.ToInt32(txtID.Text);
+            //            cmd.ExecuteNonQuery();
             //        }
+            //        conn.Close();
             //    }
             //}
+
+                //print the enquiry - taken out as request of nick 09/08/2022
+                //if (chkSlimline.Checked == false)
+                //{
+                //    if (cmbStatus.Text == "Checked")
+                //    {
+                //        if (skipFirstPrint == 0)
+                //        {
+                //            //
+                //            using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+                //            {
+                //                conn.Open();
+                //                using (SqlCommand cmd = new SqlCommand("usp_shuffle_load_individual", conn))
+                //                {
+                //                    cmd.CommandType = CommandType.StoredProcedure;
+                //                    cmd.Parameters.AddWithValue("@enquiry_id", SqlDbType.Int).Value = Convert.ToInt32(txtID.Text);
+                //                    cmd.ExecuteNonQuery();
+                //                    //refresh all of the boxes (even tho the only one updating should be the allocated to combobox
+                //                    refreshData();
+                //                }
+                //                conn.Close();
+                //            }
+                //            print();
+                //        }
+                //    }
+                //}
         }
 
         private void print()
@@ -995,6 +1011,24 @@ namespace enquiryMaster
 
             string sql = "UPDATE dbo.enquiry_log SET is_shueco = " + schueco.ToString() + " WHERE id = " + _enquiryID;
             updateDetails(sql);
+        }
+
+        private void cmbStatus_TextChanged(object sender, EventArgs e)
+        {
+            if (cmbStatus.Text == "Checked")
+            {
+                using (SqlConnection conn = new SqlConnection(CONNECT.ConnectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("usp_enquiry_response", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@enquiry_id", SqlDbType.Int).Value = Convert.ToInt32(txtID.Text);
+                        cmd.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
+            }
         }
     }
 }

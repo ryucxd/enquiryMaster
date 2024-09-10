@@ -40,6 +40,8 @@
             this.cmbStatus = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkSchueco = new System.Windows.Forms.CheckBox();
+            this.label32 = new System.Windows.Forms.Label();
             this.chkForster = new System.Windows.Forms.CheckBox();
             this.label31 = new System.Windows.Forms.Label();
             this.btnDeleteTender = new System.Windows.Forms.Button();
@@ -103,8 +105,6 @@
             this.label29 = new System.Windows.Forms.Label();
             this.txtEstimatorNote = new System.Windows.Forms.RichTextBox();
             this.lblEnquiry = new System.Windows.Forms.Label();
-            this.chkSchueco = new System.Windows.Forms.CheckBox();
-            this.label32 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -199,6 +199,7 @@
             this.cmbStatus.Size = new System.Drawing.Size(121, 21);
             this.cmbStatus.TabIndex = 13;
             this.cmbStatus.SelectedIndexChanged += new System.EventHandler(this.cmbStatus_SelectedIndexChanged);
+            this.cmbStatus.TextChanged += new System.EventHandler(this.cmbStatus_TextChanged);
             // 
             // label7
             // 
@@ -237,6 +238,26 @@
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Extra Details";
+            // 
+            // chkSchueco
+            // 
+            this.chkSchueco.AutoSize = true;
+            this.chkSchueco.Location = new System.Drawing.Point(229, 132);
+            this.chkSchueco.Name = "chkSchueco";
+            this.chkSchueco.Size = new System.Drawing.Size(15, 14);
+            this.chkSchueco.TabIndex = 34;
+            this.chkSchueco.UseVisualStyleBackColor = true;
+            this.chkSchueco.CheckedChanged += new System.EventHandler(this.chkSchueco_CheckedChanged);
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.Location = new System.Drawing.Point(171, 131);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(55, 15);
+            this.label32.TabIndex = 33;
+            this.label32.Text = "Schueco";
             // 
             // chkForster
             // 
@@ -916,26 +937,6 @@
             this.lblEnquiry.Text = "NEW RELATED ENQUIRY: ";
             this.lblEnquiry.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblEnquiry.Visible = false;
-            // 
-            // chkSchueco
-            // 
-            this.chkSchueco.AutoSize = true;
-            this.chkSchueco.Location = new System.Drawing.Point(229, 132);
-            this.chkSchueco.Name = "chkSchueco";
-            this.chkSchueco.Size = new System.Drawing.Size(15, 14);
-            this.chkSchueco.TabIndex = 34;
-            this.chkSchueco.UseVisualStyleBackColor = true;
-            this.chkSchueco.CheckedChanged += new System.EventHandler(this.chkSchueco_CheckedChanged);
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(171, 131);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(55, 15);
-            this.label32.TabIndex = 33;
-            this.label32.Text = "Schueco";
             // 
             // frmEnquiryDetails
             // 
