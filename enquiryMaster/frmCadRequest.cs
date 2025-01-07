@@ -213,10 +213,10 @@ namespace enquiryMaster
 
         private void richNote_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-            {
-                btnCAD.PerformClick();
-            }
+            //if (e.KeyCode == Keys.Enter)
+            //{
+            //    btnCAD.PerformClick();
+            //}
         }
     }
 }

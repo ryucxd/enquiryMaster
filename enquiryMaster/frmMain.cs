@@ -456,6 +456,17 @@ namespace enquiryMaster
             }
 
 
+            if (CONNECT.staffID == 58)
+            {
+
+                foreach (DataGridViewColumn col in dgvEnquiryLog.Columns)
+                {
+                    col.DefaultCellStyle.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Regular); //Microsoft Sans Serif, 8.25pt
+                }
+
+            }
+
+
         }
         private void colour_grid()
         {

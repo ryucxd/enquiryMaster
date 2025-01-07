@@ -697,6 +697,7 @@ namespace enquiryMaster
         {
             MessageBox.Show("Please wait while the CAD sheet prints!");
             string email = "";
+            string subject ="";
             //drawing_qty is on the form
             //cad due date is on the form
             string estimator = "";
@@ -716,6 +717,11 @@ namespace enquiryMaster
                     email = (string)cmd.ExecuteScalar();
                     if (email.Contains("EXCHANGELABS/OU=EXCHANGE"))
                         email = email.Substring(email.IndexOf("-") + 1);
+                }
+                sql = "SELECT subject FROM dbo.enquiry_log WHERE id = " + txtID.Text;
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    subject = (string)cmd.ExecuteScalar();
                 }
                 //currently logged in estimator
                 sql = "select forename + ' ' +surname as fullName from dbo.enquiry_log left join[user_info].dbo.[user] u on u.id = estimator_id where  enquiry_log.id = " + txtID.Text;
@@ -760,11 +766,12 @@ namespace enquiryMaster
             Process[] processesAfter = Process.GetProcessesByName("excel");
 
             xlWorksheet.Cells[2][2].Value2 = txtID.Text;
-            xlWorksheet.Cells[2][3].Value2 = email;
+            xlWorksheet.Cells[2][3].Value2 = estimator;//email;
             xlWorksheet.Cells[2][4].Value2 = txtCadDrawingsRequired.Text;
             xlWorksheet.Cells[2][5].Value2 = cadDueDate;
-            xlWorksheet.Cells[2][6].Value2 = estimator;
-            xlWorksheet.Cells[2][7].Value2 = date_stamp;
+            xlWorksheet.Cells[2][6].Value2 = date_stamp;//estimator;
+            xlWorksheet.Cells[2][7].Value2 = email;//date_stamp;
+            xlWorksheet.Cells[2][8].Value2 = subject;
             xlWorksheet.Cells[1][10].Value2 = enquiry_notes;
 
 
