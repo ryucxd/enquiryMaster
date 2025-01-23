@@ -46,7 +46,7 @@ namespace enquiryMaster
                         enquiry_notes = cmd.ExecuteScalar().ToString();
                     }
 
-                    sql = "UPDATE dbo.enquiry_log SET status_id = 5,enquiry_notes = '" + enquiry_notes + Environment.NewLine + " Cancel Reason: " + cancel_reason + "',allocated_to_id = null WHERE id = " + _enquiryID;
+                    sql = "UPDATE dbo.enquiry_log SET status_id = 5,enquiry_notes = '" + enquiry_notes + Environment.NewLine + " Cancel Reason: " + cancel_reason + "',allocated_to_id = null,cancelled_by_id = " + CONNECT.staffID + " WHERE id = " + _enquiryID;
 
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
